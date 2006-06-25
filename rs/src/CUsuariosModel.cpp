@@ -1,0 +1,222 @@
+#include "CUsuariosModel.h"
+
+CUsuariosModel::CUsuariosModel(CData* _data):
+	m_data(_data)
+{
+	m_tr    = new Transaction();
+	(*m_tr) = TransactionFactory(_data->m_db, amWrite, ilConcurrency, lrWait);
+	(*m_tr)->Start();
+	
+	Statement stmt = StatementFactory(_data->m_db, *m_tr);
+	
+	stmt->Execute("Select USUARIOID, LOGIN, NOME, STYLE, SCHEMEID, NIVEL From USUARIOS Order By NOME");
+	
+	std::string     s;
+	ROW_USUARIOS 	*row;
+	
+	while (stmt->Fetch())
+	{
+		row = new ROW_USUARIOS;
+        m_rows.push_back(row);
+        
+		stmt->Get(1, row->USUARIOID);
+		
+		stmt->Get(2, s);
+		row->LOGIN = s.c_str();
+
+		stmt->Get(3, s);
+		row->NOME = s.c_str();
+
+		stmt->Get(4, s);
+		row->STYLE = s.c_str();
+
+		stmt->Get(5, row->SCHEMEID);
+		stmt->Get(6, row->NIVEL);
+	}
+	stmt->Close();
+}
+
+CUsuariosModel::~CUsuariosModel()
+{
+	if ((*m_tr)->Started())
+	    (*m_tr)->Rollback();
+
+	TROW_USUARIOS::iterator it;
+    for (it = m_rows.begin(); it != m_rows.end(); ++it)
+		delete *it;
+}
+
+int CUsuariosModel::rowCount(const QModelIndex &parent) const
+{
+	return m_rows.size();
+}
+
+int CUsuariosModel::columnCount(const QModelIndex &parent) const
+{
+	return 5;
+}
+
+QVariant CUsuariosModel::data(const QModelIndex &index, int role) const
+{
+	switch (role)
+	{
+	    case Qt::DisplayRole:
+		case Qt::EditRole:
+		{
+			if (index.row() >= 0 && index.row() < m_rows.size() &&
+			    index.column() >= 0 && index.column() < 5)
+			{
+				ROW_USUARIOS *row = m_rows[index.row()];
+
+				switch (index.column())
+				{
+		  			case 0: return row->LOGIN;
+					case 1: return row->NOME;
+					case 2: return row->STYLE;
+					case 3: return row->SCHEMEID;
+					case 4: return row->NIVEL;
+				}
+			}
+			return QVariant();
+		}
+	}
+	return QVariant();
+}
+
+QVariant CUsuariosModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+	if (role == Qt::DisplayRole)
+	{
+		if (orientation == Qt::Horizontal)
+		{
+			switch (section)
+			{
+	  			case 0: return QString("Login");
+				case 1: return QString("Nome");
+				case 2: return QString("Estilo");
+				case 3: return QString("Esquema");
+				case 4: return QString("Nível");
+			}
+			return QVariant();
+		}
+		else
+		{
+			if (section < m_rows.size())
+				return m_rows[section]->USUARIOID;
+
+			return QVariant();
+		}
+	}
+	return QVariant();
+}
+
+bool CUsuariosModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	if (role == Qt::DisplayRole || role == Qt::EditRole)
+	{
+		ROW_USUARIOS *row = m_rows[index.row()];
+
+		QString field, sql;
+
+		switch (index.column())
+		{
+			case 0: field = "LOGIN"; break;
+			case 1: field = "NOME"; break;
+			case 2: field = "STYLE"; break;
+			case 3: field = "SCHEMEID"; break;
+			case 4: field = "NIVEL"; break;
+			default:
+			    return false;
+		}
+		sql = "Update USUARIOS Set " + field + " = ? Where USUARIOID = ?";
+        
+		try
+		{
+			Statement stmt = StatementFactory(m_data->m_db, *m_tr);
+
+			stmt->Prepare(sql.toStdString());
+			
+			if (index.column() >= 3)
+			    stmt->Set(1, value.toInt());
+			else
+				stmt->Set(1, value.toString().toStdString());
+				
+			stmt->Set(2, row->USUARIOID);
+
+			stmt->Execute();
+
+			if (stmt->AffectedRows())
+			{
+				switch (index.column())
+				{
+		  			case 0: row->LOGIN = value.toString(); break;
+					case 1: row->NOME = value.toString(); break;
+					case 2: row->STYLE = value.toString(); break;
+					case 3: row->SCHEMEID = value.toInt(); break;
+					case 4: row->NIVEL = value.toInt(); break;
+				}
+				stmt->Close();
+				return true;
+			}
+			stmt->Close();
+		}
+		catch (Exception &e)
+		{
+	        std::cerr << e.ErrorMessage() << std::endl;
+	        QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+	        return false;
+		}
+	}
+	
+	return false;
+}
+
+Qt::ItemFlags CUsuariosModel::flags(const QModelIndex & index) const
+{
+	return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
+}
+
+bool CUsuariosModel::insertRows(int row, int count, const QModelIndex & parent)
+{
+	beginInsertRows(parent, row, row + count - 1);
+
+	ROW_USUARIOS *rowData = new ROW_USUARIOS;
+	try
+	{
+		Statement stmt = StatementFactory(m_data->m_db, *m_tr);
+		
+        stmt->Execute("Select GEN_ID(GENUsuarioS, 1) From RDB$DATABASE");
+        stmt->Get(1, rowData->USUARIOID);
+        stmt->Close();
+        
+		stmt->Execute("Select First 1 SCHEMEID, COUNT(*) \
+								From UsuarioS                    \
+								Where                            \
+								  Not SCHEMEID is Null           \
+								Group By SCHEMEID                \
+								Order By COUNT(*) Desc");
+        stmt->Get(1, rowData->SCHEMEID);
+        stmt->Close();
+        
+		rowData->NOME = QString::number(rowData->USUARIOID);
+        
+        m_rows.push_back(rowData);
+        endInsertRows();
+        
+		return true;
+	}
+	catch (Exception &e)
+	{
+        std::cerr << e.ErrorMessage() << std::endl;
+        QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+	}
+	return false;
+}
+
+bool CUsuariosModel::removeRows(int row, int count, const QModelIndex & parent)
+{
+    return false;
+	beginRemoveRows(parent, row, row + count - 1);
+	
+	endRemoveRows();
+}

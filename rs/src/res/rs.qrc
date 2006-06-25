@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/png/buttons/16" >
+        <file>2leftarrow.png</file>
+        <file>2rightarrow.png</file>
+        <file>agt_action_fail.png</file>
+        <file>agt_action_success.png</file>
+        <file>agt_family.png</file>
+        <file>agt_print.png</file>
+        <file>agt_support.png</file>
+        <file>agt_update_critical.png</file>
+        <file>appearance.png</file>
+        <file>button_cancel.png</file>
+        <file>cell_layout.png</file>
+        <file>dissociatecell.png</file>
+        <file>edit_add.png</file>
+        <file>frameprint.png</file>
+        <file>irkick.png</file>
+        <file>kopete016.png</file>
+        <file>player_time.png</file>
+        <file>print_printer.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,258 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>692</width>
+    <height>440</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>RS</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset resource="../res/rs.qrc" >:/png/buttons/16/dissociatecell.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QGridLayout" >
+    <property name="margin" >
+     <number>9</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+    <item row="1" column="0" >
+     <widget class="QTableWidget" name="tbReservas" />
+    </item>
+    <item row="0" column="0" >
+     <layout class="QHBoxLayout" >
+      <property name="margin" >
+       <number>0</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="pbAdicionar" >
+        <property name="text" >
+         <string>Adicionar</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="../res/rs.qrc" >:/png/buttons/16/edit_add.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbRemover" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+        <property name="text" >
+         <string>Remover</string>
+        </property>
+        <property name="icon" >
+         <iconset resource="../res/rs.qrc" >:/png/buttons/16/button_cancel.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>68</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QToolButton" name="btAnte" >
+        <property name="text" >
+         <string/>
+        </property>
+        <property name="icon" >
+         <iconset resource="../res/rs.qrc" >:/png/buttons/16/2leftarrow.png</iconset>
+        </property>
+        <property name="autoRaise" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lbData" >
+        <property name="sizePolicy" >
+         <sizepolicy>
+          <hsizetype>5</hsizetype>
+          <vsizetype>0</vsizetype>
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font" >
+         <font>
+          <family>Sans Serif</family>
+          <pointsize>18</pointsize>
+          <weight>75</weight>
+          <italic>true</italic>
+          <bold>true</bold>
+          <underline>false</underline>
+          <strikeout>false</strikeout>
+         </font>
+        </property>
+        <property name="frameShadow" >
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="text" >
+         <string>Data</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="btProx" >
+        <property name="text" >
+         <string/>
+        </property>
+        <property name="icon" >
+         <iconset resource="../res/rs.qrc" >:/png/buttons/16/2rightarrow.png</iconset>
+        </property>
+        <property name="autoRaise" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>692</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuEstilo" >
+    <property name="title" >
+     <string>Estilo</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuMenu" >
+    <property name="title" >
+     <string>Menu</string>
+    </property>
+    <addaction name="actionSalas" />
+    <addaction name="actionUsuarios" />
+    <addaction name="actionCores" />
+   </widget>
+   <addaction name="menuMenu" />
+   <addaction name="menuEstilo" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>418</y>
+     <width>692</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <action name="actionSalas" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/irkick.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Salas</string>
+   </property>
+  </action>
+  <action name="actionAdicionar" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/edit_add.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Adicionar</string>
+   </property>
+   <property name="iconText" >
+    <string>Adicionar</string>
+   </property>
+   <property name="toolTip" >
+    <string>Adicionar</string>
+   </property>
+  </action>
+  <action name="actionRemover" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/button_cancel.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Remover</string>
+   </property>
+  </action>
+  <action name="actionAlterar" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/cell_layout.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Alterar</string>
+   </property>
+  </action>
+  <action name="actionUsuarios" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/agt_family.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Usuários</string>
+   </property>
+   <property name="iconText" >
+    <string>Usuários</string>
+   </property>
+   <property name="toolTip" >
+    <string>Usuários</string>
+   </property>
+  </action>
+  <action name="actionCores" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/appearance.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Cores</string>
+   </property>
+  </action>
+  <action name="actionImprimirLista" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/print_printer.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Imprimir Lista</string>
+   </property>
+  </action>
+  <action name="actionImprimirReserva" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/agt_print.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Imprimir Reserva</string>
+   </property>
+  </action>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <resources>
+  <include location="../res/rs.qrc" />
+ </resources>
+ <connections/>
+</ui>

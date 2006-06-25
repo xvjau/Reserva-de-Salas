@@ -1,0 +1,772 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>Reserva</class>
+ <widget class="QDialog" name="Reserva" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>434</width>
+    <height>410</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Reserva</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset resource="../res/rs.qrc" >:/png/buttons/16/player_time.png</iconset>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="0" column="0" >
+    <widget class="QTabWidget" name="tabWidget" >
+     <widget class="QWidget" name="tabPrincipal" >
+      <attribute name="title" >
+       <string>Reserva</string>
+      </attribute>
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="1" column="0" >
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_4" >
+             <property name="sizePolicy" >
+              <sizepolicy>
+               <hsizetype>5</hsizetype>
+               <vsizetype>0</vsizetype>
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text" >
+              <string>Departamento</string>
+             </property>
+             <property name="textFormat" >
+              <enum>Qt::RichText</enum>
+             </property>
+             <property name="indent" >
+              <number>-1</number>
+             </property>
+             <property name="buddy" >
+              <cstring>leDepto</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="leDepto" >
+             <property name="maxLength" >
+              <number>80</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_7" >
+             <property name="text" >
+              <string>&lt;b>Sala&lt;/b></string>
+             </property>
+             <property name="textFormat" >
+              <enum>Qt::RichText</enum>
+             </property>
+             <property name="buddy" >
+              <cstring>leDepto</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cbSala" >
+             <property name="sizePolicy" >
+              <sizepolicy>
+               <hsizetype>3</hsizetype>
+               <vsizetype>0</vsizetype>
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item row="2" column="0" >
+        <layout class="QVBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label" >
+           <property name="text" >
+            <string>Notas</string>
+           </property>
+           <property name="textFormat" >
+            <enum>Qt::RichText</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="teNotas" />
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0" >
+        <layout class="QVBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_5" >
+           <property name="text" >
+            <string>&lt;b>Assunto&lt;/b></string>
+           </property>
+           <property name="textFormat" >
+            <enum>Qt::RichText</enum>
+           </property>
+           <property name="buddy" >
+            <cstring>leAssunto</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="leAssunto" >
+           <property name="maxLength" >
+            <number>255</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabHorario" >
+      <attribute name="title" >
+       <string>Horário</string>
+      </attribute>
+      <widget class="QWidget" name="" >
+       <property name="geometry" >
+        <rect>
+         <x>9</x>
+         <y>9</y>
+         <width>394</width>
+         <height>127</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>0</number>
+        </property>
+        <item>
+         <layout class="QVBoxLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_6" >
+              <property name="text" >
+               <string>&lt;b>Data&lt;/b></string>
+              </property>
+              <property name="buddy" >
+               <cstring>deDataTermino</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDateEdit" name="deData" >
+              <property name="alignment" >
+               <set>Qt::AlignHCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_2" >
+              <property name="text" >
+               <string>&lt;b>Inicio&lt;/b></string>
+              </property>
+              <property name="buddy" >
+               <cstring>teHoraIN</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTimeEdit" name="teHoraIN" >
+              <property name="alignment" >
+               <set>Qt::AlignHCenter</set>
+              </property>
+              <property name="time" >
+               <time>
+                <hour>8</hour>
+                <minute>0</minute>
+                <second>0</second>
+               </time>
+              </property>
+              <property name="displayFormat" >
+               <string>hh:mm</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_3" >
+              <property name="text" >
+               <string>&lt;b>Fim&lt;/b></string>
+              </property>
+              <property name="buddy" >
+               <cstring>teHoraFim</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTimeEdit" name="teHoraFim" >
+              <property name="alignment" >
+               <set>Qt::AlignHCenter</set>
+              </property>
+              <property name="time" >
+               <time>
+                <hour>8</hour>
+                <minute>0</minute>
+                <second>0</second>
+               </time>
+              </property>
+              <property name="displayFormat" >
+               <string>hh:mm</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" >
+            <property name="margin" >
+             <number>0</number>
+            </property>
+            <property name="spacing" >
+             <number>6</number>
+            </property>
+            <item>
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType" >
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="cbRecorrente" >
+              <property name="layoutDirection" >
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text" >
+               <string>Reserva Recorrente</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer>
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType" >
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" >
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QFrame" name="frameRecorrente" >
+       <property name="geometry" >
+        <rect>
+         <x>9</x>
+         <y>142</y>
+         <width>394</width>
+         <height>175</height>
+        </rect>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QFrame" name="frameSemanal" >
+        <property name="geometry" >
+         <rect>
+          <x>11</x>
+          <y>44</y>
+          <width>372</width>
+          <height>120</height>
+         </rect>
+        </property>
+        <property name="frameShape" >
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow" >
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>9</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item row="0" column="0" >
+          <layout class="QHBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QCheckBox" name="cbSemanal1" >
+             <property name="text" >
+              <string>CheckBox</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbSemanal2" >
+             <property name="text" >
+              <string>CheckBox</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbSemanal3" >
+             <property name="text" >
+              <string>CheckBox</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbSemanal4" >
+             <property name="text" >
+              <string>CheckBox</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="0" >
+          <layout class="QHBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QCheckBox" name="cbSemanal5" >
+             <property name="text" >
+              <string>CheckBox</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbSemanal6" >
+             <property name="text" >
+              <string>CheckBox</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbSemanal7" >
+             <property name="text" >
+              <string>CheckBox</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType" >
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>71</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item row="2" column="0" >
+          <layout class="QHBoxLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="cbSemanalSN" >
+             <property name="text" >
+              <string>Semana Sim/Semana Não</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="" >
+        <property name="geometry" >
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>355</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" >
+         <property name="margin" >
+          <number>0</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_8" >
+           <property name="text" >
+            <string>&lt;b>Data Término&lt;/b></string>
+           </property>
+           <property name="buddy" >
+            <cstring>deDataTermino</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDateEdit" name="deDataTermino" >
+           <property name="alignment" >
+            <set>Qt::AlignHCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cbTipoRecorrencia" >
+           <item>
+            <property name="text" >
+             <string>Semanal</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Mensal</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QFrame" name="frameMensal" >
+        <property name="geometry" >
+         <rect>
+          <x>0</x>
+          <y>120</y>
+          <width>346</width>
+          <height>74</height>
+         </rect>
+        </property>
+        <property name="frameShape" >
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow" >
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>9</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item row="1" column="0" >
+          <widget class="QComboBox" name="cbMensalDOW" />
+         </item>
+         <item row="0" column="0" >
+          <widget class="QComboBox" name="cbMensalOrdem" >
+           <item>
+            <property name="text" >
+             <string>Primeira</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Segunda</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Penúltima</string>
+            </property>
+           </item>
+           <item>
+            <property name="text" >
+             <string>Última</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>249</width>
+         <height>31</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="okButton" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>0</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string>OK</string>
+       </property>
+       <property name="icon" >
+        <iconset resource="../res/rs.qrc" >:/png/buttons/16/agt_action_success.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>0</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text" >
+        <string>Cancelar</string>
+       </property>
+       <property name="icon" >
+        <iconset resource="../res/rs.qrc" >:/png/buttons/16/agt_action_fail.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <tabstops>
+  <tabstop>leAssunto</tabstop>
+  <tabstop>leDepto</tabstop>
+  <tabstop>cbSala</tabstop>
+  <tabstop>teNotas</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>deData</tabstop>
+  <tabstop>teHoraIN</tabstop>
+  <tabstop>teHoraFim</tabstop>
+  <tabstop>cbRecorrente</tabstop>
+  <tabstop>deDataTermino</tabstop>
+  <tabstop>cbTipoRecorrencia</tabstop>
+  <tabstop>cbSemanal1</tabstop>
+  <tabstop>cbSemanal2</tabstop>
+  <tabstop>cbSemanal3</tabstop>
+  <tabstop>cbSemanal4</tabstop>
+  <tabstop>cbSemanal5</tabstop>
+  <tabstop>cbSemanal6</tabstop>
+  <tabstop>cbSemanal7</tabstop>
+  <tabstop>cbSemanalSN</tabstop>
+  <tabstop>cbMensalOrdem</tabstop>
+  <tabstop>cbMensalDOW</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../res/rs.qrc" />
+ </resources>
+ <connections>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Reserva</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>357</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>179</x>
+     <y>282</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

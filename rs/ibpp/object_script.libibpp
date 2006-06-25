@@ -1,0 +1,21 @@
+CREATE ../obj/libibpp.a
+ADDMOD ../obj/_dpb.o
+ADDMOD ../obj/_ibpp.o
+ADDMOD ../obj/_ibs.o
+ADDMOD ../obj/_rb.o
+ADDMOD ../obj/_spb.o
+ADDMOD ../obj/_tpb.o
+ADDMOD ../obj/array.o
+ADDMOD ../obj/blob.o
+ADDMOD ../obj/database.o
+ADDMOD ../obj/date.o
+ADDMOD ../obj/dbkey.o
+ADDMOD ../obj/events.o
+ADDMOD ../obj/exception.o
+ADDMOD ../obj/row.o
+ADDMOD ../obj/service.o
+ADDMOD ../obj/statement.o
+ADDMOD ../obj/time.o
+ADDMOD ../obj/transaction.o
+ADDMOD ../obj/user.o
+SAVE
