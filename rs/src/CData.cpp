@@ -368,7 +368,10 @@ bool CReservaList::loadList(rowRESERVA* _row)
 		reserva->refreshData();
 		vboxLayout->addWidget(reserva);
 		
-		m_owner->m_reservaItems.insert(reserva->RESERVAID, reserva);
+		if (m_owner->m_reservaItems[reserva->RESERVAID])
+			m_owner->m_reservaItems[reserva->RESERVAID]->addChild(reserva);
+		else
+			m_owner->m_reservaItems.insert(reserva->RESERVAID, reserva);
 
 		m_owner->fetchRow();
 	}
@@ -465,7 +468,8 @@ CReservaList::CReserva::CReserva(CReservaList *_owner):
 	m_height(0),
 	m_deleting(false),
 	m_readSemanal(false),
-	m_readMensal(false)
+	m_readMensal(false),
+	m_parent(0)
 {
 	resize(QSize(215, 56).expandedTo(minimumSizeHint()));
 	QSizePolicy FormsizePolicy(static_cast<QSizePolicy::Policy>(3), static_cast<QSizePolicy::Policy>(0));
@@ -553,6 +557,18 @@ CReservaList::CReserva::CReserva(CReservaList *_owner):
 CReservaList::CReserva::~CReserva()
 {
 	m_deleting = true;
+	
+	if (m_parent) 
+	{
+		m_parent->m_children.removeAll(this);
+		if (! m_parent->m_deleting)
+			delete m_parent;
+	}
+	else	
+		if (m_children.count())
+			while(m_children.count())
+				delete m_children[m_children.count()-1];
+	
 	delete lblTitulo;
 	delete lblHoraFim;
 	delete lblHoraIn;
@@ -747,7 +763,10 @@ bool CReservaList::CReserva::save()
 			stmt->Get(1, RESERVAID);
 			stmt->Close();
 			
-			m_owner->m_owner->m_reservaItems.insert(RESERVAID, this);
+			if (m_owner->m_owner->m_reservaItems[RESERVAID])
+				m_owner->m_owner->m_reservaItems[RESERVAID]->addChild(this);
+			else
+				m_owner->m_owner->m_reservaItems.insert(RESERVAID, this);
 			
 			m_relocate = true;
 		}
@@ -1151,12 +1170,12 @@ void CSemana::onFBEvent(int event, int count)
 									TIPO, SEQ \
 								From \
 									GET_RESERVAS_SEMANA(?, ?) \
+								Where \
+									SEQ > ?\
 								Order By \
 									SALAID, \
 									DATA, \
-									HORAIN \
-								Where \
-									SEQ > ?");
+									HORAIN");
 
 				m_stmt->Set(1, Date(m_date.year(), m_date.month(), m_date.day()));
 				m_stmt->Set(2, Date(m_date.year(), m_date.month(), m_date.day() + 6));
@@ -1189,7 +1208,14 @@ void CSemana::onFBEvent(int event, int count)
 					else
 					{
 						CReservaList::CReserva* reserva = m_reservaItems[m_row.RESERVAID];
-						if (reserva)
+						
+						CReservaList::TListaReserva* children = 0;
+						int childIndex = 0;
+						
+						if (reserva->m_children.count())
+							children = &reserva->m_children;
+						
+						while (reserva)
 						{
 							reserva->setDATA(m_row.DATA);
 							reserva->setSALAID(m_row.SALAID);
@@ -1204,7 +1230,11 @@ void CSemana::onFBEvent(int event, int count)
 	
 							reserva->relocate();
 							reserva->refreshData();
-							break;
+							
+							if ((children) && (childIndex <= children->count()))
+								reserva = children->at(childIndex++);
+							else
+								reserva = 0;
 						}
 						
 						fetchRow();
@@ -1230,7 +1260,7 @@ void CSemana::onFBEvent(int event, int count)
 				Timestamp ts;
 				int iReservaID;
 				
-				CReservaList*   reservaList;
+				CReservaList* reservaList;
 				CReservaList::CReserva* reserva;
 				CReservaList::TReservaList::iterator it;
 				
@@ -1243,7 +1273,6 @@ void CSemana::onFBEvent(int event, int count)
 					if (reserva)
 					{
 						delete reserva;
-						break;
 					}
 				}
 				break;

@@ -7,6 +7,7 @@
 #include "CConfig.h"
 
 #include <QPrinter>
+#include <QResizeEvent>
 
 class CMainWindow: public QMainWindow, public Ui::MainWindow
 {
@@ -46,6 +47,9 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void on_btAnte_clicked();
 		void on_btProx_clicked();
 		void onSetStyle();
+		
+	protected:
+		virtual void resizeEvent(QResizeEvent * event);
 		
 	public:
 		void checkRowHeight(int _row, int _salaID);

@@ -7,6 +7,8 @@
 
 #include <QStyleFactory>
 #include <QPrintDialog>
+#include <QHeaderView>
+#include <QScrollBar>
 
 static const int PSALA_COL_ROLE = 1025;
 static const int TABLE_ROW_HEIGHT = 30;
@@ -112,6 +114,22 @@ void CMainWindow::checkRowHeight(int _row, int _salaID)
 		tbReservas->setRowHeight(_row, iHeight);
 }
 
+void CMainWindow::resizeEvent(QResizeEvent * event)
+{
+	if (event->size().width() > 700)
+	{
+		int iWidth = tbReservas->verticalHeader()->width();
+		
+		if (tbReservas->verticalScrollBar())
+			iWidth += tbReservas->verticalScrollBar()->visibleRegion().boundingRect().width();
+		
+		for(int i = 0; i < tbReservas->columnCount(); ++i)
+		{
+			tbReservas->setColumnWidth(i, ((tbReservas->width() - iWidth) / tbReservas->columnCount())- 2);
+		}
+	}
+}
+
 void CMainWindow::clearData()
 {
 	if (m_semana)
@@ -126,20 +144,20 @@ void CMainWindow::refreshData(const QDate &_date)
 	CUpdateLock lock(this);
 
 	setActiveReserva(0);
-
+	
 	clearData();
-
+	
 	m_date = _date;
 	m_activeDate = m_date;
 	
 	lbData->setText(m_date.toString("dd/MM/yyyy"));
-
+	
 	if (! m_salaList)
 	{
 		m_salaList = new CSalaList(&m_data);
 		m_salaList->loadList();
 	}
-
+	
 	QTableWidgetItem* item;
 	{
 		CSalaList::TSalaList::iterator it;

@@ -131,12 +131,15 @@ class CReservaList: public QFrame
 		QVBoxLayout *vboxLayout;
 		
 	protected:
-    	virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    	virtual void mousePressEvent(QMouseEvent * event);
+		virtual void mouseDoubleClickEvent(QMouseEvent * event);
+		virtual void mousePressEvent(QMouseEvent * event);
 		
 	public:
 		CReservaList(CSemana *_owner, QDate _date, int _salaID);
 		~CReservaList();
+		
+		class CReserva;
+		typedef QList<CReserva*> TListaReserva;
 
 		class CReserva: public QFrame
 		{
@@ -148,6 +151,7 @@ class CReservaList: public QFrame
 	
 			public:
 				~CReserva();
+				TListaReserva m_children;
 	
 			protected:
 				virtual void mouseDoubleClickEvent(QMouseEvent * event);
@@ -194,11 +198,15 @@ class CReservaList: public QFrame
 	
 				bool m_relocate;
 				bool m_deleting;
+				
+				CReserva*	m_parent;
 			public:
 				bool save();
 				bool del();
 				void refreshData();
 				void relocate();
+				
+				void addChild(CReserva* _reserva) {m_children.append(_reserva); _reserva->m_parent = this;}
 	
 				int		getoldRESERVAID() {return oldRESERVAID;};
 				int		getRESERVAID() {return RESERVAID;};
@@ -345,20 +353,20 @@ class CSemana: public QObject
 		~CSemana();
 		
 	private:
-        CData 		*m_owner;
-		CSalaList	*m_salas;
-		QDate       m_date;
+		CData			*m_owner;
+		CSalaList		*m_salas;
+		QDate			m_date;
 		CMainWindow		*m_parent;
 		
 		typedef	QMap<int, CReservaList::CReserva*> TMapReservas;
 		TMapReservas    m_reservaItems;
 		
-		Transaction     m_tr;
-		Statement       m_stmt;
-		rowRESERVA      m_row;
+		Transaction		m_tr;
+		Statement		m_stmt;
+		rowRESERVA		m_row;
 		void fetchRow();
 		
-		int   	m_lastUpdate;
+		int				m_lastUpdate;
 		
 		typedef QMap<int, CReservaList*> TSemanaList;
 		TSemanaList m_reservas[7];
