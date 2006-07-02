@@ -16,6 +16,7 @@ class CReservaItem : public QDialog, public Ui::Reserva
 		
 		void setSala(int _sala);
 		void setDate(QDate _date);
+		void setDateFim(QDate _date);
 		void setTime(QTime _time);
 		
 	private:

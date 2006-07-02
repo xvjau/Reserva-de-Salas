@@ -82,6 +82,8 @@ CMainWindow::CMainWindow():
 	m_mnPopupReserva.addAction(actionImprimirLista);
 
 	//m_mnPopupReserva.addAction(actionImprimirReserva);
+	
+	m_mnPopupHoje.addAction(actionHoje);
 }
 
 CMainWindow::~CMainWindow()
@@ -116,7 +118,7 @@ void CMainWindow::checkRowHeight(int _row, int _salaID)
 
 void CMainWindow::resizeEvent(QResizeEvent * event)
 {
-	if (event->size().width() > 700)
+	if (width() > 700)
 	{
 		int iWidth = tbReservas->verticalHeader()->width();
 		
@@ -128,6 +130,15 @@ void CMainWindow::resizeEvent(QResizeEvent * event)
 			tbReservas->setColumnWidth(i, ((tbReservas->width() - iWidth) / tbReservas->columnCount())- 2);
 		}
 	}
+}
+
+void CMainWindow::mousePressEvent ( QMouseEvent * event )
+{
+	QPoint pos = event->pos();
+	pos = mapToGlobal(event->pos());
+
+	if (lbData->visibleRegion().contains(lbData->mapFromGlobal(pos)))
+		m_mnPopupHoje.popup(pos);
 }
 
 void CMainWindow::clearData()
@@ -258,6 +269,8 @@ void CMainWindow::refreshData(const QDate &_date)
 			tbReservas->setRowHeight(iday - 1, iRowHeight);
 		}
 	}
+	
+	resizeEvent(0);
 }
 
 void CMainWindow::on_actionSalas_activated()
@@ -338,7 +351,14 @@ void CMainWindow::on_actionAlterar_activated()
 	{
 		CReservaItem *reservaItem = new CReservaItem(m_activeReserva, m_salaList, this);
 		reservaItem->setSala(m_activeReserva->getSALAID());
-		reservaItem->setDate(m_activeReserva->getDATA());
+		
+		if (m_activeReserva->getTIPO() == 'S')
+			reservaItem->setDate(m_activeReserva->getDATA());
+		else
+		{
+			reservaItem->setDate(m_activeReserva->getDATAIN());
+			reservaItem->setDateFim(m_activeReserva->getDATAFIM());
+		}
 
 		reservaItem->setModal(true);
 		reservaItem->show();
@@ -427,4 +447,11 @@ void CMainWindow::on_actionImprimirReserva_activated()
 		modelos->setModal(true);
 		modelos->show();
 	};
+}
+
+void CMainWindow::on_actionHoje_activated()
+{
+	QDate date = QDate::currentDate();
+	date = date.addDays(date.dayOfWeek() * -1 + 1);
+	refreshData(date);
 }

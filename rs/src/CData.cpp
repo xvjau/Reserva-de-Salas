@@ -592,7 +592,7 @@ void CReservaList::CReserva::readSemanal()
 		Statement stmt = StatementFactory(db, tr);
 		
 		stmt->Prepare("Select \
-							DATAFIM, SEG, TER, QUA, QUI, SEX, SAB, DOM, REVESA \
+							DATAIN, DATAFIM, SEG, TER, QUA, QUI, SEX, SAB, DOM, REVESA \
 						From \
 							RESERVA_SEMANAL \
 						Where \
@@ -607,14 +607,18 @@ void CReservaList::CReserva::readSemanal()
 		
 		stmt->Get(1, dt);
 		dt.GetDate(y, mo, d);
+		DATAIN = QDate(y, mo, d);
+		
+		stmt->Get(2, dt);
+		dt.GetDate(y, mo, d);
 		DATAFIM = QDate(y, mo, d);
 		
 		#define readDOWValues(INT) \
-			if (stmt->IsNull(INT + 2)) \
+			if (stmt->IsNull(INT + 3)) \
 				DIAS[INT] = false; \
 			else \
 			{ \
-				stmt->Get(INT + 2, y); \
+				stmt->Get(INT + 3, y); \
 				DIAS[INT] = y; \
 			} 
 		
@@ -626,11 +630,11 @@ void CReservaList::CReserva::readSemanal()
 		readDOWValues(5);
 		readDOWValues(6);
 		
-		if (stmt->IsNull(9)) 
+		if (stmt->IsNull(10)) 
 			REVESA = false; 
 		else 
 		{ 
-				stmt->Get(9, y); 
+				stmt->Get(10, y); 
 				REVESA = y; 
 		} 
 		
@@ -691,6 +695,17 @@ void CReservaList::CReserva::readMensal()
 		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		throw;
 	}
+}
+
+QDate CReservaList::CReserva::getDATAIN()
+{
+	if ((TIPO == 'W') && (!m_readSemanal))
+		readSemanal();
+	else
+		if ((TIPO == 'M') && (!m_readMensal))
+			readMensal();
+	
+	return DATAIN;
 }
 
 QDate CReservaList::CReserva::getDATAFIM()
@@ -979,7 +994,14 @@ void CReservaList::CReserva::mouseDoubleClickEvent(QMouseEvent * event)
 										m_owner->m_owner->m_parent);
 
 	reservaItem->setSala(SALAID);
-	reservaItem->setDate(m_owner->m_date);
+	
+	if (TIPO == 'S')
+		reservaItem->setDate(DATA);
+	else
+	{
+		reservaItem->setDate(getDATAIN());
+		reservaItem->setDateFim(getDATAFIM());
+	}
 	
 	reservaItem->setModal(true);
 	reservaItem->show();
@@ -1167,7 +1189,7 @@ void CSemana::onFBEvent(int event, int count)
 				m_stmt->Prepare("Select \
 									RESERVAID, SALAID, DATA, HORAIN, HORAFIM, USUARIOID, \
 									USUARIO_NOME, ASSUNTO, DEPTO, NOTAS, SCHEMEID, \
-									TIPO, SEQ \
+									TIPO, SEQ  \
 								From \
 									GET_RESERVAS_SEMANA(?, ?) \
 								Where \
@@ -1187,63 +1209,60 @@ void CSemana::onFBEvent(int event, int count)
 	
 				fetchRow();
 				m_stmt->Get(13, m_lastUpdate);
-		
-				while (m_row.RESERVAID != -1)
+				
+				if (m_row.TIPO == 'W')
 				{
-					iRow = m_row.DATA.dayOfWeek();
-					iSalaID = m_row.SALAID;
-					
-					reservaList = getReservaList(iRow,iSalaID);
-	
-					if (event == CNotification::FBEInsert)
+					m_parent->refreshData( m_parent->getDate() );
+					return;
+				}
+				else	
+					while (m_row.RESERVAID != -1)
 					{
-						if (reservaList)
-							reservaList->loadList(&m_row);
+						iRow = m_row.DATA.dayOfWeek();
+						iSalaID = m_row.SALAID;
+						
+						reservaList = getReservaList(iRow,iSalaID);
+		
+						if (event == CNotification::FBEInsert)
+						{
+							if (reservaList)
+							{
+								reservaList->loadList(&m_row);
+							}
+							else
+							{
+								std::cerr << "Warning!  Event recieved for non-existant Row" << std::endl;
+								fetchRow();
+							}
+						}
 						else
 						{
-							std::cerr << "Warning!  Event recieved for non-existant Row" << std::endl;
-							fetchRow();
-						}
-					}
-					else
-					{
-						CReservaList::CReserva* reserva = m_reservaItems[m_row.RESERVAID];
-						
-						CReservaList::TListaReserva* children = 0;
-						int childIndex = 0;
-						
-						if (reserva->m_children.count())
-							children = &reserva->m_children;
-						
-						while (reserva)
-						{
-							reserva->setDATA(m_row.DATA);
-							reserva->setSALAID(m_row.SALAID);
-							reserva->setHORAIN(m_row.HORAIN);
-							reserva->setHORAFIM(m_row.HORAFIM);
-							reserva->setUSUARIOID(m_row.USUARIOID);
-							reserva->setUSUARIO(m_row.USUARIO);
-							reserva->setASSUNTO(m_row.ASSUNTO);
-							reserva->setDEPTO(m_row.DEPTO);
-							reserva->setNOTAS(m_row.NOTAS);
-							reserva->m_colorScheme = m_owner->getColorScheme(m_row.SCHEMEID);
-	
-							reserva->relocate();
-							reserva->refreshData();
+							CReservaList::CReserva* reserva = m_reservaItems[m_row.RESERVAID];
 							
-							if ((children) && (childIndex <= children->count()))
-								reserva = children->at(childIndex++);
-							else
-								reserva = 0;
+							if (reserva)
+							{
+								reserva->setDATA(m_row.DATA);
+								reserva->setSALAID(m_row.SALAID);
+								reserva->setHORAIN(m_row.HORAIN);
+								reserva->setHORAFIM(m_row.HORAFIM);
+								reserva->setUSUARIOID(m_row.USUARIOID);
+								reserva->setUSUARIO(m_row.USUARIO);
+								reserva->setASSUNTO(m_row.ASSUNTO);
+								reserva->setDEPTO(m_row.DEPTO);
+								reserva->setNOTAS(m_row.NOTAS);
+								reserva->m_colorScheme = m_owner->getColorScheme(m_row.SCHEMEID);
+		
+								reserva->relocate();
+								reserva->refreshData();
+							}
+							
+							fetchRow(); 
 						}
-						
-						fetchRow();
+	
+						m_parent->checkRowHeight(iRow - 1, iSalaID); 
 					}
-
-					m_parent->checkRowHeight(iRow - 1, iSalaID);
-				}
-				m_stmt->Close();
-				break;
+					m_stmt->Close(); 
+					break; 
 			}
 		    case CNotification::FBEDelete:
 			{
@@ -1281,8 +1300,8 @@ void CSemana::onFBEvent(int event, int count)
 	}
 	catch (Exception &e)
 	{
-		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
-		return;
+		std::cerr << e.ErrorMessage() << std::endl; std::cout << __LINE__ << std::endl;
+		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec(); std::cout << __LINE__ << std::endl;
+		return; std::cout << __LINE__ << std::endl;
 	}
 }

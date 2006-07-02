@@ -33,6 +33,7 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void clearData();
 
 		QMenu		m_mnPopupReserva;
+		QMenu		m_mnPopupHoje;
 		QPrinter	m_printer;
 		
 	private slots:
@@ -44,15 +45,18 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void on_actionAlterar_activated();
 		void on_actionImprimirLista_activated();
 		void on_actionImprimirReserva_activated();
+		void on_actionHoje_activated();
 		void on_btAnte_clicked();
 		void on_btProx_clicked();
 		void onSetStyle();
 		
 	protected:
 		virtual void resizeEvent(QResizeEvent * event);
+		virtual void mousePressEvent ( QMouseEvent * event );
 		
 	public:
 		void checkRowHeight(int _row, int _salaID);
+		QDate getDate() {return m_date;}
 		
 	public slots:
 		void refreshSalas();

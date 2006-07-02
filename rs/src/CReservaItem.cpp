@@ -37,6 +37,16 @@ CSalaList *_salas, CMainWindow *_form):
 	connect(teHoraIN, SIGNAL(timeChanged(QTime)), this, SLOT(onValidate()));
 	connect(teHoraFim, SIGNAL(timeChanged(QTime)), this, SLOT(onValidate()));
 	connect(leAssunto, SIGNAL(textChanged(QString)), this, SLOT(onValidate()));
+	
+	connect(cbRecorrente, SIGNAL(clicked()), this, SLOT(onValidate()));
+	connect(cbSemanal1, SIGNAL(clicked()), this, SLOT(onValidate()));
+	connect(cbSemanal2, SIGNAL(clicked()), this, SLOT(onValidate()));
+	connect(cbSemanal3, SIGNAL(clicked()), this, SLOT(onValidate()));
+	connect(cbSemanal4, SIGNAL(clicked()), this, SLOT(onValidate()));
+	connect(cbSemanal5, SIGNAL(clicked()), this, SLOT(onValidate()));
+	connect(cbSemanal6, SIGNAL(clicked()), this, SLOT(onValidate()));
+	connect(cbSemanal7, SIGNAL(clicked()), this, SLOT(onValidate()));
+	connect(deDataTermino, SIGNAL(dateChanged(QDate)), this, SLOT(onValidate()));
 
 	PSala sala;
 	
@@ -113,6 +123,11 @@ void CReservaItem::setDate(QDate _date)
 	deData->setDate(_date);
 }
 
+void CReservaItem::setDateFim(QDate _date)
+{
+	deDataTermino->setDate(_date);
+}
+
 void CReservaItem::setTime(QTime _time)
 {
 	teHoraIN->setTime(_time);
@@ -170,7 +185,12 @@ void CReservaItem::ok()
 	try
 	{
 		if (m_reserva->save())
-			m_form->checkRowHeight(deData->date().dayOfWeek()-1, m_reserva->getSALAID());
+		{
+			if (m_reserva->getTIPO() == 'W')
+				m_form->refreshData(m_form->getDate());
+			else
+				m_form->checkRowHeight(deData->date().dayOfWeek()-1, m_reserva->getSALAID());
+		}
 	
 		emit accepted();
 	}
@@ -199,9 +219,28 @@ void CReservaItem::cancel()
 
 void CReservaItem::onValidate()
 {
-	okButton->setEnabled(leAssunto->text().length() &&
+	bool validState = leAssunto->text().length() &&
 			(cbSala->currentIndex() != -1) &&
-			(teHoraFim->time() > teHoraIN->time()));
+			(teHoraFim->time() > teHoraIN->time());
+	
+	if (validState && (cbRecorrente->checkState() == Qt::Checked))
+	{
+		if (cbTipoRecorrencia->currentIndex() == 0)
+		{
+			validState = (deDataTermino->date() >= deData->date().addDays(7)) &&
+					((cbSemanal1->checkState() == Qt::Checked) ||
+					(cbSemanal2->checkState() == Qt::Checked) ||
+					(cbSemanal3->checkState() == Qt::Checked) ||
+					(cbSemanal4->checkState() == Qt::Checked) ||
+					(cbSemanal5->checkState() == Qt::Checked) ||
+					(cbSemanal6->checkState() == Qt::Checked) ||
+					(cbSemanal7->checkState() == Qt::Checked));
+		}
+		else 
+			validState = false;
+	}
+		
+	okButton->setEnabled(validState);
 }
 
 void CReservaItem::updateRecorrencia()

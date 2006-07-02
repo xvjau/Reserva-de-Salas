@@ -160,16 +160,7 @@
    <addaction name="menuMenu" />
    <addaction name="menuEstilo" />
   </widget>
-  <widget class="QStatusBar" name="statusbar" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>418</y>
-     <width>692</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
+  <widget class="QStatusBar" name="statusbar" />
   <action name="actionSalas" >
    <property name="icon" >
     <iconset resource="../res/rs.qrc" >:/png/buttons/16/irkick.png</iconset>
@@ -247,6 +238,14 @@
    </property>
    <property name="text" >
     <string>Imprimir Reserva</string>
+   </property>
+  </action>
+  <action name="actionHoje" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/cell_layout.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Hoje</string>
    </property>
   </action>
  </widget>

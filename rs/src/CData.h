@@ -174,6 +174,7 @@ class CReservaList: public QFrame
 				char	TIPO;
 
 				// Semanal
+				QDate	DATAIN;
 				QDate	DATAFIM;
 				bool	DIAS[7];
 				bool	REVESA;
@@ -207,6 +208,7 @@ class CReservaList: public QFrame
 				void relocate();
 				
 				void addChild(CReserva* _reserva) {m_children.append(_reserva); _reserva->m_parent = this;}
+				CReserva* getParent() {return m_parent;}
 	
 				int		getoldRESERVAID() {return oldRESERVAID;};
 				int		getRESERVAID() {return RESERVAID;};
@@ -233,6 +235,8 @@ class CReservaList: public QFrame
 				void	setTIPO(char _value) { TIPO = _value;};
 				
 				// Semanal ou Mensal
+				QDate	getDATAIN();
+				void	getDATAIN(QDate _value) {DATAIN = _value;};
 				QDate	getDATAFIM();
 				void	setDATAFIM(QDate _value) {DATAFIM = _value;};
 				
