@@ -17,24 +17,27 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		CMainWindow();
 		~CMainWindow();
 	private:
-		QActionGroup        m_stylesgroup;
+		QActionGroup	m_stylesgroup;
 
-        CSemana      *m_semana;
-		CSalaList   *m_salaList;
+		CSemana			*m_semana;
+		CSalaList		*m_salaList;
 		CReservaList::CReserva *m_activeReserva;
 
-		CData	m_data;
-		QDate   m_date;
-		CConfig *m_config;
+		CData		m_data;
+		QDate		m_date;
+		CConfig		*m_config;
 		
-		QDate   m_activeDate;
-		int     m_activeSalaID;
+		QDate		m_activeDate;
+		int			m_activeSalaID;
 		
 		void clearData();
 
 		QMenu		m_mnPopupReserva;
 		QMenu		m_mnPopupHoje;
 		QPrinter	m_printer;
+		
+		bool		m_needRefresh;
+		bool		m_canRefresh;
 		
 	private slots:
 		void on_actionSalas_activated();
@@ -45,6 +48,7 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void on_actionAlterar_activated();
 		void on_actionImprimirLista_activated();
 		void on_actionImprimirReserva_activated();
+		void on_actionCopiar_activated();
 		void on_actionHoje_activated();
 		void on_btAnte_clicked();
 		void on_btProx_clicked();
@@ -52,11 +56,15 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		
 	protected:
 		virtual void resizeEvent(QResizeEvent * event);
+		virtual void showEvent ( QShowEvent * event );
 		virtual void mousePressEvent ( QMouseEvent * event );
 		
 	public:
 		void checkRowHeight(int _row, int _salaID);
 		QDate getDate() {return m_date;}
+		
+		void setCanRefresh(bool _value) { m_canRefresh = _value; };
+		void checkRefresh() {if (m_needRefresh) refreshData(m_date);};
 		
 	public slots:
 		void refreshSalas();

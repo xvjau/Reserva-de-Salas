@@ -13,10 +13,12 @@
         <file>cell_layout.png</file>
         <file>dissociatecell.png</file>
         <file>edit_add.png</file>
+        <file>editcopy.png</file>
         <file>frameprint.png</file>
         <file>irkick.png</file>
         <file>kopete016.png</file>
         <file>player_time.png</file>
         <file>print_printer.png</file>
+        <file>today.png</file>
     </qresource>
 </RCC>

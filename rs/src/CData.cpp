@@ -1169,6 +1169,8 @@ CReservaList* CSemana::getReservaList(int _dow, int _salaID)
 
 void CSemana::onFBEvent(int event, int count)
 {
+	bool needRefresh = false;
+	
 	try
 	{
 		if (event == CNotification::FBEUnknown) return;
@@ -1210,30 +1212,30 @@ void CSemana::onFBEvent(int event, int count)
 				fetchRow();
 				m_stmt->Get(13, m_lastUpdate);
 				
-				if (m_row.TIPO == 'W')
+				while ((m_row.RESERVAID != -1) && (! needRefresh))
 				{
-					m_parent->refreshData( m_parent->getDate() );
-					return;
-				}
-				else	
-					while (m_row.RESERVAID != -1)
+					iRow = m_row.DATA.dayOfWeek();
+					iSalaID = m_row.SALAID;
+					
+					reservaList = getReservaList(iRow,iSalaID);
+	
+					if (event == CNotification::FBEInsert)
 					{
-						iRow = m_row.DATA.dayOfWeek();
-						iSalaID = m_row.SALAID;
-						
-						reservaList = getReservaList(iRow,iSalaID);
-		
-						if (event == CNotification::FBEInsert)
+						if (reservaList)
 						{
-							if (reservaList)
-							{
-								reservaList->loadList(&m_row);
-							}
-							else
-							{
-								std::cerr << "Warning!  Event recieved for non-existant Row" << std::endl;
-								fetchRow();
-							}
+							reservaList->loadList(&m_row);
+						}
+						else
+						{
+							std::cerr << "Warning!  Event recieved for non-existant Row" << std::endl;
+							fetchRow();
+						}
+					}
+					else
+					{
+						if (m_row.TIPO == 'W')
+						{
+							needRefresh = true;
 						}
 						else
 						{
@@ -1256,13 +1258,14 @@ void CSemana::onFBEvent(int event, int count)
 								reserva->refreshData();
 							}
 							
-							fetchRow(); 
+							fetchRow();
 						}
-	
-						m_parent->checkRowHeight(iRow - 1, iSalaID); 
 					}
-					m_stmt->Close(); 
-					break; 
+
+					m_parent->checkRowHeight(iRow - 1, iSalaID); 
+				}
+				m_stmt->Close();
+				break; 
 			}
 		    case CNotification::FBEDelete:
 			{
@@ -1300,8 +1303,11 @@ void CSemana::onFBEvent(int event, int count)
 	}
 	catch (Exception &e)
 	{
-		std::cerr << e.ErrorMessage() << std::endl; std::cout << __LINE__ << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec(); std::cout << __LINE__ << std::endl;
-		return; std::cout << __LINE__ << std::endl;
+		std::cerr << e.ErrorMessage() << std::endl;
+		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		return;
 	}
+	
+	if (needRefresh)
+		m_parent->refreshData( m_parent->getDate() );
 }

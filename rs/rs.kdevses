@@ -1,25 +1,16 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="6" >
-  <Doc0 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/src/CData.cpp" >
-   <View0 line="997" Type="Source" />
+ <DocsAndViews NumberOfDocuments="3" >
+  <Doc0 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/src/CMainWindow.h" >
+   <View0 line="50" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/src/CData.h" >
-   <View0 line="173" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/src/CMainWindow.cpp" >
+   <View0 line="421" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/src/CReservaItem.h" >
-   <View0 line="18" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/src/CData.h" >
+   <View0 line="249" Type="Source" />
   </Doc2>
-  <Doc3 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/src/CReservaItem.cpp" >
-   <View0 line="127" Type="Source" />
-  </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/src/CMainWindow.h" >
-   <View0 line="54" Type="Source" />
-  </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/src/CMainWindow.cpp" >
-   <View0 line="356" Type="Source" />
-  </Doc5>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

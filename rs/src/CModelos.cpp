@@ -3,6 +3,7 @@
 #include <QFile>
 #include "CConfig.h"
 #include "CModelosItem.h"
+#include <QSettings>
 
 void readString(Statement *stmt, const int col, QString &_value)
 {
@@ -57,6 +58,17 @@ void CModelos::init()
 
 		m_modelos.push_back(row);
 	}
+	
+	{
+		QSettings settings("RolTram", "RS");
+		settings.beginGroup("modelos");
+		if (settings.contains("last"))
+		{
+			int idx = comboBox->findText(settings.value("last").toString());
+			if (idx != -1)
+				comboBox->setCurrentIndex(idx);
+		}
+	}
 
 	stmt->Close();
 	tr->Rollback();
@@ -92,6 +104,12 @@ CModelos::~CModelos()
 
 void CModelos::onClose()
 {
+	{
+		QSettings settings("RolTram", "RS");
+		settings.beginGroup("modelos");
+		settings.setValue("last", comboBox->currentText());
+	}
+
 	delete this;
 }
 

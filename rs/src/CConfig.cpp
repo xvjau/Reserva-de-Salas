@@ -42,8 +42,8 @@ void CConfig::loadConfig()
 		{
 	#ifdef __unix__
 			const int BUFF_SIZE = L_cuserid;
-			char    buff[BUFF_SIZE + 1];
-
+			char buff[BUFF_SIZE + 1];
+	
 			cuserid(buff);
 	#else
 			const int BUFF_SIZE = 512;
@@ -52,23 +52,23 @@ void CConfig::loadConfig()
 			DWORD ibuffSize = BUFF_SIZE;
 			if (!GetUserName(buff, &ibuffSize))
 			{
-			    char lpMsgBuf[2048];
-			    LPVOID lpDisplayBuf;
-			    DWORD dw = GetLastError();
-
-			    FormatMessage(
-			        FORMAT_MESSAGE_FROM_SYSTEM,
-			        NULL,
-			        dw,
-			        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-			        (LPTSTR) &lpMsgBuf,
-			        2048, NULL );
-
+				char lpMsgBuf[2048];
+				LPVOID lpDisplayBuf;
+				DWORD dw = GetLastError();
+	
+				FormatMessage(
+					FORMAT_MESSAGE_FROM_SYSTEM,
+					NULL,
+					dw,
+					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+					(LPTSTR) &lpMsgBuf,
+					2048, NULL );
+	
 				QMessageBox("Windows SUCKS!", lpMsgBuf, QMessageBox::Warning,
 				QMessageBox::Cancel, 0, 0).exec();
 				throw -1;
-
-			    LocalFree(lpMsgBuf);
+	
+				LocalFree(lpMsgBuf);
 			}
 	#endif
 
@@ -198,7 +198,7 @@ void CConfig::setStyle(QString _value)
 	stmt->Execute();
 	
 	stmt->Close();
-tr->Commit();
+	tr->Commit();
 }
 
 int CConfig::getColorScheme()

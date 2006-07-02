@@ -242,10 +242,18 @@
   </action>
   <action name="actionHoje" >
    <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/cell_layout.png</iconset>
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/today.png</iconset>
    </property>
    <property name="text" >
     <string>Hoje</string>
+   </property>
+  </action>
+  <action name="actionCopiar" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/editcopy.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Copiar Lista</string>
    </property>
   </action>
  </widget>

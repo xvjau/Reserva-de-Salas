@@ -9,15 +9,18 @@
 #include <QPrintDialog>
 #include <QHeaderView>
 #include <QScrollBar>
+#include <QClipboard>
 
 static const int PSALA_COL_ROLE = 1025;
 static const int TABLE_ROW_HEIGHT = 30;
 
 CMainWindow::CMainWindow():
 		m_salaList(0),
-    m_semana(0),
+	m_semana(0),
 	m_stylesgroup(this),
-	m_config(0)
+	m_config(0),
+	m_canRefresh(true),
+	m_needRefresh(true)
 {
 	setupUi(this);
 	
@@ -80,6 +83,9 @@ CMainWindow::CMainWindow():
 		m_mnPopupReserva.addSeparator();
 	}
 	m_mnPopupReserva.addAction(actionImprimirLista);
+	m_mnPopupReserva.addAction(actionCopiar);
+	
+	actionCopiar->setShortcut(QKeySequence("Ctrl+C"));
 
 	//m_mnPopupReserva.addAction(actionImprimirReserva);
 	
@@ -132,6 +138,11 @@ void CMainWindow::resizeEvent(QResizeEvent * event)
 	}
 }
 
+void CMainWindow::showEvent ( QShowEvent * event )
+{
+	resizeEvent( 0 );
+}
+
 void CMainWindow::mousePressEvent ( QMouseEvent * event )
 {
 	QPoint pos = event->pos();
@@ -152,15 +163,19 @@ void CMainWindow::clearData()
 
 void CMainWindow::refreshData(const QDate &_date)
 {
+	m_date = _date;
+	m_activeDate = m_date;
+	m_needRefresh = true;
+	
+	if (!m_canRefresh)
+		return;
+	
 	CUpdateLock lock(this);
 
 	setActiveReserva(0);
 	
 	clearData();
-	
-	m_date = _date;
-	m_activeDate = m_date;
-	
+		
 	lbData->setText(m_date.toString("dd/MM/yyyy"));
 	
 	if (! m_salaList)
@@ -196,7 +211,7 @@ void CMainWindow::refreshData(const QDate &_date)
 					QString("Sala ") + QString::number(sala->getSalaID());
 
 			item = tbReservas->horizontalHeaderItem(icol);
-			tbReservas->setColumnWidth(icol, 150);
+			//tbReservas->setColumnWidth(icol, 150);
 
 			if (item)
 			{
@@ -270,7 +285,7 @@ void CMainWindow::refreshData(const QDate &_date)
 		}
 	}
 	
-	resizeEvent(0);
+	m_needRefresh = false;
 }
 
 void CMainWindow::on_actionSalas_activated()
@@ -388,6 +403,7 @@ void CMainWindow::setActiveReserva(CReservaList::CReserva *_reserva)
 	
 	actionImprimirLista->setEnabled(m_activeReserva);
 	actionImprimirReserva->setEnabled(m_activeReserva);
+	actionCopiar->setEnabled(m_activeReserva);
 	
 	switch (m_config->getNivel())
 	{
@@ -447,6 +463,32 @@ void CMainWindow::on_actionImprimirReserva_activated()
 		modelos->setModal(true);
 		modelos->show();
 	};
+}
+
+void CMainWindow::on_actionCopiar_activated()
+{
+	QString str;
+	char sep = 9;
+	
+	CReservaList::TReservaList::iterator it;
+
+	CReservaList* reservaList = m_activeReserva->getOwner();
+
+	for (it = reservaList->m_reservas.begin(); it != reservaList->m_reservas.end(); ++it)
+	{
+		str += (*it)->getHORAIN().toString();
+		str += sep;
+		str += (*it)->getHORAFIM().toString();
+		str += sep;
+		str += (*it)->getASSUNTO();
+		str += sep;
+		str += (*it)->getDEPTO();
+		str += sep;
+		str += (*it)->getNOTAS();
+		str += "\n";
+	}
+	
+	QApplication::clipboard()->setText(str);
 }
 
 void CMainWindow::on_actionHoje_activated()

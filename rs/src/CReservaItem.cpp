@@ -48,6 +48,8 @@ CSalaList *_salas, CMainWindow *_form):
 	connect(cbSemanal7, SIGNAL(clicked()), this, SLOT(onValidate()));
 	connect(deDataTermino, SIGNAL(dateChanged(QDate)), this, SLOT(onValidate()));
 
+	m_form->setCanRefresh(false);
+	
 	PSala sala;
 	
 	CSalaList::TSalaList::iterator it;
@@ -136,6 +138,8 @@ void CReservaItem::setTime(QTime _time)
 
 void CReservaItem::onClose()
 {
+	m_form->setCanRefresh(true);
+	m_form->checkRefresh();
 	delete this;
 }
 
