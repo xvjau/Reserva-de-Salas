@@ -78,6 +78,9 @@ Section "MainSection" SEC01
   File "dist\QtGui4.dll"
   File "dist\rs.exe"
 
+  Delete  "C:\Documents and Settings\All Users\Desktop\Reserva de Salas.lnk"
+  RMDir /r "C:\RS"
+
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
