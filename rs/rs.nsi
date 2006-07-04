@@ -78,7 +78,7 @@ Section "MainSection" SEC01
   File "dist\QtGui4.dll"
   File "dist\rs.exe"
 
-  Delete  "C:\Documents and Settings\All Users\Desktop\Reserva de Salas.lnk"
+  Delete  "C:\Documents and Settings\All Users\Desktop\Reservas de Salas.lnk"
   RMDir /r "C:\RS"
 
 ; Shortcuts

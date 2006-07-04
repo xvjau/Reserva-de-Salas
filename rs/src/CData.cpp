@@ -193,7 +193,7 @@ bool CSalaList::loadList()
 			
 			stmt->Get(3, snome);
 			sala->NOME = snome.c_str();
-		}		
+		}
 
 		return true;
 	}

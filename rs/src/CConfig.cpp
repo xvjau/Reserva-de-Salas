@@ -71,6 +71,8 @@ void CConfig::loadConfig()
 				LocalFree(lpMsgBuf);
 			}
 	#endif
+			for ( char* c = buff; *c; c++ )
+				*c = tolower(*c);
 
 			Transaction tr = TransactionFactory(m_data->m_db, amWrite);
 			tr->Start();
