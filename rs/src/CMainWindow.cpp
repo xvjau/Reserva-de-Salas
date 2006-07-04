@@ -15,7 +15,7 @@ static const int PSALA_COL_ROLE = 1025;
 static const int TABLE_ROW_HEIGHT = 30;
 
 CMainWindow::CMainWindow():
-		m_salaList(0),
+	m_salaList(0),
 	m_semana(0),
 	m_stylesgroup(this),
 	m_config(0),
@@ -56,7 +56,7 @@ CMainWindow::CMainWindow():
 		action->setChecked(defStyle == styles[i]);
 		
 		connect(action, SIGNAL(triggered()), this, SLOT(onSetStyle()));
-
+		
 		menuEstilo->addAction(action);
 	}
 	
@@ -66,11 +66,14 @@ CMainWindow::CMainWindow():
 		{
 			delete pbAdicionar;
 			delete pbRemover;
+			pbAdicionar = 0;
+			pbRemover = 0;
 		}
 		case 1:
 		case 2:
 		{
 			delete menuMenu;
+			menuMenu = 0;
 			break;
 		}
 	}
@@ -85,8 +88,6 @@ CMainWindow::CMainWindow():
 	m_mnPopupReserva.addAction(actionImprimirLista);
 	m_mnPopupReserva.addAction(actionCopiar);
 	
-	actionCopiar->setShortcut(QKeySequence("Ctrl+C"));
-
 	//m_mnPopupReserva.addAction(actionImprimirReserva);
 	
 	m_mnPopupHoje.addAction(actionHoje);
@@ -171,11 +172,12 @@ void CMainWindow::refreshData(const QDate &_date)
 		return;
 	
 	CUpdateLock lock(this);
+	CWaitCursor waitCursor();
 
 	setActiveReserva(0);
 	
 	clearData();
-		
+	
 	lbData->setText(m_date.toString("dd/MM/yyyy"));
 	
 	if (! m_salaList)
@@ -187,32 +189,31 @@ void CMainWindow::refreshData(const QDate &_date)
 	QTableWidgetItem* item;
 	{
 		CSalaList::TSalaList::iterator it;
-
+		
 		tbReservas->setColumnCount(m_salaList->m_salas.size());
 		tbReservas->setRowCount(7);
-
+		
 		btProx->setEnabled(m_salaList->m_salas.size());
 		btAnte->setEnabled(m_salaList->m_salas.size());
-		pbAdicionar->setEnabled(m_salaList->m_salas.size());
-
+		if (pbAdicionar)
+			pbAdicionar->setEnabled(m_salaList->m_salas.size());
+		
 		int icol = 0;
 		PSala sala;
 		QString nomeSala;
-
+		
 		for( it = m_salaList->m_salas.begin();
-				   it != m_salaList->m_salas.end();
-				   ++it, ++icol)
+			it != m_salaList->m_salas.end();
+			++it, ++icol)
 		{
 			sala = *it;
 			sala->m_column = icol;
-
-			nomeSala = sala->getNome().length() ?
-						sala->getNome() :
-					QString("Sala ") + QString::number(sala->getSalaID());
-
+			
+			nomeSala = sala->getNome().length() ? sala->getNome() : QString("Sala ") + QString::number(sala->getSalaID());
+			
 			item = tbReservas->horizontalHeaderItem(icol);
 			//tbReservas->setColumnWidth(icol, 150);
-
+			
 			if (item)
 			{
 				item->setText(nomeSala);
@@ -232,7 +233,7 @@ void CMainWindow::refreshData(const QDate &_date)
 	{
 		sdow = QDate::shortDayName(iday) + " " + m_date.addDays(iday - 1).toString("dd");
 		item = tbReservas->verticalHeaderItem(iday - 1);
-
+		
 		if (item)
 			item->setText(sdow);
 		else
@@ -266,21 +267,21 @@ void CMainWindow::refreshData(const QDate &_date)
 		for (int iday = 1; iday < 8; ++iday)
 		{
 			iRowHeight = TABLE_ROW_HEIGHT;
-
+			
 			for(int icol = 0; icol < tbReservas->columnCount(); ++icol)
 			{
 				isalaid = tbReservas->horizontalHeaderItem(icol)->data(PSALA_COL_ROLE).value<int>();
 				reserva = m_semana->getReservaList(iday, isalaid);
 				tbReservas->setCellWidget(iday - 1, icol, reserva);
-
+				
 				iHeight = 0;
 				for (it = reserva->m_reservas.begin(); it != reserva->m_reservas.end(); ++it)
 					iHeight += (*it)->getHeight();
-
+				
 				if (iHeight > iRowHeight)
 					iRowHeight = iHeight;
 			}
-
+			
 			tbReservas->setRowHeight(iday - 1, iRowHeight);
 		}
 	}
@@ -316,18 +317,18 @@ void CMainWindow::on_actionAdicionar_activated()
 	if (m_activeReserva)
 	{
 		CReservaList::CReserva* reserva = m_activeReserva->getOwner()->addReserva();
-
+		
 		reservaItem = new CReservaItem(reserva, m_salaList, this);
-
+		
 		reservaItem->setSala(m_activeReserva->getSALAID());
 		reservaItem->setDate(m_activeReserva->getDATA());
 	}
 	else
 	{
 		CReservaList::CReserva* reserva = m_semana->getFirstReservaList()->addReserva();
-
+		
 		reservaItem = new CReservaItem(reserva, m_salaList, this);
-
+		
 		reservaItem->setSala(m_activeSalaID);
 		reservaItem->setDate(m_activeDate);
 	}
@@ -374,7 +375,7 @@ void CMainWindow::on_actionAlterar_activated()
 			reservaItem->setDate(m_activeReserva->getDATAIN());
 			reservaItem->setDateFim(m_activeReserva->getDATAFIM());
 		}
-
+		
 		reservaItem->setModal(true);
 		reservaItem->show();
 	}
@@ -441,10 +442,10 @@ void CMainWindow::on_actionImprimirLista_activated()
 	if (printDialog.exec() == QDialog::Accepted)
 	{
 		CSala *sala = m_salaList->m_salas[m_activeReserva->getSALAID()];
-
+		
 		CModelos *modelos = new CModelos(m_data.m_db, m_activeReserva->getOwner(),
-										 sala->getNome(), &m_printer);
-
+										sala->getNome(), &m_printer);
+		
 		modelos->setModal(true);
 		modelos->show();
 	};
@@ -456,10 +457,10 @@ void CMainWindow::on_actionImprimirReserva_activated()
 	if (printDialog.exec() == QDialog::Accepted)
 	{
 		CSala *sala = m_salaList->m_salas[m_activeReserva->getSALAID()];
-
+		
 		CModelos *modelos = new CModelos(m_data.m_db, m_activeReserva,
-										 sala->getNome(), &m_printer);
-
+										sala->getNome(), &m_printer);
+		
 		modelos->setModal(true);
 		modelos->show();
 	};
@@ -468,7 +469,7 @@ void CMainWindow::on_actionImprimirReserva_activated()
 void CMainWindow::on_actionCopiar_activated()
 {
 	QString str;
-	char sep = 9;
+	const char sep = 9;
 	
 	CReservaList::TReservaList::iterator it;
 

@@ -62,15 +62,15 @@ bool CData::connect()
 		{
 			settings.setValue("DB", "RS");
 			settings.setValue("Server", "localhost");
-			settings.setValue("User", "SYSDBA");
-			settings.setValue("Password", "masterkey");
+			settings.setValue("User", "RS");
+			settings.setValue("Password", "rs");
 			settings.setValue("Characterset", "ISO8859_1");
 		}
 		
 		sdbName = settings.value("DB", "RS").toString();
 		sserverName = settings.value("Server", "localhost").toString();
-		suserName = settings.value("User", "SYSDBA").toString();
-		spassword = settings.value("Password", "masterkey").toString();
+		suserName = settings.value("User", "RS").toString();
+		spassword = settings.value("Password", "rs").toString();
 		scharset = settings.value("Characterset", "ISO8859_1").toString();
 		
 		m_db = DatabaseFactory(sserverName.toStdString(), sdbName.toStdString(),
@@ -193,7 +193,7 @@ bool CSalaList::loadList()
 			
 			stmt->Get(3, snome);
 			sala->NOME = snome.c_str();
-		}
+		}		
 
 		return true;
 	}

@@ -36,4 +36,18 @@ class CUpdateLock
 		QWidget     *m_widget;
 };
 
+class CWaitCursor
+{
+	public:
+		CWaitCursor()
+			{
+				g_application->setOverrideCursor(Qt::WaitCursor);
+			};
+			
+		~CWaitCursor()
+		{
+			g_application->restoreOverrideCursor();
+		};
+};
+
 #endif // __INCLUDE_MAIN_H
