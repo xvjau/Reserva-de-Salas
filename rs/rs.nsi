@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Reserva de Salas"
-!define PRODUCT_VERSION "1.0RC2"
+!define PRODUCT_VERSION "1.0RC3"
 !define PRODUCT_PUBLISHER "RolTramInfo"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\rs.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -76,10 +76,9 @@ Section "MainSection" SEC01
   File "dist\mingwm10.dll"
   File "dist\QtCore4.dll"
   File "dist\QtGui4.dll"
+  File "dist\msvcp71.dll"
+  File "dist\msvcr71.dll"
   File "dist\rs.exe"
-
-  Delete  "C:\Documents and Settings\All Users\Desktop\Reservas de Salas.lnk"
-  RMDir /r "C:\RS"
 
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -123,6 +122,8 @@ Section Uninstall
   Delete "$INSTDIR\rs.exe"
   Delete "$INSTDIR\QtGui4.dll"
   Delete "$INSTDIR\QtCore4.dll"
+  Delete "$INSTDIR\msvcp71.dll"
+  Delete "$INSTDIR\msvcr71.dll"
   Delete "$INSTDIR\mingwm10.dll"
   Delete "$INSTDIR\fbclient.dll"
   Delete "$INSTDIR\Conf\RS.ini"
