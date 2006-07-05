@@ -457,7 +457,7 @@ BEGIN
             (:REVESA IS NULL) OR (:REVESA = 0) OR
             (RS.REVESA IS NULL) OR (RS.REVESA = 0) OR
             ((:REVESA = 1) AND (RS.REVESA = 1) AND
-             (MOD((:DATAIN - RS.DATAIN) / 7, 2) = 0)
+             (MOD((:DATAIN - RS.DATAIN - EXTRACT(WEEKDAY FROM RS.DATAIN)) / 7, 2) = 0)
              )
             )
     INTO
@@ -813,7 +813,7 @@ BEGIN
 
   WHILE (DIAS <= VDATAFIM) DO
   BEGIN
-        IF ((REVESA = 0) OR (MOD((DIAS - VDATAIN) / 7, 2) = 0)) THEN
+        IF ((REVESA = 0) OR (MOD((DIAS - VDATAIN - EXTRACT(WEEKDAY FROM VDATAIN)) / 7, 2) = 0)) THEN
         BEGIN
             I = EXTRACT(WEEKDAY FROM DIAS);
 
