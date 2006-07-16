@@ -23,7 +23,8 @@ void exitFunction()
 }
 
 CData::CData():
-	m_db(0)
+	m_db(0),
+	m_notify(0)
 {
 	if (! g_disabledPalette)
 	{
@@ -45,6 +46,9 @@ CData::~CData()
 	{
 		delete *it;
 	}
+
+	if (m_notify)
+		delete m_notify;
 }
 
 bool CData::connect()
@@ -81,15 +85,16 @@ bool CData::connect()
 
 		try
 		{
+			m_notify = new CNotification();
 			#ifdef __ASYNC_EVENTS
 			m_event = EventsFactory(m_db, true);
 			#else
 			m_event = EventsFactory(m_db, false);
-			m_notify.setEvents(m_event);
+			m_notify->setEvents(m_event);
 			#endif
-			m_event->Add("reserva_ins", &m_notify);
-			m_event->Add("reserva_upd", &m_notify);
-			m_event->Add("reserva_del", &m_notify);
+			m_event->Add("reserva_ins", m_notify);
+			m_event->Add("reserva_upd", m_notify);
+			m_event->Add("reserva_del", m_notify);
 		}
 		catch (Exception &e)
 		{
@@ -846,7 +851,7 @@ bool CReservaList::CReserva::save()
 		
 		stmt->Close();
 
-		m_owner->m_owner->m_owner->m_notify.incIgnoreCount();
+		m_owner->m_owner->m_owner->m_notify->incIgnoreCount();
 
 		tr->Commit();
 
@@ -939,7 +944,7 @@ bool CReservaList::CReserva::del()
 		stmt->Fetch();
 		stmt->Get(1, m_owner->m_owner->m_lastUpdate);
 
-		m_owner->m_owner->m_owner->m_notify.incIgnoreCount();
+		m_owner->m_owner->m_owner->m_notify->incIgnoreCount();
 		tr->Commit();
 	
 		m_owner->m_reservas.removeAll(this);
@@ -1047,7 +1052,7 @@ CSemana::CSemana(CMainWindow *_parent, QDate &_segunda, CData *_owner,
 	m_firstReservaList(0),
 	m_row(0)
 {
-	connect(&(m_owner->m_notify), SIGNAL(FBEvent(int, int)), this, SLOT(onFBEvent(int , int)), Qt::QueuedConnection);
+	connect(m_owner->m_notify, SIGNAL(FBEvent(int, int)), this, SLOT(onFBEvent(int , int)), Qt::QueuedConnection);
 	
 	for(int idow = 0; idow < 7; ++idow)
 	{

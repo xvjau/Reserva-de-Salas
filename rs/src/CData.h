@@ -43,8 +43,8 @@ class CData: public QObject
 
 	public:
 		Database		m_db;
-		CNotification   m_notify;
-		Events          m_event;
+		CNotification	*m_notify;
+		Events			m_event;
 
 		bool connect();
 		void disconnect();

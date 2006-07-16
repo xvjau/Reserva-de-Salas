@@ -231,7 +231,7 @@ void CReservaItem::onValidate()
 	{
 		if (cbTipoRecorrencia->currentIndex() == 0)
 		{
-			validState = (deDataTermino->date() >= deData->date().addDays(7)) &&
+			validState = (deDataTermino->date() >= deData->date().addDays(1)) &&
 					((cbSemanal1->checkState() == Qt::Checked) ||
 					(cbSemanal2->checkState() == Qt::Checked) ||
 					(cbSemanal3->checkState() == Qt::Checked) ||
