@@ -35,6 +35,7 @@ CModelos::CModelos(Database _db, CReservaList::CReserva *_reserva, const QString
 void CModelos::init()
 {
 	setupUi(this);
+	setAttribute(Qt::WA_DeleteOnClose);
 
 	Transaction tr = TransactionFactory(m_db);
 	tr->Start();
@@ -104,13 +105,9 @@ CModelos::~CModelos()
 
 void CModelos::onClose()
 {
-	{
-		QSettings settings("RolTram", "RS");
-		settings.beginGroup("modelos");
-		settings.setValue("last", comboBox->currentText());
-	}
-
-	delete this;
+	QSettings settings("RolTram", "RS");
+	settings.beginGroup("modelos");
+	settings.setValue("last", comboBox->currentText());
 }
 
 void CModelos::render(const int _id)

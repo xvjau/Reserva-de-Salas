@@ -7,13 +7,12 @@ CSalasItem::CSalasItem(PSala _sala, CSalas *_form):
 	m_validSalaID(0, 999, this)
 {
 	setupUi(this);
+	setAttribute(Qt::WA_DeleteOnClose);
 	
 	connect(this, SIGNAL(rejected()), this, SLOT(cancel()));
-	connect(this, SIGNAL(rejected()), this, SLOT(onClose()));
 	
 	connect(okButton, SIGNAL(clicked()), this, SLOT(ok()));
 	connect(this, SIGNAL(accepted()), _form, SLOT(refreshData()));
-	connect(this, SIGNAL(accepted()), this, SLOT(onClose()));
 
 	connect(leNome, SIGNAL(textChanged(QString)), this, SLOT(onValidate()));
 	connect(leSalaID, SIGNAL(textChanged(QString)), this, SLOT(onValidate()));
@@ -30,11 +29,6 @@ CSalasItem::CSalasItem(PSala _sala, CSalas *_form):
 
 CSalasItem::~CSalasItem()
 {
-}
-
-void CSalasItem::onClose()
-{
-	delete this;
 }
 
 void CSalasItem::ok()

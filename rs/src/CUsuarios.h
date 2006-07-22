@@ -21,7 +21,6 @@ class CUsuarios : public QDialog, public Ui::frUsers
 		CUsuariosModel  *m_model;
 		
 	private slots:
-		void onClose();
 		void onAccept();
 };
 

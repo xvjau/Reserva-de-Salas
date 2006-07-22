@@ -16,7 +16,6 @@ class CSchemas: public QDialog, public Ui::frSchemas
 		CSchemasModel	*m_model;
 
 	private slots:
-		void onClose();
 		void onAccept();
 		
 		void onsliderMoved();

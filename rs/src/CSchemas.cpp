@@ -5,21 +5,19 @@ CSchemas::CSchemas(CData* _data):
 	m_model(0)
 {
 	setupUi(this);
-
-    connect(this, SIGNAL(accepted()), this, SLOT(onAccept()));
-
-    connect(this, SIGNAL(rejected()), this, SLOT(onClose()));
-	connect(this, SIGNAL(accepted()), this, SLOT(onClose()));
+	setAttribute(Qt::WA_DeleteOnClose);
+	
+	connect(this, SIGNAL(accepted()), this, SLOT(onAccept()));
 
 	connect(slRed, SIGNAL(valueChanged(int)), this, SLOT(onsliderMoved()));
 	connect(slGreen, SIGNAL(valueChanged(int)), this, SLOT(onsliderMoved()));
 	connect(slBlue, SIGNAL(valueChanged(int)), this, SLOT(onsliderMoved()));
-
-    connect(tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(cellDoubleClicked(QModelIndex)));
-
+	
+	connect(tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(cellDoubleClicked(QModelIndex)));
+	
 	m_model = new CSchemasModel(m_data);
 	tableView->setModel(m_model);
-
+	
 	lblCor->setBackgroundRole(QPalette::Window);
 	onsliderMoved();
 }
@@ -28,11 +26,6 @@ CSchemas::~CSchemas()
 {
 	if (m_model)
 	    delete m_model;
-}
-
-void CSchemas::onClose()
-{
-	delete this;
 }
 
 void CSchemas::onAccept()

@@ -91,14 +91,14 @@ class CSala
 		~CSala();
 
 	private:
-		int     SALAID;
-		int     oldSALAID;
-
-		int     ANDAR;
-		QString NOME;
+		int		SALAID;
+		int		oldSALAID;
+	
+		int		ANDAR;
+		QString	NOME;
 	public:
-		bool save();
-		bool del();
+		bool	save();
+		bool	del();
 
         int getOldSalaID() {return oldSALAID;};
 		int getSalaID() {return SALAID;};
@@ -123,9 +123,9 @@ class CReservaList: public QFrame
 	Q_OBJECT
 	
 	private:
-		CSemana   		*m_owner;
-		QDate   		m_date;
-		int     		m_salaID;
+		CSemana		*m_owner;
+		QDate		m_date;
+		int			m_salaID;
 		
 		QGridLayout *gridLayout;
 		QVBoxLayout *vboxLayout;
@@ -159,10 +159,10 @@ class CReservaList: public QFrame
 				virtual void paintEvent(QPaintEvent * event);
 	
 			private:
-				int	oldRESERVAID;
-				int	RESERVAID;
-				int	SALAID;
-				int	oldSALAID;
+				int		oldRESERVAID;
+				int		RESERVAID;
+				int		SALAID;
+				int		oldSALAID;
 				QTime	HORAIN;
 				QTime	HORAFIM;
 				QDate	DATA;
@@ -215,9 +215,9 @@ class CReservaList: public QFrame
 				void	setRESERVAID(int _value) { RESERVAID = _value;};
 				int		getSALAID() {return SALAID;};
 				void	setSALAID(int _value) {SALAID = _value; m_relocate = true;};
-				QTime  	getHORAIN() {return HORAIN;};
+				QTime	getHORAIN() {return HORAIN;};
 				void    setHORAIN(QTime _value) { HORAIN = _value; m_relocate = true;};
-				QTime  	getHORAFIM() {return HORAFIM;};
+				QTime	getHORAFIM() {return HORAFIM;};
 				void	setHORAFIM(QTime _value) { HORAFIM = _value; m_relocate = true;};
 				QDate	getDATA() {return DATA;};
 				void	setDATA(QDate _value) {DATA = _value; m_relocate = true;};
@@ -384,7 +384,7 @@ class CSemana: public QObject
 		CReservaList* getFirstReservaList() {return m_firstReservaList;};
 		
 	public slots:
-        void onFBEvent(int event, int count);
+		void onFBEvent(int event, int count);
 };
 
 

@@ -24,7 +24,6 @@ class CModelosItem: public QDialog, public Ui::ModeloItem
 		
 	public slots:
 		void onAccept();
-		void onClose();
 };
 
 #endif //__INCLUDE_CMODELOSITEM_H

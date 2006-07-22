@@ -9,6 +9,7 @@ CSalaList *_salas, CMainWindow *_form):
 	m_form(_form)
 {
 	setupUi(this);
+	setAttribute(Qt::WA_DeleteOnClose);
 
 	glayRecorrente = new QGridLayout(frameRecorrente);
 	glayRecorrente->addLayout(hboxLayout5, 0, 0, 1, 1);
@@ -140,7 +141,7 @@ void CReservaItem::onClose()
 {
 	m_form->setCanRefresh(true);
 	m_form->checkRefresh();
-	delete this;
+	close();
 }
 
 void CReservaItem::ok()

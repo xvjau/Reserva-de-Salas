@@ -20,7 +20,6 @@ class CSalas: public QDialog, public Ui::Salas
 		void setItemText(const int _row, const int _col, const QString &_text);
 		
 	private slots:
-		void onClose();
 		void saveSalas();
 		void on_btAdicionar_clicked();
 		void on_btAlterar_clicked();

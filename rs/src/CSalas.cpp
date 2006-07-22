@@ -9,14 +9,12 @@ CSalas::CSalas(CMainWindow *_form, CData *_data):
     m_salaList(_data)
 {
 	setupUi(this);
+	setAttribute(Qt::WA_DeleteOnClose);
 	
 	tbSalas->verticalHeader()->setVisible(false);
 	
-	connect(this, SIGNAL(rejected()), this, SLOT(onClose()));
-	
 	connect(this, SIGNAL(accepted()), this, SLOT(saveSalas()));
 	connect(this, SIGNAL(accepted()), _form, SLOT(refreshSalas()));
-	connect(this, SIGNAL(accepted()), this, SLOT(onClose()));
 	
 	connect(tbSalas, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(on_btAlterar_clicked()));
 	
@@ -34,11 +32,6 @@ CSalas::~CSalas()
 void CSalas::saveSalas()
 {
 	m_salaList.save();
-}
-
-void CSalas::onClose()
-{
-	delete this;
 }
 
 void CSalas::setItemText(const int _row, const int _col, const QString &_text)

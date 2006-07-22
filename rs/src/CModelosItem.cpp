@@ -8,12 +8,8 @@ CModelosItem::CModelosItem(Database _db, CModelos *_owner):
 	m_db(_db)
 {
 	setupUi(this);
-	if (! connect(this, SIGNAL(rejected()), this, SLOT(onClose())))
-		std::cerr << "Error in signal this(rejected) this(onClose)";
+	setAttribute(Qt::WA_DeleteOnClose);
 	
-	if (! connect(this, SIGNAL(accepted()), this, SLOT(onClose())))
-		std::cerr << "Error in signal this(accepted) to this(onClose)";
-
 	if (! connect(okButton, SIGNAL(clicked()), this, SLOT(onAccept())))
 		std::cerr << "Error in signal okButton(clicked) to this(onAccept)";
 }
@@ -103,9 +99,4 @@ void CModelosItem::onAccept()
 			QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		}
 	}
-}
-
-void CModelosItem::onClose()
-{
-	delete this;
 }
