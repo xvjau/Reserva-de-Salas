@@ -3,21 +3,6 @@
 # Subdir relative project main directory: ./src
 # Target is an application:  rs
 
-RESOURCES = res/rs.qrc 
-RCC_DIR = $$OBJECTS_DIR 
-DEPENDPATH = . 
-INCLUDEPATH += ../ibpp \
-               . 
-MOC_DIR = ../obj 
-UI_DIR = ../obj 
-OBJECTS_DIR = ../obj 
-TARGET = rs 
-DESTDIR = ../bin 
-CONFIG += debug \
-          warn_off \
-          qt \
-          exceptions 
-TEMPLATE = app 
 FORMS += ui/frmain.ui \
          ui/frmodelos.ui \
          ui/frmodelositem.ui \
@@ -41,7 +26,8 @@ HEADERS += CConfig.h \
            CSchemasModel.h \
            CUsuarios.h \
            CUsuariosModel.h \
-           main.h 
+           main.h \
+           CComboBoxDelegate.h 
 SOURCES += CConfig.cpp \
            CData.cpp \
            CMainWindow.cpp \
@@ -55,10 +41,24 @@ SOURCES += CConfig.cpp \
            CSchemasModel.cpp \
            CUsuarios.cpp \
            CUsuariosModel.cpp \
-           main.cpp 
-
+           main.cpp \
+           CComboBoxDelegate.cpp 
+RESOURCES = res/rs.qrc
+RCC_DIR = $$OBJECTS_DIR
+DEPENDPATH = .
+INCLUDEPATH += ../ibpp \
+.
+MOC_DIR = ../obj
+UI_DIR = ../obj
+OBJECTS_DIR = ../obj
+TARGET = rs
+DESTDIR = ../bin
+CONFIG += debug \
+warn_off \
+qt \
+exceptions
+TEMPLATE = app
 LIBS += ../obj/libibpp.a
-
 linux-g++{
   LIBS += /opt/firebird/lib/libfbclient.so
   DEFINES += IBPP_LINUX

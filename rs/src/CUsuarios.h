@@ -5,8 +5,10 @@
 #include "../obj/ui_frusers.h"
 #include "CData.h"
 #include "CUsuariosModel.h"
+#include "CComboBoxDelegate.h"
 
 #include <QtGui/QIntValidator>
+
 
 class CUsuarios : public QDialog, public Ui::frUsers
 {
@@ -17,8 +19,9 @@ class CUsuarios : public QDialog, public Ui::frUsers
 		~CUsuarios();
 		
 	private:
-		CData			*m_data;
-		CUsuariosModel  *m_model;
+		CData				*m_data;
+		CUsuariosModel		*m_model;
+		CComboBoxDelegate	*m_delegate;
 		
 	private slots:
 		void onAccept();

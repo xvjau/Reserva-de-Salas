@@ -1,4 +1,5 @@
 #include "CUsuariosModel.h"
+#include "CComboBoxDelegate.h"
 
 CUsuariosModel::CUsuariosModel(CData* _data):
 	m_data(_data)
@@ -88,7 +89,7 @@ QVariant CUsuariosModel::data(const QModelIndex &index, int role) const
 		case Qt::EditRole:
 		{
 			if (index.row() >= 0 && index.row() < m_rows.size() &&
-			    index.column() >= 0 && index.column() < 5)
+			    index.column() >= 0 && index.column() < 6)
 			{
 				ROW_USUARIOS *row = m_rows[index.row()];
 
@@ -104,6 +105,12 @@ QVariant CUsuariosModel::data(const QModelIndex &index, int role) const
 			}
 			return QVariant();
 		}
+		case Qt::LookUpRole:
+			if (index.column() == 5)
+			{
+				QVariant result = *m_data->getAreas();
+				return result;
+			}
 	}
 	return QVariant();
 }
@@ -162,8 +169,6 @@ bool CUsuariosModel::setData(const QModelIndex &index, const QVariant &value, in
 					stmt->Execute();
 					stmt->Close();
 
-					row->AREA = value.toString();
-
 					stmt->Prepare("insert into USUARIOS_AREAS (USUARIOID, AREAID) \
 									select \
 										?, \
@@ -173,8 +178,12 @@ bool CUsuariosModel::setData(const QModelIndex &index, const QVariant &value, in
 									where \
 										AREA = ?");
 					stmt->Set(1, row->USUARIOID);
-					stmt->Set(2, row->AREA.toStdString());
+					stmt->Set(2, value.toString().toStdString());
 					stmt->Execute();
+
+					if (stmt->AffectedRows())
+						row->AREA = value.toString();
+					
 					stmt->Close();
 				}
 				catch (Exception &e)
@@ -227,7 +236,7 @@ bool CUsuariosModel::setData(const QModelIndex &index, const QVariant &value, in
 			return false;
 		}
 	}
-	
+
 	return false;
 }
 

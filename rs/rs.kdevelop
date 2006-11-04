@@ -114,6 +114,7 @@
       <prio>0</prio>
       <envvars/>
     </make>
+    <subclassing/>
   </kdevtrollproject>
   <kdevcppsupport>
     <references>

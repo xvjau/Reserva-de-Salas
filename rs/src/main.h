@@ -18,6 +18,11 @@ class CMainWindow;
 
 static QApplication *g_application;
 
+namespace Qt
+{
+	static const int LookUpRole = UserRole + 1;
+}
+
 typedef QList<int> TIntList;
 
 class CUpdateLock
