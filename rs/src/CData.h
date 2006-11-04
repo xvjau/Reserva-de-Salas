@@ -38,18 +38,21 @@ class CData: public QObject
 		~CData();
 	
 	private:
-		TColorSchemeList    m_colorSchemes;
+		TColorSchemeList	m_colorSchemes;
+		QStringList*		m_areas;
+		
 		void loadColorSchemes();
 
 	public:
 		Database		m_db;
-		CNotification	*m_notify;
+		CNotification*	m_notify;
 		Events			m_event;
 
 		bool connect();
 		void disconnect();
 		
-		QPalette*   getColorScheme(int _id) { return m_colorSchemes[_id]; };
+		QPalette*		getColorScheme(int _id) { return m_colorSchemes[_id]; };
+		QStringList*	getAreas();
 };
 
 //====================  SALAS ===================================
@@ -96,6 +99,7 @@ class CSala
 	
 		int		ANDAR;
 		QString	NOME;
+		QString	AREA;
 	public:
 		bool	save();
 		bool	del();
@@ -107,6 +111,8 @@ class CSala
 		void setAndar(const int _andar) {ANDAR = _andar;};
 		QString getNome() {return NOME;};
 		void setNome(const QString &_nome){NOME = _nome;};
+		QString getArea() {return AREA;};
+		void setArea(const QString &_area){AREA = _area;};
 
 		CSalaList* getOwner() {return m_owner;};
 

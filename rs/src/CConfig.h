@@ -21,19 +21,23 @@ class CConfig
 
 		static CConfig* getConfig(CData *_data);
 		static CConfig* getConfig();
+
+		const TIntList* getUserSalaList() {return &m_userSalaList;};
+		
 	private:
         CConfig(CData *_data);
 
-		CData	*m_data;
+		CData		*m_data;
 		
-		bool    m_loaded;
-		void	loadConfig();
+		bool		m_loaded;
+		void		loadConfig();
 		
-		QString m_userName;
-		int     m_userID;
-		int     m_userNivel;
-		QString m_style;
-		int     m_colorScheme;
+		QString		m_userName;
+		int			m_userID;
+		int			m_userNivel;
+		QString		m_style;
+		int			m_colorScheme;
+		TIntList	m_userSalaList;
 };
 
 #endif // __INCLUDE_CCONFIG_H

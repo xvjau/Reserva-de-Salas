@@ -24,6 +24,12 @@ CSalasItem::CSalasItem(PSala _sala, CSalas *_form):
 	leNome->setText(m_sala->getNome());
 	leSalaID->setText(QString::number(m_sala->getSalaID()));
 	
+	cbArea->addItems(*_form->getData()->getAreas());
+
+	int i = cbArea->findText(_sala->getArea());
+	if (i != -1) 
+		cbArea->setCurrentIndex(i);
+	
 	onValidate();
 }
 
@@ -36,11 +42,13 @@ void CSalasItem::ok()
 	m_sala->setAndar(leAndar->text().toInt());
 	m_sala->setNome(leNome->text());
 	m_sala->setSalaID(leSalaID->text().toInt());
+	m_sala->setArea(cbArea->currentText());
 	
 	try
 	{
 		m_sala->save();
-	    emit accepted();
+		emit accepted();
+		close();
 	}
 	catch (int SQLCode)
 	{

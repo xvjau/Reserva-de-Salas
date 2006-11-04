@@ -7,6 +7,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QDate>
+#include <QtCore/QList>
 #include <QtGui/QApplication>
 #include <QtGui/QMessageBox>
 #include <QtCore/QAbstractTableModel>
@@ -16,6 +17,8 @@ class CSalas;
 class CMainWindow;
 
 static QApplication *g_application;
+
+typedef QList<int> TIntList;
 
 class CUpdateLock
 {

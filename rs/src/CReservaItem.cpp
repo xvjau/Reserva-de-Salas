@@ -52,14 +52,17 @@ CSalaList *_salas, CMainWindow *_form):
 	m_form->setCanRefresh(false);
 	
 	PSala sala;
-	
+
+	CConfig *config = CConfig::getConfig();
+	 
 	CSalaList::TSalaList::iterator it;
 	for(it = m_salas->m_salas.begin();
 		   it != m_salas->m_salas.end();
 		   ++it)
 	{
 		sala = *it;
-		cbSala->addItem(sala->getNome(), sala->getSalaID());
+		if ((config->getNivel() == 3) || (config->getUserSalaList()->indexOf(sala->getSalaID()) != -1))
+			cbSala->addItem(sala->getNome(), sala->getSalaID());
 	}
 	
 	cbSala->setCurrentIndex(cbSala->findData(sala->getSalaID()));

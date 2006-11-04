@@ -74,6 +74,7 @@ void CSalas::refreshData()
 		setItemText(irow, 0, QString::number(sala->getSalaID()));
 		setItemText(irow, 1, sala->getNome());
 		setItemText(irow, 2, QString::number(sala->getAndar()));
+		setItemText(irow, 3, sala->getArea());
 	}
 }
 
@@ -101,8 +102,8 @@ void CSalas::on_btAdicionar_clicked()
 	}
 	catch (Exception &e)
 	{
-        std::cerr << "Fail" << std::endl;
-        std::cerr << e.ErrorMessage() << std::endl;
+		std::cerr << "Fail" << std::endl;
+		std::cerr << e.ErrorMessage() << std::endl;
 	}
 	
 	salaitem->show();

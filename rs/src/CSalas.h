@@ -18,6 +18,9 @@ class CSalas: public QDialog, public Ui::Salas
 		CData		*m_data;
 		
 		void setItemText(const int _row, const int _col, const QString &_text);
+
+	public:
+		CData*		getData(){ return m_data; };
 		
 	private slots:
 		void saveSalas();

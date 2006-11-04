@@ -24,7 +24,8 @@ void exitFunction()
 
 CData::CData():
 	m_db(0),
-	m_notify(0)
+	m_notify(0),
+	m_areas(0)
 {
 	if (! g_disabledPalette)
 	{
@@ -49,6 +50,9 @@ CData::~CData()
 
 	if (m_notify)
 		delete m_notify;
+
+	if (m_areas)
+		delete m_areas;
 }
 
 bool CData::connect()
@@ -156,6 +160,33 @@ void CData::loadColorSchemes()
 	tr->Rollback();
 }
 
+QStringList* CData::getAreas()
+{
+	if (m_areas)
+		return m_areas;
+
+	m_areas = new QStringList;
+	Transaction tr = TransactionFactory(m_db, amRead);
+	tr->Start();
+	
+	Statement stmt = StatementFactory(m_db, tr);
+
+	stmt->Prepare("Select AREA From AREAS Order by AREA");
+	stmt->Execute();
+
+	std::string s;
+	while (stmt->Fetch())
+	{
+		stmt->Get(1, s);
+		m_areas->append( QString::fromAscii( s.c_str() ) );
+	}
+		
+	stmt->Close();
+	tr->Rollback();
+
+	return m_areas;
+}
+
 CSalaList::CSalaList(CData *_owner):
     m_owner(_owner)
 {
@@ -178,12 +209,28 @@ bool CSalaList::loadList()
 	{
 		Statement stmt = StatementFactory(m_owner->m_db, *m_tr);
 
-		stmt->Prepare("Select SALAID, ANDAR, NOME From SALAS Order By ANDAR, SALAID");
+		stmt->Prepare
+				("Select \
+					SALAID, \
+					ANDAR, \
+					NOME, \
+					(Select First 1 \
+						AR.AREA \
+					From \
+						AREAS AR \
+							Join SALAS_AREAS SA on \
+								SA.AREAID = AR.AREAID \
+					Where \
+						SA.SALAID = SL.SALAID) AREA \
+				From \
+					SALAS SL \
+				Order By \
+					ANDAR, SALAID");
 		stmt->Execute();
 
 		CSala* sala;
 
-		std::string snome;
+		std::string s;
 
 		int i = 0;
 		while (stmt->Fetch())
@@ -196,8 +243,14 @@ bool CSalaList::loadList()
 
 			stmt->Get(2, sala->ANDAR);
 			
-			stmt->Get(3, snome);
-			sala->NOME = snome.c_str();
+			stmt->Get(3, s);
+			sala->NOME = s.c_str();
+
+			if (! stmt->IsNull(4))
+			{
+				stmt->Get(4, s);
+				sala->AREA = s.c_str();
+			}
 		}
 
 		return true;
@@ -257,6 +310,8 @@ bool CSala::save()
 			stmt->Set(1, SALAID);
 			stmt->Set(2, ANDAR);
 			stmt->Set(3, NOME.toStdString());
+			stmt->Execute();
+			stmt->Close();
 		}
 		else
 		{
@@ -266,13 +321,32 @@ bool CSala::save()
 			stmt->Set(2, ANDAR);
 			stmt->Set(3, NOME.toStdString());
 			stmt->Set(4, oldSALAID);
+			stmt->Execute();
+			stmt->Close();
+
+			stmt->Prepare("delete from SALAS_AREAS where SALAID = ?");
+			stmt->Set(1, oldSALAID);
+			stmt->Execute();
+			stmt->Close();
 		}
 
+		
+		stmt->Prepare("insert into SALAS_AREAS (SALAID, AREAID) \
+						select \
+							?, \
+							AREAID \
+						from \
+							AREAS \
+						where \
+							AREA = ?");
+		stmt->Set(1, SALAID);
+		stmt->Set(2, AREA.toStdString());
 		stmt->Execute();
-
+		
 		oldSALAID = SALAID;
 		m_owner->m_salas.insert(SALAID, this);
 
+		
 		return true;
 	}
 	catch (SQLException &e)

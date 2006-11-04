@@ -91,6 +91,8 @@ void CConfig::loadConfig()
 {
 	if (! m_loaded)
 	{
+		m_userSalaList.clear();
+		
 		try
 		{
 	#ifdef __unix__
@@ -166,6 +168,28 @@ void CConfig::loadConfig()
 				stmt->Get(4, m_colorScheme);
 				stmt->Get(5, m_userNivel);
 
+				stmt->Close();
+
+				stmt->Prepare
+					("Select \
+						SA.SALAID \
+					From \
+						SALAS_AREAS SA \
+							join USUARIOS_AREAS UA on \
+								SA.AREAID = UA.AREAID \
+					Where \
+						UA.USUARIOID = ?");
+				stmt->Set(1, m_userID);
+				stmt->Execute();
+
+				int iandar;
+				while (stmt->Fetch())
+				{
+					stmt->Get(1, iandar);
+					m_userSalaList.append(iandar);
+				}
+				stmt->Close();
+				
 				tr->Rollback();
 			}
 			else

@@ -74,6 +74,14 @@ CMainWindow::CMainWindow():
 		{
 			delete menuMenu;
 			menuMenu = 0;
+
+			if (m_config->getUserSalaList()->count() == 0)
+			{
+				delete pbAdicionar;
+				delete pbRemover;
+				pbAdicionar = 0;
+				pbRemover = 0;
+			}
 			break;
 		}
 	}
@@ -414,9 +422,39 @@ void CMainWindow::setActiveReserva(CReservaList::CReserva *_reserva)
 		}
 		case 1:
 		{
-			bool benabled = (_reserva) && (_reserva->getUSUARIOID() == m_config->getUsuarioID());
+			bool benabled;
+
+			if (_reserva && (tbReservas->currentColumn() != -1))
+			{
+				int isalaid = tbReservas->horizontalHeaderItem(tbReservas->currentColumn())->data(PSALA_COL_ROLE).toInt();
+				benabled = (_reserva->getUSUARIOID() == m_config->getUsuarioID()) &&
+						(m_config->getUserSalaList()->indexOf(isalaid) != -1);
+			}
+			else
+				benabled = false;
+
+			if (pbRemover)
+				pbRemover->setEnabled(benabled);
 			
-			pbRemover->setEnabled(benabled);
+			actionRemover->setEnabled(benabled);
+			actionAlterar->setEnabled(benabled);
+			return;
+		}
+		case 2:
+		{
+			bool benabled;
+
+			if (_reserva && (tbReservas->currentColumn() != -1))
+			{
+				int isalaid = tbReservas->horizontalHeaderItem(tbReservas->currentColumn())->data(PSALA_COL_ROLE).toInt();
+				benabled = (m_config->getUserSalaList()->indexOf(isalaid) != -1);
+			}
+			else
+				benabled = false;
+
+			if (pbRemover)
+				pbRemover->setEnabled(benabled);
+			
 			actionRemover->setEnabled(benabled);
 			actionAlterar->setEnabled(benabled);
 			return;

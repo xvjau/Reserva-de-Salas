@@ -9,7 +9,25 @@ CUsuariosModel::CUsuariosModel(CData* _data):
 	
 	Statement stmt = StatementFactory(_data->m_db, *m_tr);
 	
-	stmt->Execute("Select USUARIOID, LOGIN, NOME, STYLE, SCHEMEID, NIVEL From USUARIOS Order By NOME");
+	stmt->Execute("Select \
+						US.USUARIOID, \
+						US.LOGIN, \
+						US.NOME, \
+						US.STYLE, \
+						US.SCHEMEID, \
+						US.NIVEL, \
+						(Select First 1 \
+							AR.AREA \
+						From \
+							AREAS AR \
+								join USUARIOS_AREAS UA on \
+									UA.AREAID = AR.AREAID \
+						Where \
+							UA.USUARIOID = US.USUARIOID) AREA \
+					From \
+						USUARIOS US \
+					Order By \
+						US.NOME");
 	
 	std::string     s;
 	ROW_USUARIOS 	*row;
@@ -17,10 +35,10 @@ CUsuariosModel::CUsuariosModel(CData* _data):
 	while (stmt->Fetch())
 	{
 		row = new ROW_USUARIOS;
-        m_rows.push_back(row);
-        
-		stmt->Get(1, row->USUARIOID);
+		m_rows.push_back(row);
 		
+		stmt->Get(1, row->USUARIOID);
+	
 		stmt->Get(2, s);
 		row->LOGIN = s.c_str();
 
@@ -32,6 +50,12 @@ CUsuariosModel::CUsuariosModel(CData* _data):
 
 		stmt->Get(5, row->SCHEMEID);
 		stmt->Get(6, row->NIVEL);
+
+		if (! stmt->IsNull(7))
+		{
+			stmt->Get(7, s);
+			row->AREA = s.c_str();
+		}
 	}
 	stmt->Close();
 }
@@ -53,7 +77,7 @@ int CUsuariosModel::rowCount(const QModelIndex &parent) const
 
 int CUsuariosModel::columnCount(const QModelIndex &parent) const
 {
-	return 5;
+	return 6;
 }
 
 QVariant CUsuariosModel::data(const QModelIndex &index, int role) const
@@ -75,6 +99,7 @@ QVariant CUsuariosModel::data(const QModelIndex &index, int role) const
 					case 2: return row->STYLE;
 					case 3: return row->SCHEMEID;
 					case 4: return row->NIVEL;
+					case 5: return row->AREA;
 				}
 			}
 			return QVariant();
@@ -96,6 +121,7 @@ QVariant CUsuariosModel::headerData(int section, Qt::Orientation orientation, in
 				case 2: return QString("Estilo");
 				case 3: return QString("Esquema");
 				case 4: return QString("Nível");
+				case 5: return QString("Area");
 			}
 			return QVariant();
 		}
@@ -125,26 +151,60 @@ bool CUsuariosModel::setData(const QModelIndex &index, const QVariant &value, in
 			case 2: field = "STYLE"; break;
 			case 3: field = "SCHEMEID"; break;
 			case 4: field = "NIVEL"; break;
+			case 5:
+			{
+				try
+				{
+					Statement stmt = StatementFactory(m_data->m_db, *m_tr);
+	
+					stmt->Prepare("delete from USUARIOS_AREAS where USUARIOID = ?");
+					stmt->Set(1, row->USUARIOID);
+					stmt->Execute();
+					stmt->Close();
+
+					row->AREA = value.toString();
+
+					stmt->Prepare("insert into USUARIOS_AREAS (USUARIOID, AREAID) \
+									select \
+										?, \
+										AREAID \
+									from \
+										AREAS \
+									where \
+										AREA = ?");
+					stmt->Set(1, row->USUARIOID);
+					stmt->Set(2, row->AREA.toStdString());
+					stmt->Execute();
+					stmt->Close();
+				}
+				catch (Exception &e)
+				{
+					std::cerr << e.ErrorMessage() << std::endl;
+					QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+					return false;
+				}
+				return true;
+			}
 			default:
 			    return false;
 		}
 		sql = "Update USUARIOS Set " + field + " = ? Where USUARIOID = ?";
-        
+		
 		try
 		{
 			Statement stmt = StatementFactory(m_data->m_db, *m_tr);
-
+	
 			stmt->Prepare(sql.toStdString());
-			
+	
 			if (index.column() >= 3)
-			    stmt->Set(1, value.toInt());
+				stmt->Set(1, value.toInt());
 			else
 				stmt->Set(1, value.toString().toStdString());
-				
+	
 			stmt->Set(2, row->USUARIOID);
-
+	
 			stmt->Execute();
-
+	
 			if (stmt->AffectedRows())
 			{
 				switch (index.column())
@@ -162,9 +222,9 @@ bool CUsuariosModel::setData(const QModelIndex &index, const QVariant &value, in
 		}
 		catch (Exception &e)
 		{
-	        std::cerr << e.ErrorMessage() << std::endl;
-	        QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
-	        return false;
+			std::cerr << e.ErrorMessage() << std::endl;
+			QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			return false;
 		}
 	}
 	
@@ -185,37 +245,37 @@ bool CUsuariosModel::insertRows(int row, int count, const QModelIndex & parent)
 	{
 		Statement stmt = StatementFactory(m_data->m_db, *m_tr);
 		
-        stmt->Execute("Select GEN_ID(GENUsuarioS, 1) From RDB$DATABASE");
-        stmt->Get(1, rowData->USUARIOID);
-        stmt->Close();
-        
+		stmt->Execute("Select GEN_ID(GENUsuarioS, 1) From RDB$DATABASE");
+		stmt->Get(1, rowData->USUARIOID);
+		stmt->Close();
+	
 		stmt->Execute("Select First 1 SCHEMEID, COUNT(*) \
 								From UsuarioS                    \
 								Where                            \
 								  Not SCHEMEID is Null           \
 								Group By SCHEMEID                \
 								Order By COUNT(*) Desc");
-        stmt->Get(1, rowData->SCHEMEID);
-        stmt->Close();
-        
+		stmt->Get(1, rowData->SCHEMEID);
+		stmt->Close();
+		
 		rowData->NOME = QString::number(rowData->USUARIOID);
-        
-        m_rows.push_back(rowData);
-        endInsertRows();
-        
+		
+		m_rows.push_back(rowData);
+		endInsertRows();
+		
 		return true;
 	}
 	catch (Exception &e)
 	{
-        std::cerr << e.ErrorMessage() << std::endl;
-        QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		std::cerr << e.ErrorMessage() << std::endl;
+		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 	}
 	return false;
 }
 
 bool CUsuariosModel::removeRows(int row, int count, const QModelIndex & parent)
 {
-    return false;
+	return false;
 	beginRemoveRows(parent, row, row + count - 1);
 	
 	endRemoveRows();

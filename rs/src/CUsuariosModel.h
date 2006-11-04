@@ -7,12 +7,12 @@
 class CUsuariosModel : public QAbstractTableModel
 {
 	public:
-    	CUsuariosModel(CData* _data);
-    	virtual ~CUsuariosModel();
-    	
+		CUsuariosModel(CData* _data);
+		virtual ~CUsuariosModel();
+	
 	private:
-        CData 			*m_data;
-		Transaction     *m_tr;
+		CData			*m_data;
+		Transaction		*m_tr;
 		
 		struct ROW_USUARIOS
 		{
@@ -22,6 +22,7 @@ class CUsuariosModel : public QAbstractTableModel
 			QString	STYLE;
 			int		SCHEMEID;
 			int		NIVEL;
+			QString	AREA;
 		};
 		typedef QList<ROW_USUARIOS*> TROW_USUARIOS;
 		TROW_USUARIOS m_rows;
