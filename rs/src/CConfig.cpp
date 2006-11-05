@@ -1,5 +1,6 @@
 #include "CConfig.h"
 #include <string>
+#include <QSettings>
 
 #ifdef __unix__
 #include <unistd.h>
@@ -293,3 +294,18 @@ int CConfig::getColorScheme()
 	return m_colorScheme;
 }
 
+QString CConfig::getLastArea()
+{
+	QSettings settings("RolTram", "RS");
+	settings.beginGroup("mainwindow");
+		
+	return settings.value("lastArea").toString();
+}
+
+void CConfig::setLastArea(const QString &_area)
+{
+	QSettings settings("RolTram", "RS");
+	settings.beginGroup("mainwindow");
+		
+	settings.setValue("lastArea", _area);
+}

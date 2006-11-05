@@ -40,6 +40,7 @@ class CData: public QObject
 	private:
 		TColorSchemeList	m_colorSchemes;
 		QStringList*		m_areas;
+		QList<int>*			m_areasId;
 		
 		void loadColorSchemes();
 
@@ -53,6 +54,8 @@ class CData: public QObject
 		
 		QPalette*		getColorScheme(int _id) { return m_colorSchemes[_id]; };
 		QStringList*	getAreas();
+		int				getAreaId(const int _areaListIndex);
+		int				getAreaId(const QString &_area) {return getAreaId(getAreas()->indexOf(_area)); };
 };
 
 //====================  SALAS ===================================
@@ -64,9 +67,10 @@ class CSalaList
 	private:
 		CData   		*m_owner;
 		Transaction 	*m_tr;
+		int				m_areaId;
 		
 	public:
-		CSalaList(CData *_owner);
+		CSalaList(CData *_owner, const int _areaId = -1);
 		~CSalaList();
 		
 		void save();
@@ -359,7 +363,7 @@ class CSemana: public QObject
 
 	public:
 		CSemana(CMainWindow *_parent, QDate &_segunda, CData *_owner,
-				CSalaList *_salas);
+				CSalaList *_salas, const int _areaId);
 		~CSemana();
 		
 	private:
@@ -367,6 +371,7 @@ class CSemana: public QObject
 		CSalaList		*m_salas;
 		QDate			m_date;
 		CMainWindow		*m_parent;
+		int				m_areaId;
 		
 		typedef	QMap<int, CReservaList::CReserva*> TMapReservas;
 		TMapReservas    m_reservaItems;
@@ -384,10 +389,12 @@ class CSemana: public QObject
 		CReservaList* m_firstReservaList;
 		
 	public:
-		bool loadData();
-		void clear();
-		CReservaList* getReservaList(int _dow, int _salaID);
-		CReservaList* getFirstReservaList() {return m_firstReservaList;};
+		bool			loadData();
+		void			clear();
+		CReservaList*	getReservaList(int _dow, int _salaID);
+		CReservaList*	getFirstReservaList() {return m_firstReservaList;};
+
+		int				getAreaId() {return m_areaId;};
 		
 	public slots:
 		void onFBEvent(int event, int count);

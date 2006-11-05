@@ -53,6 +53,7 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void on_btAnte_clicked();
 		void on_btProx_clicked();
 		void onSetStyle();
+		void cbAreaChanged(int index);
 		
 	protected:
 		virtual void resizeEvent(QResizeEvent * event);

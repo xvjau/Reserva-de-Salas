@@ -37,6 +37,11 @@ CMainWindow::CMainWindow():
 
 	if (! m_data.connect())
 		throw -1;
+
+	cbArea->addItems(*m_data.getAreas());
+	int index = cbArea->findText( m_config->getLastArea() );
+	if (index >= 0)
+		cbArea->setCurrentIndex( index );
 	
 	m_date = QDate::currentDate();
 	m_date = m_date.addDays(m_date.dayOfWeek() * -1 + 1);
@@ -99,10 +104,14 @@ CMainWindow::CMainWindow():
 	//m_mnPopupReserva.addAction(actionImprimirReserva);
 	
 	m_mnPopupHoje.addAction(actionHoje);
+
+	connect(cbArea, SIGNAL(currentIndexChanged(int)), this, SLOT(cbAreaChanged(int)));
 }
 
 CMainWindow::~CMainWindow()
 {
+	m_config->setLastArea( cbArea->currentText() );
+			
 	if (m_salaList)
 		delete m_salaList;
 
@@ -133,18 +142,18 @@ void CMainWindow::checkRowHeight(int _row, int _salaID)
 
 void CMainWindow::resizeEvent(QResizeEvent * event)
 {
-	if (width() > 700)
-	{
-		int iWidth = tbReservas->verticalHeader()->width();
-		
-		if (tbReservas->verticalScrollBar())
-			iWidth += tbReservas->verticalScrollBar()->visibleRegion().boundingRect().width();
-		
-		for(int i = 0; i < tbReservas->columnCount(); ++i)
-		{
-			tbReservas->setColumnWidth(i, ((tbReservas->width() - iWidth) / tbReservas->columnCount())- 2);
-		}
-	}
+	int iWidth = tbReservas->verticalHeader()->width();
+
+	if (tbReservas->verticalScrollBar())
+		iWidth += tbReservas->verticalScrollBar()->visibleRegion().boundingRect().width();
+
+	iWidth = ((tbReservas->width() - iWidth - 4) / tbReservas->columnCount()) - 2;
+	
+	if (iWidth < 170)
+		iWidth = 170;
+	
+	for(int i = 0; i < tbReservas->columnCount(); ++i)
+		tbReservas->setColumnWidth(i, iWidth);
 }
 
 void CMainWindow::showEvent ( QShowEvent * event )
@@ -190,7 +199,7 @@ void CMainWindow::refreshData(const QDate &_date)
 	
 	if (! m_salaList)
 	{
-		m_salaList = new CSalaList(&m_data);
+		m_salaList = new CSalaList(&m_data, m_data.getAreaId( cbArea->currentIndex() ));
 		m_salaList->loadList();
 	}
 	
@@ -255,7 +264,8 @@ void CMainWindow::refreshData(const QDate &_date)
 	{
 		try
 		{
-			m_semana = new CSemana(this, m_date, &m_data, m_salaList);
+			int iareaId = m_data.getAreaId( cbArea->currentText() );
+			m_semana = new CSemana(this, m_date, &m_data, m_salaList, iareaId);
 			m_semana->loadData();
 		}
 		catch (Exception &e)
@@ -535,4 +545,11 @@ void CMainWindow::on_actionHoje_activated()
 	QDate date = QDate::currentDate();
 	date = date.addDays(date.dayOfWeek() * -1 + 1);
 	refreshData(date);
+}
+
+void CMainWindow::cbAreaChanged(int index)
+{
+	refreshSalas();
+	refreshData(m_activeDate);
+	resizeEvent(0);
 }

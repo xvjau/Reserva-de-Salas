@@ -25,7 +25,8 @@ void exitFunction()
 CData::CData():
 	m_db(0),
 	m_notify(0),
-	m_areas(0)
+	m_areas(0),
+	m_areasId(0)
 {
 	if (! g_disabledPalette)
 	{
@@ -53,6 +54,9 @@ CData::~CData()
 
 	if (m_areas)
 		delete m_areas;
+
+	if(m_areasId)
+		delete m_areasId;
 }
 
 bool CData::connect()
@@ -103,14 +107,17 @@ bool CData::connect()
 		catch (Exception &e)
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
-			QMessageBox("Aten�o", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		}
 		return true;
 	}
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox("Erro ao conectar-se ao Servidor",
+					QString("<b>Foi impossiv&eacute;l connectar-se ao servidor</b><br><br><small>Mensagem do banco:<br>") +
+							QString(e.ErrorMessage()).replace(QChar(10), "<br>") + QString("</small>"),
+					QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		return false;
 	}
 }
@@ -160,24 +167,38 @@ void CData::loadColorSchemes()
 	tr->Rollback();
 }
 
+int CData::getAreaId(const int _areaListIndex)
+{
+	if (! m_areasId)
+		getAreas();
+	
+	return m_areasId->value(_areaListIndex);
+};
+
 QStringList* CData::getAreas()
 {
 	if (m_areas)
 		return m_areas;
 
 	m_areas = new QStringList;
+	m_areasId = new QList<int>;
+	
 	Transaction tr = TransactionFactory(m_db, amRead);
 	tr->Start();
 	
 	Statement stmt = StatementFactory(m_db, tr);
 
-	stmt->Prepare("Select AREA From AREAS Order by AREA");
+	stmt->Prepare("Select AREAID, AREA From AREAS Order by AREA");
 	stmt->Execute();
 
 	std::string s;
+	int id;
 	while (stmt->Fetch())
 	{
-		stmt->Get(1, s);
+		stmt->Get(1, id);
+		stmt->Get(2, s);
+
+		m_areasId->append(id);
 		m_areas->append( QString::fromAscii( s.c_str() ) );
 	}
 		
@@ -187,8 +208,9 @@ QStringList* CData::getAreas()
 	return m_areas;
 }
 
-CSalaList::CSalaList(CData *_owner):
-    m_owner(_owner)
+CSalaList::CSalaList(CData *_owner, const int _areaId):
+    m_owner(_owner),
+    m_areaId(_areaId)
 {
 	m_tr = new Transaction;
 	*m_tr = TransactionFactory(m_owner->m_db, amWrite);
@@ -210,10 +232,10 @@ bool CSalaList::loadList()
 		Statement stmt = StatementFactory(m_owner->m_db, *m_tr);
 
 		stmt->Prepare
-				("Select \
-					SALAID, \
-					ANDAR, \
-					NOME, \
+				("Select Distinct\
+					SL.SALAID, \
+					SL.ANDAR, \
+					SL.NOME, \
 					(Select First 1 \
 						AR.AREA \
 					From \
@@ -224,8 +246,17 @@ bool CSalaList::loadList()
 						SA.SALAID = SL.SALAID) AREA \
 				From \
 					SALAS SL \
+						Join SALAS_AREAS SA on \
+							SA.SALAID = SL.SALAID \
+				Where \
+					(? = -1) OR \
+					(SA.AREAID = ?) \
 				Order By \
-					ANDAR, SALAID");
+					SL.ANDAR, SL.SALAID");
+		
+		stmt->Set(1, m_areaId);
+		stmt->Set(2, m_areaId);
+		
 		stmt->Execute();
 
 		CSala* sala;
@@ -1118,13 +1149,14 @@ void CReservaList::CReserva::paintEvent(QPaintEvent * event)
 
 
 CSemana::CSemana(CMainWindow *_parent, QDate &_segunda, CData *_owner,
-			CSalaList *_salas):
+			CSalaList *_salas, const int _areaId):
 	m_date(_segunda),
 	m_owner(_owner),
 	m_salas(_salas),
 	m_parent(_parent),
 	m_firstReservaList(0),
-	m_row(0)
+	m_row(0),
+	m_areaId(_areaId)
 {
 	connect(m_owner->m_notify, SIGNAL(FBEvent(int, int)), this, SLOT(onFBEvent(int , int)), Qt::QueuedConnection);
 	
@@ -1167,7 +1199,7 @@ bool CSemana::loadData()
 							USUARIO_NOME, ASSUNTO, DEPTO, NOTAS, SCHEMEID, \
 							TIPO, GEN_ID(SEQRESERVAS, 0) \
 						From \
-							GET_RESERVAS_SEMANA(?, ?) \
+							GET_RESERVAS_SEMANA(?, ?, ?) \
 						Order By \
 							SALAID, \
 							DATA, \
@@ -1178,6 +1210,7 @@ bool CSemana::loadData()
 		m_stmt->Set(1, pdate);
 		pdate.Add(6);
 		m_stmt->Set(2, pdate);
+		m_stmt->Set(3, m_areaId);
 
 		m_stmt->Execute();
 		fetchRow();
@@ -1260,7 +1293,7 @@ void CSemana::onFBEvent(int event, int count)
 		m_stmt = StatementFactory(m_owner->m_db, m_tr);
 
 		int iRow = 0,
-			iSalaID = 0;
+		iSalaID = 0;
 
 		switch (event)
 		{
@@ -1272,7 +1305,7 @@ void CSemana::onFBEvent(int event, int count)
 									USUARIO_NOME, ASSUNTO, DEPTO, NOTAS, SCHEMEID, \
 									TIPO, SEQ  \
 								From \
-									GET_RESERVAS_SEMANA(?, ?) \
+									GET_RESERVAS_SEMANA(?, ?, ?) \
 								Where \
 									SEQ > ?\
 								Order By \
@@ -1282,7 +1315,8 @@ void CSemana::onFBEvent(int event, int count)
 
 				m_stmt->Set(1, Date(m_date.year(), m_date.month(), m_date.day()));
 				m_stmt->Set(2, Date(m_date.year(), m_date.month(), m_date.day() + 6));
-				m_stmt->Set(3, m_lastUpdate);
+				m_stmt->Set(3, m_areaId);
+				m_stmt->Set(4, m_lastUpdate);
 
 				m_stmt->Execute();
 	

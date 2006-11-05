@@ -33,7 +33,7 @@ QWidget * CComboBoxDelegate::createEditor ( QWidget * parent, const QStyleOption
 		return editor;
 	}
 	else
-		return static_cast<const QItemDelegate*>(this)->createEditor(parent, option, index);
+		return QItemDelegate::createEditor(parent, option, index);
 }
 
 void CComboBoxDelegate::setEditorData ( QWidget * editor, const QModelIndex & index ) const
@@ -46,7 +46,7 @@ void CComboBoxDelegate::setEditorData ( QWidget * editor, const QModelIndex & in
 		comboBox->setCurrentIndex(listIndex);
 	}
 	else
-		static_cast<const QItemDelegate*>(this)->setEditorData(editor, index);
+		QItemDelegate::setEditorData(editor, index);
 }
 
 void CComboBoxDelegate::setModelData ( QWidget * editor, QAbstractItemModel * model, const QModelIndex & index ) const
@@ -58,6 +58,6 @@ void CComboBoxDelegate::setModelData ( QWidget * editor, QAbstractItemModel * mo
 		model->setData(index, comboBox->currentText());
 	}
 	else
-		static_cast<const QItemDelegate*>(this)->setEditorData(editor, index);
+		QItemDelegate::setModelData(editor, model, index);
 }
 

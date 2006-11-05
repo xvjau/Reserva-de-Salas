@@ -14,6 +14,9 @@ class CConfig
 		
 		QString getStyle();
 		void setStyle(QString _value);
+
+		QString	getLastArea();
+		void	setLastArea(const QString &_area);
 		
 		int getColorScheme();
 		
