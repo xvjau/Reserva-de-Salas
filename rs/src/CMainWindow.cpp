@@ -1,3 +1,24 @@
+/*
+	Reserva de Salas
+	Copyright 2006 Gianfranco Rossi.
+
+	Este programa é software livre; você pode redistribuí-lo e/ou
+	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+	publicada pela Free Software Foundation; tanto a versão 2 da
+	Licença.
+	
+	Este programa é distribuído na expectativa de ser útil, mas SEM
+	QUALQUER GARANTIA; sem mesmo a garantia implícita de
+	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+	detalhes.
+	
+	Você deve ter recebido uma cópia da Licença Pública Geral GNU
+	junto com este programa; se não, escreva para a Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307, USA.
+ */
+
 #include "CMainWindow.h"
 #include "CReservaItem.h"
 #include "CSalas.h"
@@ -105,6 +126,13 @@ CMainWindow::CMainWindow():
 	
 	m_mnPopupHoje.addAction(actionHoje);
 
+	bool userHasArea = m_data.getAreaId( cbArea->currentIndex() ) == CConfig::getConfig()->getUserAreaID();
+			
+	actionAdicionar->setEnabled(userHasArea);
+
+	if (pbAdicionar)
+		pbAdicionar->setEnabled(userHasArea);
+	
 	connect(cbArea, SIGNAL(currentIndexChanged(int)), this, SLOT(cbAreaChanged(int)));
 }
 
@@ -229,8 +257,7 @@ void CMainWindow::refreshData(const QDate &_date)
 			nomeSala = sala->getNome().length() ? sala->getNome() : QString("Sala ") + QString::number(sala->getSalaID());
 			
 			item = tbReservas->horizontalHeaderItem(icol);
-			//tbReservas->setColumnWidth(icol, 150);
-			
+
 			if (item)
 			{
 				item->setText(nomeSala);
@@ -432,39 +459,41 @@ void CMainWindow::setActiveReserva(CReservaList::CReserva *_reserva)
 		}
 		case 1:
 		{
-			bool benabled;
+			bool benabled = false;
+			bool userHasArea = false;
 
 			if (_reserva && (tbReservas->currentColumn() != -1))
 			{
 				int isalaid = tbReservas->horizontalHeaderItem(tbReservas->currentColumn())->data(PSALA_COL_ROLE).toInt();
-				benabled = (_reserva->getUSUARIOID() == m_config->getUsuarioID()) &&
-						(m_config->getUserSalaList()->indexOf(isalaid) != -1);
+				userHasArea = (m_config->getUserSalaList()->indexOf(isalaid) != -1);
+				
+				benabled = (_reserva->getUSUARIOID() == m_config->getUsuarioID()) && userHasArea;
 			}
-			else
-				benabled = false;
 
 			if (pbRemover)
 				pbRemover->setEnabled(benabled);
 			
 			actionRemover->setEnabled(benabled);
 			actionAlterar->setEnabled(benabled);
+			
 			return;
 		}
 		case 2:
 		{
-			bool benabled;
+			bool benabled = false;
+			bool userHasArea = false;
 
 			if (_reserva && (tbReservas->currentColumn() != -1))
 			{
 				int isalaid = tbReservas->horizontalHeaderItem(tbReservas->currentColumn())->data(PSALA_COL_ROLE).toInt();
-				benabled = (m_config->getUserSalaList()->indexOf(isalaid) != -1);
+				userHasArea = (m_config->getUserSalaList()->indexOf(isalaid) != -1);
+
+				benabled = userHasArea;
 			}
-			else
-				benabled = false;
 
 			if (pbRemover)
 				pbRemover->setEnabled(benabled);
-			
+
 			actionRemover->setEnabled(benabled);
 			actionAlterar->setEnabled(benabled);
 			return;
@@ -552,4 +581,12 @@ void CMainWindow::cbAreaChanged(int index)
 	refreshSalas();
 	refreshData(m_activeDate);
 	resizeEvent(0);
+
+	bool userHasArea = m_data.getAreaId( cbArea->currentIndex() ) == CConfig::getConfig()->getUserAreaID();
+			
+	actionAdicionar->setEnabled(userHasArea);
+
+	if (pbAdicionar)
+		pbAdicionar->setEnabled(userHasArea);
+
 }

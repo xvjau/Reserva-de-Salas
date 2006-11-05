@@ -1,3 +1,24 @@
+/*
+	Reserva de Salas
+	Copyright 2006 Gianfranco Rossi.
+
+	Este programa é software livre; você pode redistribuí-lo e/ou
+	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+	publicada pela Free Software Foundation; tanto a versão 2 da
+	Licença.
+	
+	Este programa é distribuído na expectativa de ser útil, mas SEM
+	QUALQUER GARANTIA; sem mesmo a garantia implícita de
+	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+	detalhes.
+	
+	Você deve ter recebido uma cópia da Licença Pública Geral GNU
+	junto com este programa; se não, escreva para a Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307, USA.
+ */
+
 #include "CConfig.h"
 #include <string>
 #include <QSettings>
@@ -80,7 +101,8 @@ CConfig* CConfig::getConfig()
 
 CConfig::CConfig(CData *_data):
 	m_data(_data),
-	m_loaded(false)
+	m_loaded(false),
+	m_userArea(0)
 {
 }
 
@@ -173,7 +195,8 @@ void CConfig::loadConfig()
 
 				stmt->Prepare
 					("Select \
-						SA.SALAID \
+						SA.SALAID, \
+						UA.AREAID \
 					From \
 						SALAS_AREAS SA \
 							join USUARIOS_AREAS UA on \
@@ -187,6 +210,8 @@ void CConfig::loadConfig()
 				while (stmt->Fetch())
 				{
 					stmt->Get(1, iandar);
+					stmt->Get(2, m_userArea);
+					
 					m_userSalaList.append(iandar);
 				}
 				stmt->Close();

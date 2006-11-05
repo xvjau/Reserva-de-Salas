@@ -1,3 +1,24 @@
+/*
+	Reserva de Salas
+	Copyright 2006 Gianfranco Rossi.
+
+	Este programa é software livre; você pode redistribuí-lo e/ou
+	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+	publicada pela Free Software Foundation; tanto a versão 2 da
+	Licença.
+	
+	Este programa é distribuído na expectativa de ser útil, mas SEM
+	QUALQUER GARANTIA; sem mesmo a garantia implícita de
+	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+	detalhes.
+	
+	Você deve ter recebido uma cópia da Licença Pública Geral GNU
+	junto com este programa; se não, escreva para a Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+	02111-1307, USA.
+ */
+
 #include "CData.h"
 #include "CReservaItem.h"
 #include "CConfig.h"
@@ -523,6 +544,12 @@ void CReservaList::mouseDoubleClickEvent(QMouseEvent * event)
 	switch (CConfig::getConfig()->getNivel())
 	{
 		case 0: return;
+		case 1:
+		case 2:
+		{
+			if ( CConfig::getConfig()->getUserSalaList()->indexOf(m_salaID) == -1 )
+				return;
+		}
 	}
 	
 	CReserva* reserva = addReserva();
@@ -1097,7 +1124,12 @@ void CReservaList::CReserva::mouseDoubleClickEvent(QMouseEvent * event)
 	switch (CConfig::getConfig()->getNivel())
 	{
 		case 0: return;
-		case 1: if (USUARIOID != CConfig::getConfig()->getUsuarioID()) return;
+		case 1:
+			if (USUARIOID != CConfig::getConfig()->getUsuarioID())
+				return;
+		case 2:
+			if ( CConfig::getConfig()->getUserSalaList()->indexOf(SALAID) == -1 )
+				return;
 	}
 
 	CReservaItem *reservaItem = new CReservaItem(this, m_owner->m_owner->m_salas,
