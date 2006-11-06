@@ -175,7 +175,10 @@ void CMainWindow::resizeEvent(QResizeEvent * event)
 	if (tbReservas->verticalScrollBar())
 		iWidth += tbReservas->verticalScrollBar()->visibleRegion().boundingRect().width();
 
-	iWidth = ((tbReservas->width() - iWidth - 4) / tbReservas->columnCount()) - 2;
+    if (tbReservas->columnCount())
+    	iWidth = ((tbReservas->width() - iWidth - 4) / tbReservas->columnCount()) - 2;
+	else
+		iWidth = 0;
 	
 	if (iWidth < 170)
 		iWidth = 170;

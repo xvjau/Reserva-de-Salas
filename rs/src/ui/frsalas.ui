@@ -108,7 +108,7 @@
        </column>
        <column>
         <property name="text" >
-         <string>Area</string>
+         <string>Área</string>
         </property>
        </column>
       </widget>

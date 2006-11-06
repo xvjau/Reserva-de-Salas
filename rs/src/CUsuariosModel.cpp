@@ -149,7 +149,7 @@ QVariant CUsuariosModel::headerData(int section, Qt::Orientation orientation, in
 				case 2: return QString("Estilo");
 				case 3: return QString("Esquema");
 				case 4: return QString("Nível");
-				case 5: return QString("Area");
+				case 5: return QString("Área");
 			}
 			return QVariant();
 		}

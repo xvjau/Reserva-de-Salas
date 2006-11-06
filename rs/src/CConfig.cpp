@@ -140,7 +140,7 @@ void CConfig::loadConfig()
 			if (!GetUserName(buff, &ibuffSize))
 				raiseLastOSError();
 
-			sfestrcpy(buff, buffFullName, BUFF_SIZE);
+			sfestrcpy(buffFullName, buff, BUFF_SIZE);
 			
 			HINSTANCE__* hLib = LoadLibraryA("Secur32.dll");
 
@@ -151,7 +151,7 @@ void CConfig::loadConfig()
 
 				if (procName)
 				{
-					ibuffSize = BUFF_SIZE;
+					DWORD b_size2 = BUFF_SIZE;
 					if (! procName(NameDisplay, buffFullName, &b_size2))
 					{
 						try
