@@ -139,6 +139,8 @@ bool CData::connect()
 					QString("<b>Foi impossiv&eacute;l connectar-se ao servidor</b><br><br><small>Mensagem do banco:<br>") +
 							QString(e.ErrorMessage()).replace(QChar(10), "<br>") + QString("</small>"),
 					QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+					
+		//m_db->Release();
 		return false;
 	}
 }

@@ -59,6 +59,7 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		
 		bool		m_needRefresh;
 		bool		m_canRefresh;
+		bool		m_initialized;
 		
 	private slots:
 		void on_actionSalas_activated();
@@ -97,6 +98,7 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void setActiveSalaID(int _salaID) {m_activeSalaID = _salaID;};
 
         void showReservaMenu(const QPoint _pos);
+        void initialize();
 };
 
 #endif // __INCLUDE_MAINWINDOW_H

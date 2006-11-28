@@ -25,6 +25,7 @@
 #include "CUsuarios.h"
 #include "CSchemas.h"
 #include "CModelos.h"
+#include "CDBSettings.h"
 
 #include <QStyleFactory>
 #include <QPrintDialog>
@@ -41,7 +42,8 @@ CMainWindow::CMainWindow():
 	m_stylesgroup(this),
 	m_config(0),
 	m_canRefresh(true),
-	m_needRefresh(true)
+	m_needRefresh(true),
+	m_initialized(false)
 {
 	setupUi(this);
 	
@@ -53,21 +55,43 @@ CMainWindow::CMainWindow():
 
 	connect(pbAdicionar, SIGNAL(clicked()), actionAdicionar, SIGNAL(activated()));
 	connect(pbRemover, SIGNAL(clicked()), actionRemover, SIGNAL(activated()));
+	
+	m_mnPopupReserva.addAction(actionImprimirLista);
+	m_mnPopupReserva.addAction(actionCopiar);
+	
+	//m_mnPopupReserva.addAction(actionImprimirReserva);
+	
+	m_mnPopupHoje.addAction(actionHoje);
+	
+	initialize();
+}
+
+CMainWindow::~CMainWindow()
+{
+	m_config->setLastArea( cbArea->currentText() );
+			
+	if (m_salaList)
+		delete m_salaList;
+
+	clearData();
+}
+
+void CMainWindow::initialize()
+{
+	if (m_initialized)
+		return;
+		
+	if (! m_data.connect())
+	{
+		CDBSettings *dbsettings = new CDBSettings(this);
+					
+		dbsettings->setModal(true);
+		dbsettings->show();
+		return;
+	}
 
 	m_config = CConfig::getConfig(&m_data);
 
-	if (! m_data.connect())
-		throw -1;
-
-	cbArea->addItems(*m_data.getAreas());
-	int index = cbArea->findText( m_config->getLastArea() );
-	if (index >= 0)
-		cbArea->setCurrentIndex( index );
-	
-	m_date = QDate::currentDate();
-	m_date = m_date.addDays(m_date.dayOfWeek() * -1 + 1);
-	refreshData(m_date);
-	
 	QStringList styles = QStyleFactory::keys();
 	QAction *action;
 	
@@ -85,6 +109,15 @@ CMainWindow::CMainWindow():
 		
 		menuEstilo->addAction(action);
 	}
+
+	cbArea->addItems(*m_data.getAreas());
+	int index = cbArea->findText( m_config->getLastArea() );
+	if (index >= 0)
+		cbArea->setCurrentIndex( index );
+	
+	m_date = QDate::currentDate();
+	m_date = m_date.addDays(m_date.dayOfWeek() * -1 + 1);
+	refreshData(m_date);
 	
 	switch (m_config->getNivel())
 	{
@@ -119,13 +152,7 @@ CMainWindow::CMainWindow():
 		m_mnPopupReserva.addAction(actionAlterar);
 		m_mnPopupReserva.addSeparator();
 	}
-	m_mnPopupReserva.addAction(actionImprimirLista);
-	m_mnPopupReserva.addAction(actionCopiar);
 	
-	//m_mnPopupReserva.addAction(actionImprimirReserva);
-	
-	m_mnPopupHoje.addAction(actionHoje);
-
 	bool userHasArea = m_data.getAreaId( cbArea->currentIndex() ) == CConfig::getConfig()->getUserAreaID();
 			
 	actionAdicionar->setEnabled(userHasArea);
@@ -134,16 +161,9 @@ CMainWindow::CMainWindow():
 		pbAdicionar->setEnabled(userHasArea);
 	
 	connect(cbArea, SIGNAL(currentIndexChanged(int)), this, SLOT(cbAreaChanged(int)));
-}
-
-CMainWindow::~CMainWindow()
-{
-	m_config->setLastArea( cbArea->currentText() );
-			
-	if (m_salaList)
-		delete m_salaList;
-
-	clearData();
+	
+	m_initialized = true;
+	resizeEvent( 0 );
 }
 
 void CMainWindow::onSetStyle()

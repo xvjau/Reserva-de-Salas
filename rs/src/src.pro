@@ -12,7 +12,9 @@ FORMS += ui/frmain.ui \
          ui/frschemas.ui \
          ui/frusers.ui \
          ui/itemreserva.ui \
-         ui/listareservas.ui 
+         ui/listareservas.ui \
+         ui/frdbsettings.ui \
+         ui/frareas.ui
 HEADERS += CConfig.h \
            CData.h \
            CMainWindow.h \
@@ -27,7 +29,9 @@ HEADERS += CConfig.h \
            CUsuarios.h \
            CUsuariosModel.h \
            main.h \
-           CComboBoxDelegate.h 
+           CComboBoxDelegate.h \
+           CDBSettings.h \
+           CAreas.h
 SOURCES += CConfig.cpp \
            CData.cpp \
            CMainWindow.cpp \
@@ -42,7 +46,9 @@ SOURCES += CConfig.cpp \
            CUsuarios.cpp \
            CUsuariosModel.cpp \
            main.cpp \
-           CComboBoxDelegate.cpp 
+           CComboBoxDelegate.cpp \
+           CDBSettings.cpp \
+           CAreas.cpp
 RESOURCES = res/rs.qrc
 RCC_DIR = $$OBJECTS_DIR
 DEPENDPATH = .
