@@ -188,6 +188,7 @@
     <property name="title" >
      <string>Menu</string>
     </property>
+    <addaction name="actionAreas" />
     <addaction name="actionSalas" />
     <addaction name="actionUsuarios" />
     <addaction name="actionCores" />
@@ -289,6 +290,14 @@
    </property>
    <property name="text" >
     <string>Copiar Lista</string>
+   </property>
+  </action>
+  <action name="actionAreas" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/edit_group.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Áreas</string>
    </property>
   </action>
  </widget>

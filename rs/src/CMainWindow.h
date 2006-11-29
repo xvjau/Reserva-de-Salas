@@ -62,16 +62,17 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		bool		m_initialized;
 		
 	private slots:
-		void on_actionSalas_activated();
- 		void on_actionUsuarios_activated();
- 		void on_actionCores_activated();
-		void on_actionAdicionar_activated();
-		void on_actionRemover_activated();
-		void on_actionAlterar_activated();
-		void on_actionImprimirLista_activated();
-		void on_actionImprimirReserva_activated();
-		void on_actionCopiar_activated();
-		void on_actionHoje_activated();
+		void on_actionSalas_triggered();
+ 		void on_actionUsuarios_triggered();
+ 		void on_actionCores_triggered();
+ 		void on_actionAreas_triggered();
+		void on_actionAdicionar_triggered();
+		void on_actionRemover_triggered();
+		void on_actionAlterar_triggered();
+		void on_actionImprimirLista_triggered();
+		void on_actionImprimirReserva_triggered();
+		void on_actionCopiar_triggered();
+		void on_actionHoje_triggered();
 		void on_btAnte_clicked();
 		void on_btProx_clicked();
 		void onSetStyle();

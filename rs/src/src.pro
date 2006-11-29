@@ -31,7 +31,8 @@ HEADERS += CConfig.h \
            main.h \
            CComboBoxDelegate.h \
            CDBSettings.h \
-           CAreas.h
+           CAreas.h \
+           CAreasModel.h
 SOURCES += CConfig.cpp \
            CData.cpp \
            CMainWindow.cpp \
@@ -48,7 +49,8 @@ SOURCES += CConfig.cpp \
            main.cpp \
            CComboBoxDelegate.cpp \
            CDBSettings.cpp \
-           CAreas.cpp
+           CAreas.cpp \
+           CAreasModel.cpp
 RESOURCES = res/rs.qrc
 RCC_DIR = $$OBJECTS_DIR
 DEPENDPATH = .

@@ -26,6 +26,7 @@
 #include "CSchemas.h"
 #include "CModelos.h"
 #include "CDBSettings.h"
+#include "CAreas.h"
 
 #include <QStyleFactory>
 #include <QPrintDialog>
@@ -52,6 +53,8 @@ CMainWindow::CMainWindow():
 	font.setFamily(QString::fromUtf8("Arial"));
 	lbData->setFont(font);
 	#endif
+
+	connect(pbAdicionar, SIGNAL(clicked()), actionAdicionar, SIGNAL(activated()));
 
 	connect(pbAdicionar, SIGNAL(clicked()), actionAdicionar, SIGNAL(activated()));
 	connect(pbRemover, SIGNAL(clicked()), actionRemover, SIGNAL(activated()));
@@ -357,28 +360,28 @@ void CMainWindow::refreshData(const QDate &_date)
 	m_needRefresh = false;
 }
 
-void CMainWindow::on_actionSalas_activated()
+void CMainWindow::on_actionSalas_triggered()
 {
 	CSalas *salas = new CSalas(this, &m_data);
 	salas->setModal(true);
 	salas->show();
 }
 
-void CMainWindow::on_actionUsuarios_activated()
+void CMainWindow::on_actionUsuarios_triggered()
 {
 	CUsuarios *usuarios = new CUsuarios(&m_data);
 	usuarios->setModal(true);
 	usuarios->show();
 }
 
-void CMainWindow::on_actionCores_activated()
+void CMainWindow::on_actionCores_triggered()
 {
 	CSchemas *schemas = new CSchemas(&m_data);
 	schemas->setModal(true);
 	schemas->show();
 }
 
-void CMainWindow::on_actionAdicionar_activated()
+void CMainWindow::on_actionAdicionar_triggered()
 {
 	CReservaItem *reservaItem;
 
@@ -413,7 +416,7 @@ void CMainWindow::on_actionAdicionar_activated()
 	reservaItem->show();
 }
 
-void CMainWindow::on_actionRemover_activated()
+void CMainWindow::on_actionRemover_triggered()
 {
 	if (m_activeReserva)
 		if (! QMessageBox::question(
@@ -429,7 +432,7 @@ void CMainWindow::on_actionRemover_activated()
 		}
 }
 
-void CMainWindow::on_actionAlterar_activated()
+void CMainWindow::on_actionAlterar_triggered()
 {
 	if (m_activeReserva)
 	{
@@ -536,7 +539,7 @@ void CMainWindow::showReservaMenu(const QPoint _pos)
 	m_mnPopupReserva.popup(_pos);
 }
 
-void CMainWindow::on_actionImprimirLista_activated()
+void CMainWindow::on_actionImprimirLista_triggered()
 {
 	QPrintDialog printDialog(&m_printer, this);
 	if (printDialog.exec() == QDialog::Accepted)
@@ -551,7 +554,7 @@ void CMainWindow::on_actionImprimirLista_activated()
 	};
 }
 
-void CMainWindow::on_actionImprimirReserva_activated()
+void CMainWindow::on_actionImprimirReserva_triggered()
 {
 	QPrintDialog printDialog(&m_printer, this);
 	if (printDialog.exec() == QDialog::Accepted)
@@ -566,7 +569,7 @@ void CMainWindow::on_actionImprimirReserva_activated()
 	};
 }
 
-void CMainWindow::on_actionCopiar_activated()
+void CMainWindow::on_actionCopiar_triggered()
 {
 	QString str;
 	const char sep = 9;
@@ -592,11 +595,18 @@ void CMainWindow::on_actionCopiar_activated()
 	QApplication::clipboard()->setText(str);
 }
 
-void CMainWindow::on_actionHoje_activated()
+void CMainWindow::on_actionHoje_triggered()
 {
 	QDate date = QDate::currentDate();
 	date = date.addDays(date.dayOfWeek() * -1 + 1);
 	refreshData(date);
+}
+
+void CMainWindow::on_actionAreas_triggered()
+{
+	CAreas *areas = new CAreas(&m_data);
+	areas->setModal(true);
+	areas->show();
 }
 
 void CMainWindow::cbAreaChanged(int index)
