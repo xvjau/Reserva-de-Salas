@@ -45,12 +45,12 @@ void CAreas::onAccept()
 	m_model->CommitData();
 }
 
-void CAreas::on_pdAdcionar_clicked()
+void CAreas::on_pbAdcionar_pressed()
 {
 	m_model->insertRows(m_model->rowCount(), 1);
 }
 
-void CAreas::on_pdRemover_clicked()
+void CAreas::on_pbRemover_pressed()
 {
 	QModelIndex index = tableView->selectionModel()->currentIndex();
 	

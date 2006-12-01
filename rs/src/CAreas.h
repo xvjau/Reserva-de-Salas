@@ -37,10 +37,10 @@ class CAreas: public QDialog, public Ui::areas
 	private:
 		CAreasModel*	m_model;
 		
-	private slots:
+	protected slots:
 		void onAccept();
-		void on_pdAdcionar_clicked();
-		void on_pdRemover_clicked();
+		void on_pbAdcionar_pressed();
+		void on_pbRemover_pressed();
 };
 
 #endif /*CAREAS_H_*/
