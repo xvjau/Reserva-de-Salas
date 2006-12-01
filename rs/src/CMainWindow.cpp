@@ -156,8 +156,8 @@ void CMainWindow::initialize()
 		m_mnPopupReserva.addSeparator();
 	}
 	
-	bool userHasArea = m_data.getAreaId( cbArea->currentIndex() ) == CConfig::getConfig()->getUserAreaID();
-			
+	bool userHasArea = (m_config->getNivel() == 3) || (m_data.getAreaId( cbArea->currentIndex() ) == CConfig::getConfig()->getUserAreaID());
+	
 	actionAdicionar->setEnabled(userHasArea);
 
 	if (pbAdicionar)
