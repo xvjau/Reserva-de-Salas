@@ -1,11 +1,3 @@
-/* Please note that this script doesn't maintain
-   proper order of creation for computed columns if
-   they reference other tables.  */
-
-/********************* ROLES **********************/
-
-/********************* UDFS ***********************/
-
 DECLARE EXTERNAL FUNCTION MOD
 Integer, Integer
 RETURNS Double precision BY VALUE 
