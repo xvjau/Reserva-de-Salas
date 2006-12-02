@@ -150,10 +150,7 @@ bool CAreasModel::setData(const QModelIndex &index, const QVariant &value, int r
 
 Qt::ItemFlags CAreasModel::flags(const QModelIndex & index) const
 {
-	if (index.column() == 0)
-		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
-	else
-		return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
+	return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
 }
 
 bool CAreasModel::insertRows(int row, int count, const QModelIndex & parent)
@@ -164,12 +161,24 @@ bool CAreasModel::insertRows(int row, int count, const QModelIndex & parent)
 	try
 	{
 		Statement stmt = StatementFactory(m_data->m_db, *m_tr);
-		
+
 		stmt->Execute("Select GEN_ID(GENAREAS, 1) From RDB$DATABASE");
+
+		stmt->Fetch();
 		stmt->Get(1, rowData->AREAID);
+				
 		stmt->Close();
+
+		rowData->AREA = "Nova área";
 		
 		m_rows.push_back(rowData);
+
+
+		stmt->Prepare("Insert into AREAS (AREAID, AREA) Values (?, ?)");
+		stmt->Set(1, rowData->AREAID);
+		stmt->Set(2, rowData->AREA.toStdString());
+		stmt->Execute();
+		
 		endInsertRows();
 		
 		return true;
@@ -184,8 +193,9 @@ bool CAreasModel::insertRows(int row, int count, const QModelIndex & parent)
 
 bool CAreasModel::removeRows(int row, int count, const QModelIndex & parent)
 {
-	return false;
 	beginRemoveRows(parent, row, row + count - 1);
 	
 	endRemoveRows();
+
+	return false;
 }
