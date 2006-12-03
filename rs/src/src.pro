@@ -61,8 +61,7 @@ UI_DIR = ../obj
 OBJECTS_DIR = ../obj
 TARGET = rs
 DESTDIR = ../bin
-CONFIG += debug \
-warn_off \
+CONFIG += warn_off \
 qt \
 exceptions
 TEMPLATE = app

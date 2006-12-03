@@ -1,11 +1,15 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="0" />
+ <DocsAndViews NumberOfDocuments="1" >
+  <Doc0 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/db/install.sh" >
+   <View0 line="2" Type="Source" />
+  </Doc0>
+ </DocsAndViews>
  <pluginList>
   <kdevdebugger>
    <breakpointList>
-    <breakpoint0 location="/home/gianni/Projetos/rs/src/CSalasItem.cpp:63" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
+    <breakpoint0 location="/home/gianni/Projetos/rs/src/CAreas.cpp:46" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
      <tracedExpressions/>
     </breakpoint0>
    </breakpointList>
