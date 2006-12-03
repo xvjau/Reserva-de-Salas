@@ -22,16 +22,17 @@
 #include "CAreas.h"
 #include <QMessageBox>
 
-CAreas::CAreas(CData* _data):
+CAreas::CAreas(CData* _data, CMainWindow* _form):
 	m_model(0)
 {
 	setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose);
 	
-	connect(this, SIGNAL(accepted()), this, SLOT(onAccept()));
-		
 	m_model = new CAreasModel(_data);
 	tableView->setModel(m_model);
+
+	connect(this, SIGNAL(accepted()), this, SLOT(onAccept()));
+	connect(this, SIGNAL(accepted()), _form, SLOT(refreshAreas()));
 }
 
 CAreas::~CAreas()

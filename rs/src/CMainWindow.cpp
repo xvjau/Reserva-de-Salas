@@ -113,7 +113,7 @@ void CMainWindow::initialize()
 		menuEstilo->addAction(action);
 	}
 
-	cbArea->addItems(*m_data.getAreas());
+	refreshAreas();
 	int index = cbArea->findText( m_config->getLastArea() );
 	if (index >= 0)
 		cbArea->setCurrentIndex( index );
@@ -457,6 +457,15 @@ void CMainWindow::refreshSalas()
 	delete m_salaList;
 	m_salaList = 0;
 	refreshData(m_date);
+	resizeEvent( 0 );
+}
+
+void CMainWindow::refreshAreas()
+{
+	if (cbArea->count())
+		cbArea->clear();
+	
+	cbArea->addItems(*m_data.refreshAreas());
 }
 
 void CMainWindow::on_btAnte_clicked()
@@ -604,7 +613,7 @@ void CMainWindow::on_actionHoje_triggered()
 
 void CMainWindow::on_actionAreas_triggered()
 {
-	CAreas *areas = new CAreas(&m_data);
+	CAreas *areas = new CAreas(&m_data, this);
 	areas->setModal(true);
 	areas->show();
 }

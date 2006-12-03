@@ -25,18 +25,19 @@
 #include "../obj/ui_frareas.h"
 #include "CAreasModel.h"
 #include "CData.h"
+#include "CMainWindow.h"
 
 class CAreas: public QDialog, public Ui::areas
 {
 	Q_OBJECT
 	
 	public:
-		CAreas(CData* _data);
+		CAreas(CData* _data, CMainWindow* _form);
 		~CAreas();
 		
 	private:
 		CAreasModel*	m_model;
-		
+
 	protected slots:
 		void onAccept();
 		void on_pbAdcionar_pressed();

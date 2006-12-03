@@ -137,6 +137,16 @@ bool CAreasModel::setData(const QModelIndex &index, const QVariant &value, int r
 			
 			return true;
 		}
+		catch (SQLException &e)
+		{
+			std::cerr << e.ErrorMessage() << std::endl;
+			if (e.SqlCode() == -803)
+				QMessageBox("Erro", "Já existe uma área com esse nome.", QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			else
+				QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			
+			return false;
+		}
 		catch (Exception &e)
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
@@ -169,7 +179,7 @@ bool CAreasModel::insertRows(int row, int count, const QModelIndex & parent)
 				
 		stmt->Close();
 
-		rowData->AREA = "Nova área";
+		rowData->AREA = QString("Nova área ") + QString::number( rowData->AREAID );
 		
 		m_rows.push_back(rowData);
 
@@ -194,8 +204,27 @@ bool CAreasModel::insertRows(int row, int count, const QModelIndex & parent)
 bool CAreasModel::removeRows(int row, int count, const QModelIndex & parent)
 {
 	beginRemoveRows(parent, row, row + count - 1);
-	
-	endRemoveRows();
 
+	ROW_AREAS *rowData = m_rows[row];
+	try
+	{
+		Statement stmt = StatementFactory(m_data->m_db, *m_tr);
+
+		stmt->Prepare("Delete From AREAS Where AREAID = ?");
+		stmt->Set(1, rowData->AREAID);
+		stmt->Execute();
+		stmt->Close();
+
+		m_rows.removeAt(row);
+		
+		endRemoveRows();
+		
+		return true;
+	}
+	catch (Exception &e)
+	{
+		std::cerr << e.ErrorMessage() << std::endl;
+		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+	}
 	return false;
 }

@@ -92,6 +92,7 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		
 	public slots:
 		void refreshSalas();
+		void refreshAreas();
 		void refreshData(const QDate &_date);
 		
 		void setActiveReserva(CReservaList::CReserva *_reserva);

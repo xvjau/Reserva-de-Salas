@@ -198,6 +198,16 @@ int CData::getAreaId(const int _areaListIndex)
 	return m_areasId->value(_areaListIndex);
 };
 
+QStringList* CData::refreshAreas()
+{
+	if (m_areas)
+	{
+		delete m_areas;
+		m_areas = 0;
+	}
+	return getAreas();
+}
+
 QStringList* CData::getAreas()
 {
 	if (m_areas)

@@ -75,6 +75,7 @@ class CData: public QObject
 		
 		QPalette*		getColorScheme(int _id) { return m_colorSchemes[_id]; };
 		QStringList*	getAreas();
+		QStringList*	refreshAreas();
 		int				getAreaId(const int _areaListIndex);
 		int				getAreaId(const QString &_area) {return getAreaId(getAreas()->indexOf(_area)); };
 };
