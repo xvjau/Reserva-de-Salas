@@ -1,0 +1,80 @@
+Installation Instructions
+-------------------------
+
+ 1 - Install FirebirdSQL server
+
+ 2 - Setup user account
+
+ 3 - Install the database
+
+
+
+
+1 - Install FirebirdSQL server
+------------------------------
+
+RS is developed using version 2.0 of the FirebirdSQL RDBMS.  It is known to work in version 1.5, although it hasn't been tested thoroughly.  For detailed information on the install procedures please visit:  http://www.firebirdsql.org/
+
+RS will work on either the "Classic" or the "Super-Server" version of FirebirdSQL.  They can be downloaded here:
+
+http://www.firebirdsql.org/index.php?op=files&id=engine_200
+
+
+
+
+2 - Setup user account
+----------------------
+
+This is optional, although strongly recommended.  This will create an account to be used by all the RS clients.  Since the clients will need the account information, including passwords, one way or another (i.e. encrypted or not), it is better to give them a limited account and not use the SYSDBA account.
+
+The default account usually is user "RS" with password "rs".  This, however, can be configured to your heart's desire.  To create the account in linux, the following sequence of commands can be used:
+
+	tux@linux$ /opt/firebird/bin/gsec -user "SYSDBA" -password "masterkey"
+	GSEC> add RS -pw rs
+	GSEC> quit
+	tux@linux$
+
+Please substitute "masterkey" for your SYSDBA password if it differs.  If you are unsure or can't connect, please refer to the /opt/firebird/SYSDBA.password file; it might hold your proper password.
+
+
+
+
+3 - Install the database
+------------------------
+
+First, it is recommended that an alias for the RS database is created, to do that simply add the to:
+
+	/opt/firebird/aliases.conf
+
+a line like:
+
+	RS = /var/db/firebird/rs.fdb
+
+
+or for "other OSes":
+
+	%ProgramFiles%\Firebird\Firebird_2_0\bin\aliases.conf
+
+	RS = C:\var\db\rs.fdb
+
+
+NOTE: The actual path and/or filename do not matter if you create an alias.
+
+NOTE 2: If you do not wish to do this, please substitute "RS" for the complete path/filename in all the following instructions as well as typing it in full in the database configuration screen when the client tries to connect.
+
+
+There are two ways of creating the database.  There is the recommended way of running the creation script, or the simplified way of just restoring a backup.
+
+
+NOTE: The default character set used throughout these examples is the "ISO8859_1".  If you wish to use a different set, you must change the creation script and the command line below, and also may not use the backup method of creating the database.  The client must also be configured to use the proper character set.
+
+
+3a - Running the script
+
+	tux@linux$ /opt/firebird/bin/isql -d RS -ch ISO8859_1 -u SYSDBA -p masterkey -i rs.sql
+
+
+
+3b - Restoring the backup
+
+	tux@linux$ /opt/firebird/bin/gbak -C -V -USER SYSDBA -PAS masterkey rs.fbk localhost:RS
