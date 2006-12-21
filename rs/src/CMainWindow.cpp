@@ -54,10 +54,11 @@ CMainWindow::CMainWindow():
 	lbData->setFont(font);
 	#endif
 
-	connect(pbAdicionar, SIGNAL(clicked()), actionAdicionar, SIGNAL(activated()));
-
-	connect(pbAdicionar, SIGNAL(clicked()), actionAdicionar, SIGNAL(activated()));
-	connect(pbRemover, SIGNAL(clicked()), actionRemover, SIGNAL(activated()));
+	if ( ! connect(pbAdicionar, SIGNAL(clicked()), actionAdicionar, SIGNAL(triggered())) )
+		std::cout << "Unable to connect pbAdcionar(clicked()) -> actionAdcionar(triggered())" << std::endl;
+		
+	if ( ! connect(pbRemover, SIGNAL(clicked()), actionRemover, SIGNAL(triggered())) )
+		std::cout << "Unable to connect pbRemover(clicked()) -> actionRemover(triggered())" << std::endl;
 	
 	m_mnPopupReserva.addAction(actionImprimirLista);
 	m_mnPopupReserva.addAction(actionCopiar);

@@ -63,7 +63,8 @@ TARGET = rs
 DESTDIR = ../bin
 CONFIG += warn_off \
 qt \
-exceptions
+exceptions \ 
+debug
 TEMPLATE = app
 LIBS += ../obj/libibpp.a
 linux-g++{
