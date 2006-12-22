@@ -156,7 +156,9 @@ void CConfig::loadConfig()
 					{
 						try
 						{
+							#ifdef __DEBUG__
 							raiseLastOSError();
+							#endif
 						}
 						catch (...)
 						{
