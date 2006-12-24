@@ -140,7 +140,7 @@ bool CData::connect()
 							QString(e.ErrorMessage()).replace(QChar(10), "<br>") + QString("</small>"),
 					QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 					
-		//m_db->Release();
+
 		return false;
 	}
 }
@@ -639,8 +639,12 @@ CReservaList::CReserva::CReserva(CReservaList *_owner):
 	vboxLayout1->setSpacing(0);
 	vboxLayout1->setMargin(0);
 	vboxLayout1->setObjectName(QString::fromUtf8("vboxLayout1"));
-	
+
+#if QT_VERSION < 0x040200
 	QSizePolicy sizePolicyFixed(static_cast<QSizePolicy::Policy>(0), static_cast<QSizePolicy::Policy>(13));
+#else
+	QSizePolicy sizePolicyFixed(static_cast<QSizePolicy::Policy>(0), static_cast<QSizePolicy::Policy>(1));
+#endif
 	sizePolicyFixed.setHorizontalStretch(0);
 	sizePolicyFixed.setVerticalStretch(0);
 	sizePolicyFixed.setHeightForWidth(false);
@@ -699,8 +703,8 @@ CReservaList::CReserva::CReserva(CReservaList *_owner):
 	vboxLayout->addLayout(hboxLayout);
 	
 	setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
-	setLineWidth(1);
-	setMidLineWidth(2);
+	setLineWidth(2);
+	setMidLineWidth(1);
 }
 
 CReservaList::CReserva::~CReserva()
