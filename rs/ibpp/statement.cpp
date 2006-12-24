@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	File    : $Id: statement.cpp 56 2006-03-31 14:32:45Z epocman $
+//	File    : $Id: statement.cpp 85 2006-07-23 11:10:57Z epocman $
 //	Subject : IBPP, Service class implementation
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ void StatementImpl::Prepare(const std::string& sql)
 
 	// Saves the SQL sentence, only for reporting reasons in case of errors
 	mSql = sql;
-	
+
 	IBS status;
 
 	// Free all resources currently attached to this Statement, then allocate
@@ -90,7 +90,7 @@ void StatementImpl::Prepare(const std::string& sql)
 	// Allocates output descriptor and prepares the statement
 	mOutRow = new RowImpl(mDatabase->Dialect(), outEstimate, mDatabase, mTransaction);
 	mOutRow->AddRef();
-	
+
 	status.Reset();
 	(*gds.Call()->m_dsql_prepare)(status.Self(), mTransaction->GetHandlePtr(),
 		&mHandle, (short)sql.length(), const_cast<char*>(sql.c_str()),
@@ -175,7 +175,7 @@ void StatementImpl::Prepare(const std::string& sql)
 		// Ready an input descriptor
 		mInRow = new RowImpl(mDatabase->Dialect(), inEstimate, mDatabase, mTransaction);
 		mInRow->AddRef();
-		
+
 		status.Reset();
 		(*gds.Call()->m_dsql_describe_bind)(status.Self(), &mHandle, 1, mInRow->Self());
 		if (status.Errors())
@@ -205,7 +205,7 @@ void StatementImpl::Prepare(const std::string& sql)
 					<< mInRow->AllocatedSize()<< _(" to ")
 					<< mInRow->Columns()<< fds;
 			*/
-			
+
 			mInRow->Resize(mInRow->Columns());
 			status.Reset();
 			(*gds.Call()->m_dsql_describe_bind)(status.Self(), &mHandle, 1, mInRow->Self());
@@ -285,7 +285,11 @@ void StatementImpl::Execute(const std::string& sql)
 			throw SQLExceptionImpl(status, context.c_str(),
 				_("isc_dsql_execute failed"));
 		}
-		if (mOutRow != 0) mResultSetAvailable = true;
+		if (mOutRow != 0)
+		{
+			mResultSetAvailable = true;
+			mCursorOpened = true;
+		}
 	}
 	else
 	{
@@ -347,6 +351,7 @@ void StatementImpl::CursorExecute(const std::string& cursor, const std::string& 
 	}
 
 	mResultSetAvailable = true;
+	mCursorOpened = true;
 }
 
 void StatementImpl::ExecuteImmediate(const std::string& sql)
@@ -418,6 +423,10 @@ bool StatementImpl::Fetch()
 	int code = (*gds.Call()->m_dsql_fetch)(status.Self(), &mHandle, 1, mOutRow->Self());
 	if (code == 100)	// This special code means "no more rows"
 	{
+		mResultSetAvailable = false;
+		// Oddly enough, fetching rows up to the last one seems to open
+		// an 'implicit' cursor that needs to be closed.
+		mCursorOpened = true;
 		CursorFree();	// Free the explicit or implicit cursor/result-set
 		return false;
 	}
@@ -445,6 +454,10 @@ bool StatementImpl::Fetch(IBPP::Row& row)
 					rowimpl->Self());
 	if (code == 100)	// This special code means "no more rows"
 	{
+		mResultSetAvailable = false;
+		// Oddly enough, fetching rows up to the last one seems to open
+		// an 'implicit' cursor that needs to be closed.
+		mCursorOpened = true;
 		CursorFree();	// Free the explicit or implicit cursor/result-set
 		row.clear();
 		return false;
@@ -469,6 +482,7 @@ void StatementImpl::Close()
 	if (mOutRow != 0) { mOutRow->Release(); mOutRow = 0; }
 
 	mResultSetAvailable = false;
+	mCursorOpened = false;
 	mType = IBPP::stUnknown;
 
 	if (mHandle != 0)
@@ -477,7 +491,7 @@ void StatementImpl::Close()
 		(*gds.Call()->m_dsql_free_statement)(status.Self(), &mHandle, DSQL_drop);
 		mHandle = 0;
 		if (status.Errors())
-			throw SQLExceptionImpl(status, "Statement::Close",
+			throw SQLExceptionImpl(status, "Statement::Close(DSQL_drop)",
 				_("isc_dsql_free_statement failed."));
 	}
 }
@@ -518,7 +532,7 @@ void StatementImpl::Set(int param, const void* bindata, int len)
 		throw LogicExceptionImpl("Statement::Set[void*]", _("No statement has been prepared."));
 	if (mInRow == 0)
 		throw LogicExceptionImpl("Statement::Set[void*]", _("The statement does not take parameters."));
-		
+
 	mInRow->Set(param, bindata, len);
 }
 
@@ -538,7 +552,7 @@ void StatementImpl::Set(int param, int16_t value)
 		throw LogicExceptionImpl("Statement::Set[int16_t]", _("No statement has been prepared."));
 	if (mInRow == 0)
 		throw LogicExceptionImpl("Statement::Set[int16_t]", _("The statement does not take parameters."));
-											
+
 	mInRow->Set(param, value);
 }
 
@@ -838,7 +852,7 @@ bool StatementImpl::Get(int column, IBPP::Array& array)
 {
 	if (mOutRow == 0)
 		throw LogicExceptionImpl("Statement::Get", _("The row is not initialized."));
-	
+
 	return mOutRow->Get(column, array);
 }
 
@@ -848,7 +862,7 @@ const IBPP::Value StatementImpl::Get(int column)
 	if (mOutRow == 0)
 		throw LogicExceptionImpl("Statement::Get", _("The row is not initialized."));
 
-	return mOutRow->Get(column); 
+	return mOutRow->Get(column);
 }
 */
 
@@ -1251,17 +1265,17 @@ void StatementImpl::DetachTransactionImpl()
 
 void StatementImpl::CursorFree()
 {
-	if (mResultSetAvailable)
+	if (mCursorOpened)
 	{
+		mCursorOpened = false;
 		if (mHandle != 0)
 		{
 			IBS status;
 			(*gds.Call()->m_dsql_free_statement)(status.Self(), &mHandle, DSQL_close);
 			if (status.Errors())
-				throw SQLExceptionImpl(status, "StatementImpl::CursorFree",
+				throw SQLExceptionImpl(status, "StatementImpl::CursorFree(DSQL_close)",
 					_("isc_dsql_free_statement failed."));
 		}
-		mResultSetAvailable = false;
 	}
 }
 
@@ -1269,7 +1283,7 @@ StatementImpl::StatementImpl(DatabaseImpl* database, TransactionImpl* transactio
 	const std::string& sql)
 	: mRefCount(0), mHandle(0), mDatabase(0), mTransaction(0),
 	mInRow(0), mOutRow(0),
-	mResultSetAvailable(false), mType(IBPP::stUnknown)
+	mResultSetAvailable(false), mCursorOpened(false), mType(IBPP::stUnknown)
 {
 	AttachDatabaseImpl(database);
 	if (transaction != 0) AttachTransactionImpl(transaction);

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	File    : $Id: _ibpp.h 59 2006-04-03 09:53:34Z epocman $
+//	File    : $Id: _ibpp.h 69 2006-04-11 13:18:22Z epocman $
 //	Subject : IBPP internal declarations
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -922,11 +922,11 @@ public:
 	//	(((((((( OBJECT INTERFACE ))))))))
 
 public:
-    void AttachDatabase(IBPP::Database& db, IBPP::TAM am = IBPP::amWrite,
+    void AttachDatabase(IBPP::Database db, IBPP::TAM am = IBPP::amWrite,
 			IBPP::TIL il = IBPP::ilConcurrency,
 			IBPP::TLR lr = IBPP::lrWait, IBPP::TFF flags = IBPP::TFF(0));
-    void DetachDatabase(IBPP::Database& db);
-	void AddReservation(IBPP::Database& db,
+    void DetachDatabase(IBPP::Database db);
+	void AddReservation(IBPP::Database db,
 			const std::string& table, IBPP::TTR tr);
 
     void Start();
@@ -1067,7 +1067,8 @@ private:
 	RowImpl* mInRow;
 	//bool* mInMissing;			// Quels paramètres n'ont pas été spécifiés
 	RowImpl* mOutRow;
-	bool mResultSetAvailable;	// A été exécuté et un result set est disponible
+	bool mResultSetAvailable;	// Executed and result set is available
+	bool mCursorOpened;			// dsql_set_cursor_name was called
 	IBPP::STT mType;			// Type de requète
 	std::string mSql;			// Last SQL statement prepared or executed
 
@@ -1351,7 +1352,6 @@ class EventsImpl : public IBPP::IEvents
 
 	int mRefCount;		// Reference counter
 
-	bool mAsync;			// Are events of this set to be triggered asynchronously?
 	DatabaseImpl* mDatabase;
 	ISC_LONG mId;			// Firebird internal Id of these events
 	bool mQueued;			// Has isc_que_events() been called?
@@ -1368,7 +1368,7 @@ public:
 	void AttachDatabaseImpl(DatabaseImpl*);
 	void DetachDatabaseImpl();
 	
-	EventsImpl(DatabaseImpl* dbi, bool async);
+	EventsImpl(DatabaseImpl* dbi);
 	~EventsImpl();
 		
 	//	(((((((( OBJECT INTERFACE ))))))))
@@ -1379,7 +1379,6 @@ public:
 	void List(std::vector<std::string>&);
 	void Clear();				// Drop all events
 	void Dispatch();			// Dispatch NON async events
-	bool Asynchronous() const { return mAsync; }
 
 	IBPP::Database DatabasePtr() const;
 

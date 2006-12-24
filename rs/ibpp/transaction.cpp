@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	File    : $Id: transaction.cpp 54 2006-03-27 16:07:44Z epocman $
+//	File    : $Id: transaction.cpp 75 2006-05-12 08:40:41Z epocman $
 //	Subject : IBPP, Database class implementation
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@ using namespace ibpp_internals;
 
 //	(((((((( OBJECT INTERFACE IMPLEMENTATION ))))))))
 
-void TransactionImpl::AttachDatabase(IBPP::Database& db,
+void TransactionImpl::AttachDatabase(IBPP::Database db,
 	IBPP::TAM am, IBPP::TIL il, IBPP::TLR lr, IBPP::TFF flags)
 {
 	if (db.intf() == 0)
@@ -53,7 +53,7 @@ void TransactionImpl::AttachDatabase(IBPP::Database& db,
 	AttachDatabaseImpl(dynamic_cast<DatabaseImpl*>(db.intf()), am, il, lr, flags);
 }
 
-void TransactionImpl::DetachDatabase(IBPP::Database& db)
+void TransactionImpl::DetachDatabase(IBPP::Database db)
 {
 	if (db.intf() == 0)
 		throw LogicExceptionImpl("Transaction::DetachDatabase",
@@ -62,7 +62,7 @@ void TransactionImpl::DetachDatabase(IBPP::Database& db)
 	DetachDatabaseImpl(dynamic_cast<DatabaseImpl*>(db.intf()));
 }
 
-void TransactionImpl::AddReservation(IBPP::Database& db,
+void TransactionImpl::AddReservation(IBPP::Database db,
 	const std::string& table, IBPP::TTR tr)
 {
 	if (mHandle != 0)
@@ -162,11 +162,6 @@ void TransactionImpl::Commit()
 	if (status.Errors())
 		throw SQLExceptionImpl(status, "Transaction::Commit");
 	mHandle = 0;	// Should be, better be sure
-
-	size_t i;
-	for (i = mStatements.size(); i != 0; i--)
-		try { mStatements[i-1]->CursorFree(); }
-			catch (IBPP::Exception&) { }
 }
 
 void TransactionImpl::CommitRetain()
@@ -191,11 +186,6 @@ void TransactionImpl::Rollback()
 	if (status.Errors())
 		throw SQLExceptionImpl(status, "Transaction::Rollback");
 	mHandle = 0;	// Should be, better be sure
-
-	size_t i;
-	for (i = mStatements.size(); i != 0; i--)
-		try { mStatements[i-1]->CursorFree(); }
-			catch (IBPP::Exception&) { }
 }
 
 void TransactionImpl::RollbackRetain()

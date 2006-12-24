@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	File    : $Id: _ibpp.cpp 57 2006-04-02 17:44:00Z epocman $
+//	File    : $Id: _ibpp.cpp 75 2006-05-12 08:40:41Z epocman $
 //	Subject : IBPP, Initialization of the library
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -74,6 +74,10 @@ namespace ibpp_internals
 
 	GDS gds;	// Global unique GDS instance
 
+#ifdef IBPP_WINDOWS
+	std::string AppPath;	// Used by GDS::Call() below
+#endif
+
 #ifdef _DEBUG
 	std::ostream& operator<< (std::ostream& a, flush_debug_stream_type)
 	{
@@ -101,7 +105,7 @@ GDS* GDS::Call()
 	{
 #ifdef IBPP_WINDOWS
 
-		// Let's load the FBCLIENT.DLL or GDS32.DLL, we won't release it.
+		// Let's load the FBCLIENT.DLL or GDS32.DLL, we will never release it.
 		// Windows will do that for us when the executable will terminate.
 
 		char fbdll[MAX_PATH];
@@ -109,8 +113,14 @@ GDS* GDS::Call()
 
 		// Try to load FBCLIENT.DLL from each of the additional optional paths
 		// that may have been specified through ClientLibSearchPaths().
+		// We also want to actually update the environment PATH so that it references
+		// the specific path from where we attempt the load. This is useful because
+		// it directs the system to attempt finding dependencies (like the C/C++
+		// runtime libraries) from the same location where FBCLIENT is found.
+
 		mHandle = 0;
 
+		std::string SysPath(getenv("PATH"));
 		std::string::size_type pos = 0;
 		while (pos < mSearchPaths.size())
 		{
@@ -123,6 +133,11 @@ GDS* GDS::Call()
 			if (path.size() >= 1)
 			{
 				if (path[path.size()-1] != '\\') path += '\\';
+
+				AppPath.assign("PATH=");
+				AppPath.append(path).append(";").append(SysPath);
+				putenv(AppPath.c_str());
+
 				path.append("fbclient.dll");
 				mHandle = LoadLibrary(path.c_str());
 				if (mHandle != 0 || newpos == std::string::npos) break;
@@ -135,6 +150,14 @@ GDS* GDS::Call()
 			// Try to load FBCLIENT.DLL from the current application location.  This
 			// is a usefull step for applications using the embedded version of FB
 			// or a local copy (for whatever reasons) of the dll.
+
+			if (! AppPath.empty())
+			{
+				// Restores the original system path
+				AppPath.assign("PATH=");
+				AppPath.append(SysPath);
+				putenv(AppPath.c_str());
+			}
 
 			int len = GetModuleFileName(NULL, fbdll, sizeof(fbdll));
 			if (len != 0)
@@ -157,10 +180,7 @@ GDS* GDS::Call()
 
 		if (mHandle == 0)
 		{
-			// Try to locate FBCLIENT.DLL through the optional FB 1.5 registry
-			// key. Note that this will have to be enhanced in a later version
-			// of IBPP in order to be able to select among multiple instances
-			// that Firebird Server version > 1.5 might introduce.
+			// Try to locate FBCLIENT.DLL through the optional FB registry key.
 
 			if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, REG_KEY_ROOT_INSTANCES, 0,
 				KEY_READ, &hkey_instances) == ERROR_SUCCESS)
@@ -302,7 +322,7 @@ namespace IBPP
 								UserPassword, RoleName, CharSet, CreateParams);
 	}
 
-	Transaction TransactionFactory(Database& db, TAM am,
+	Transaction TransactionFactory(Database db, TAM am,
 					TIL il, TLR lr, TFF flags)
 	{
 		(void)gds.Call();			// Triggers the initialization, if needed
@@ -310,7 +330,7 @@ namespace IBPP
 									am, il, lr, flags);
 	}
 
-	Statement StatementFactory(Database& db, Transaction& tr,
+	Statement StatementFactory(Database db, Transaction tr,
 		const std::string& sql)
 	{
 		(void)gds.Call();			// Triggers the initialization, if needed
@@ -319,24 +339,24 @@ namespace IBPP
 									sql);
 	}
 
-	Blob BlobFactory(Database& db, Transaction& tr)
+	Blob BlobFactory(Database db, Transaction tr)
 	{
 		(void)gds.Call();			// Triggers the initialization, if needed
 		return new BlobImpl(dynamic_cast<DatabaseImpl*>(db.intf()),
 							dynamic_cast<TransactionImpl*>(tr.intf()));
 	}
 
-	Array ArrayFactory(Database& db, Transaction& tr)
+	Array ArrayFactory(Database db, Transaction tr)
 	{
 		(void)gds.Call();			// Triggers the initialization, if needed
 		return new ArrayImpl(dynamic_cast<DatabaseImpl*>(db.intf()),
 							dynamic_cast<TransactionImpl*>(tr.intf()));
 	}
 
-	Events EventsFactory(Database& db, bool async)
+	Events EventsFactory(Database db)
 	{
 		(void)gds.Call();			// Triggers the initialization, if needed
-		return new EventsImpl(dynamic_cast<DatabaseImpl*>(db.intf()), async);
+		return new EventsImpl(dynamic_cast<DatabaseImpl*>(db.intf()));
 	}
 
 }

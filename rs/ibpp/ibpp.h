@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	File    : $Id: ibpp.h 62 2006-04-04 09:13:50Z epocman $
+//	File    : $Id: ibpp.h 89 2006-07-23 13:22:12Z epocman $
 //	Subject : IBPP public header file. This is _the_ only file you include in
 //			  your application files when developing with IBPP.
 //
@@ -95,7 +95,7 @@ namespace IBPP
 {
 	//	Typically you use this constant in a call IBPP::CheckVersion as in:
 	//	if (! IBPP::CheckVersion(IBPP::Version)) { throw .... ; }
-	const uint32_t Version = (2<<24) + (5<<16) + (1<<8) + 62; // Version == 2.5.1.62
+	const uint32_t Version = (2<<24) + (5<<16) + (3<<8) + 0; // Version == 2.5.3.0
 
 	//	Dates range checking
 	const int MinDate = -693594;	//  1 JAN 0001
@@ -244,8 +244,10 @@ namespace IBPP
 		Date& operator=(const Timestamp&);			// Timestamp Assignment operator
 		Date& operator=(const Date&);				// Date Assignment operator
 
-		bool operator==(const Date& rv)	{ return mDate == rv.GetDate(); }
-		bool operator<(const Date& rv) { return mDate < rv.GetDate(); }
+		bool operator==(const Date& rv)	const { return mDate == rv.GetDate(); }
+		bool operator!=(const Date& rv)	const { return mDate != rv.GetDate(); }
+		bool operator<(const Date& rv) const { return mDate < rv.GetDate(); }
+		bool operator>(const Date& rv) const { return mDate > rv.GetDate(); }
 
 		virtual ~Date() { };
 	};
@@ -277,8 +279,10 @@ namespace IBPP
 		Time& operator=(const Timestamp&);			// Timestamp Assignment operator
 		Time& operator=(const Time&);				// Time Assignment operator
 
-		bool operator==(const Time& rv)	{ return mTime == rv.GetTime(); }
-		bool operator<(const Time& rv) { return mTime < rv.GetTime(); }
+		bool operator==(const Time& rv)	const { return mTime == rv.GetTime(); }
+		bool operator!=(const Time& rv)	const { return mTime != rv.GetTime(); }
+		bool operator<(const Time& rv) const { return mTime < rv.GetTime(); }
+		bool operator>(const Time& rv) const { return mTime > rv.GetTime(); }
 
 		virtual ~Time() { };
 	};
@@ -321,12 +325,19 @@ namespace IBPP
 		Timestamp& operator=(const Time& rv)		// Time Assignment operator
 			{ mTime = rv.GetTime(); return *this; }
 
-		bool operator==(const Timestamp& rv)
+		bool operator==(const Timestamp& rv) const
 			{ return (mDate == rv.GetDate()) && (mTime == rv.GetTime()); }
 
-		bool operator<(const Timestamp& rv)
+		bool operator!=(const Timestamp& rv) const
+			{ return (mDate != rv.GetDate()) || (mTime != rv.GetTime()); }
+
+		bool operator<(const Timestamp& rv) const
 			{ return (mDate < rv.GetDate()) ||
 				(mDate == rv.GetDate() && mTime < rv.GetTime()); }
+
+		bool operator>(const Timestamp& rv) const
+			{ return (mDate > rv.GetDate()) ||
+				(mDate == rv.GetDate() && mTime > rv.GetTime()); }
 
 		~Timestamp() { }
 	};
@@ -595,10 +606,10 @@ namespace IBPP
 	class ITransaction
 	{
 	public:
-	    virtual void AttachDatabase(Database& db, TAM am = amWrite,
+	    virtual void AttachDatabase(Database db, TAM am = amWrite,
 			TIL il = ilConcurrency, TLR lr = lrWait, TFF flags = TFF(0)) = 0;
-	    virtual void DetachDatabase(Database& db) = 0;
-	 	virtual void AddReservation(Database& db,
+	    virtual void DetachDatabase(Database db) = 0;
+	 	virtual void AddReservation(Database db,
 	 			const std::string& table, TTR tr) = 0;
 
 		virtual void Start() = 0;
@@ -815,8 +826,7 @@ namespace IBPP
 		virtual void Drop(const std::string&) = 0;
 		virtual void List(std::vector<std::string>&) = 0;
 		virtual void Clear() = 0;				// Drop all events
-		virtual void Dispatch() = 0;			// Dispatch NON async events; else it's a no-op
-		virtual bool Asynchronous() const = 0;	// Tells if this set is asynchronous or not
+		virtual void Dispatch() = 0;			// Dispatch events (calls handlers)
 
 		virtual	Database DatabasePtr() const = 0;
 
@@ -861,22 +871,22 @@ namespace IBPP
 	inline Database DatabaseFactory(const std::string& ServerName,
 		const std::string& DatabaseName, const std::string& UserName,
 			const std::string& UserPassword)
-		{ return DatabaseFactory(ServerName, DatabaseName, UserName, UserPassword, "", "", "");	}
+		{ return DatabaseFactory(ServerName, DatabaseName, UserName, UserPassword, "", "", ""); }
 
-	Transaction TransactionFactory(Database& db, TAM am = amWrite,
+	Transaction TransactionFactory(Database db, TAM am = amWrite,
 		TIL il = ilConcurrency, TLR lr = lrWait, TFF flags = TFF(0));
 
-	Statement StatementFactory(Database& db, Transaction& tr,
+	Statement StatementFactory(Database db, Transaction tr,
 		const std::string& sql);
 
-	inline Statement StatementFactory(Database& db, Transaction& tr)
+	inline Statement StatementFactory(Database db, Transaction tr)
 		{ return StatementFactory(db, tr, ""); }
 
-	Blob BlobFactory(Database& db, Transaction& tr);
+	Blob BlobFactory(Database db, Transaction tr);
 	
-	Array ArrayFactory(Database& db, Transaction& tr);
+	Array ArrayFactory(Database db, Transaction tr);
 	
-	Events EventsFactory(Database& db, bool async);
+	Events EventsFactory(Database db);
 
 	/* IBPP uses a self initialization system. Each time an object that may
 	 * require the usage of the Interbase client C-API library is used, the
