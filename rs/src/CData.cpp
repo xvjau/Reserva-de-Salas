@@ -115,12 +115,8 @@ bool CData::connect()
 		try
 		{
 			m_notify = new CNotification();
-			#ifdef __ASYNC_EVENTS
-			m_event = EventsFactory(m_db, true);
-			#else
-			m_event = EventsFactory(m_db, false);
+			m_event = EventsFactory(m_db);
 			m_notify->setEvents(m_event);
-			#endif
 			m_event->Add("reserva_ins", m_notify);
 			m_event->Add("reserva_upd", m_notify);
 			m_event->Add("reserva_del", m_notify);

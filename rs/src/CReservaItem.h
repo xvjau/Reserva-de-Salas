@@ -25,6 +25,7 @@
 #include "main.h"
 #include "../obj/ui_frreserva.h"
 #include "CData.h"
+#include "CReservaList.h"
 
 class CReservaItem : public QDialog, public Ui::Reserva
 {

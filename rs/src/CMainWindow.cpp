@@ -27,6 +27,8 @@
 #include "CModelos.h"
 #include "CDBSettings.h"
 #include "CAreas.h"
+#include "CReservaList.h"
+#include "CSalaList.h"
 
 #include <QStyleFactory>
 #include <QPrintDialog>
