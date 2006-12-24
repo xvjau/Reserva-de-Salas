@@ -15,6 +15,7 @@ FORMS += ui/frmain.ui \
          ui/listareservas.ui \
          ui/frdbsettings.ui \
          ui/frareas.ui 
+RESOURCES += res/rs.qrc 
 HEADERS += CConfig.h \
            CData.h \
            CMainWindow.h \
@@ -32,7 +33,10 @@ HEADERS += CConfig.h \
            CComboBoxDelegate.h \
            CDBSettings.h \
            CAreas.h \
-           CAreasModel.h 
+           CAreasModel.h \
+           CSalaList.h \
+           CSala.h \
+           CReservaList.h 
 SOURCES += CConfig.cpp \
            CData.cpp \
            CMainWindow.cpp \
@@ -50,8 +54,10 @@ SOURCES += CConfig.cpp \
            CComboBoxDelegate.cpp \
            CDBSettings.cpp \
            CAreas.cpp \
-           CAreasModel.cpp 
-RESOURCES = res/rs.qrc
+           CAreasModel.cpp \
+           CSalaList.cpp \
+           CSala.cpp \
+           CReservaList.cpp 
 RCC_DIR = $$OBJECTS_DIR
 DEPENDPATH = .
 INCLUDEPATH += ../ibpp \
@@ -63,7 +69,7 @@ TARGET = rs
 DESTDIR = ../bin
 CONFIG += warn_off \
 qt \
-exceptions \ 
+exceptions \
 debug
 TEMPLATE = app
 LIBS += ../obj/libibpp.a
