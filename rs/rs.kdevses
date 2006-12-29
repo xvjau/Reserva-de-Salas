@@ -1,14 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="2" >
-  <Doc0 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/src/CData.h" >
-   <View0 Encoding="" line="186" Type="Source" />
-  </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/gianni/Projetos/rs/src/CData.cpp" >
-   <View0 Encoding="" line="700" Type="Source" />
-  </Doc1>
- </DocsAndViews>
+ <DocsAndViews NumberOfDocuments="0" />
  <pluginList>
   <kdevdebugger>
    <breakpointList>
@@ -16,7 +9,6 @@
      <tracedExpressions/>
     </breakpoint0>
    </breakpointList>
-   <showInternalCommands value="0" />
   </kdevdebugger>
   <kdevbookmarks>
    <bookmarks/>
