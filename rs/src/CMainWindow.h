@@ -26,6 +26,8 @@
 #include "../obj/ui_frmain.h"
 #include "CData.h"
 #include "CConfig.h"
+#include "CSemana.h"
+#include "CReservaList.h"
 
 #include <QPrinter>
 #include <QResizeEvent>
@@ -42,7 +44,7 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 
 		CSemana			*m_semana;
 		CSalaList		*m_salaList;
-		CReservaList::CReserva *m_activeReserva;
+		CReserva		*m_activeReserva;
 
 		CData		m_data;
 		QDate		m_date;
@@ -95,7 +97,7 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void refreshAreas();
 		void refreshData(const QDate &_date);
 		
-		void setActiveReserva(CReservaList::CReserva *_reserva);
+		void setActiveReserva(CReserva *_reserva);
 		void setActiveDate(QDate _date) {m_activeDate = _date;};
 		void setActiveSalaID(int _salaID) {m_activeSalaID = _salaID;};
 

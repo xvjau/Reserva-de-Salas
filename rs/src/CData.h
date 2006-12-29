@@ -24,18 +24,12 @@
 
 #include <ibpp.h>
 #include <QtCore/QList>
-#include <QtCore/QMap>
 #include <QtCore/QHash>
 #include <QtCore/QString>
+#include <QtGui/QPalette>
 #include <QtCore/QDate>
 #include <QtCore/QTime>
-#include <QtGui/QFrame>
-#include <QtGui/QLabel>
-#include <QtGui/QScrollArea>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QWidget>
-#include <QtGui/QPalette>
+
 
 #include "CNotification.h"
 

@@ -36,7 +36,10 @@ HEADERS += CConfig.h \
            CAreasModel.h \
            CSalaList.h \
            CSala.h \
-           CReservaList.h 
+           CReservaList.h \
+           CSemana.h \
+           CReserva.h \
+           rowRESERVA.h 
 SOURCES += CConfig.cpp \
            CData.cpp \
            CMainWindow.cpp \
@@ -57,7 +60,10 @@ SOURCES += CConfig.cpp \
            CAreasModel.cpp \
            CSalaList.cpp \
            CSala.cpp \
-           CReservaList.cpp 
+           CReservaList.cpp \
+           CSemana.cpp \
+           CReserva.cpp \
+           rowRESERVA.cpp 
 RCC_DIR = $$OBJECTS_DIR
 DEPENDPATH = .
 INCLUDEPATH += ../ibpp \

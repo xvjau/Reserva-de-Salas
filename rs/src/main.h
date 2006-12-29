@@ -28,6 +28,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtCore/QDate>
+#include <QtCore/QTime>
 #include <QtCore/QList>
 #include <QtGui/QApplication>
 #include <QtGui/QMessageBox>

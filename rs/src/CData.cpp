@@ -35,28 +35,13 @@
 
 #include <iostream>
 
-static QPalette *g_disabledPalette = 0;
-
-void exitFunction()
-{
-	if (g_disabledPalette)
-	    delete g_disabledPalette;
-}
-
 CData::CData():
 	m_db(0),
 	m_notify(0),
 	m_areas(0),
 	m_areasId(0)
 {
-	if (! g_disabledPalette)
-	{
-		g_disabledPalette = new QPalette();
-		atexit(exitFunction);
 
-		g_disabledPalette->setColor(QPalette::Base, QColor(200,200,200));
-		g_disabledPalette->setColor(QPalette::Text, QColor(0,0,0));
-	}
 }
 
 CData::~CData()

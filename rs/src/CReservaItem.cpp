@@ -21,9 +21,12 @@
 
 #include "CMainWindow.h"
 #include "CReservaItem.h"
+#include "CReserva.h"
+#include "CSalaList.h"
 #include "CConfig.h"
+#include "CSala.h"
 
-CReservaItem::CReservaItem(CReservaList::CReserva *_reserva,
+CReservaItem::CReservaItem(CReserva *_reserva,
 CSalaList *_salas, CMainWindow *_form):
 	m_reserva(_reserva),
 	m_salas(_salas),

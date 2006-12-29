@@ -23,6 +23,9 @@
 #define __INCLUDE_CMODELOS_H
 
 #include "CData.h"
+#include "CReservaList.h"
+#include "CReserva.h"
+
 #include "../obj/ui_frmodelos.h"
 
 #include <QTextDocument>
@@ -36,7 +39,7 @@ class CModelos: public QDialog, public Ui::Modelos
 	
 	public:
 		CModelos(Database _db, CReservaList *_lista, const QString _sala, QPrinter *_printer);
-		CModelos(Database _db, CReservaList::CReserva *_reserva, const QString _sala, QPrinter *_printer);
+		CModelos(Database _db, CReserva *_reserva, const QString _sala, QPrinter *_printer);
 		~CModelos();
 
 	private:
@@ -55,7 +58,7 @@ class CModelos: public QDialog, public Ui::Modelos
 
 		Database	m_db;
 		CReservaList	*m_lista;
-		CReservaList::CReserva	*m_reserva;
+		CReserva	*m_reserva;
 		QString		m_sala;
 		QPrinter	*m_printer;
 		QString		m_doc;

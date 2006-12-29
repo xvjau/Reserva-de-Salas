@@ -25,14 +25,16 @@
 #include "main.h"
 #include "../obj/ui_frreserva.h"
 #include "CData.h"
+#include "CReserva.h"
 #include "CReservaList.h"
+#include "CSalaList.h"
 
 class CReservaItem : public QDialog, public Ui::Reserva
 {
 	Q_OBJECT
 	
 	public:
-		CReservaItem(CReservaList::CReserva *_reserva, CSalaList *_salas,
+		CReservaItem(CReserva *_reserva, CSalaList *_salas,
 					CMainWindow *_form);
 		virtual ~CReservaItem();
 		
@@ -44,10 +46,10 @@ class CReservaItem : public QDialog, public Ui::Reserva
 	private:
 		QGridLayout			*glayRecorrente;
 		
-		CReservaList::CReserva		*m_reserva;
-		CReservaList				*m_list;
-		CSalaList					*m_salas;
-		CMainWindow					*m_form;
+		CReserva		*m_reserva;
+		CReservaList	*m_list;
+		CSalaList		*m_salas;
+		CMainWindow		*m_form;
 		
 		void updateRecorrencia();
 	

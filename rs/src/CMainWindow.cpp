@@ -29,6 +29,8 @@
 #include "CAreas.h"
 #include "CReservaList.h"
 #include "CSalaList.h"
+#include "CSala.h"
+#include "CReserva.h"
 
 #include <QStyleFactory>
 #include <QPrintDialog>
@@ -182,7 +184,7 @@ void CMainWindow::onSetStyle()
 
 void CMainWindow::checkRowHeight(int _row, int _salaID)
 {
-	CReservaList::TReservaList::iterator it;
+	TListaReserva::iterator it;
 	int iHeight = 0;
 
 	CReservaList* reservaList = m_semana->getReservaList(_row+1, _salaID);
@@ -336,7 +338,7 @@ void CMainWindow::refreshData(const QDate &_date)
 	int isalaid;
 
 	{
-		CReservaList::TReservaList::iterator it;
+		TListaReserva::iterator it;
 		CReservaList* reserva;
 		for (int iday = 1; iday < 8; ++iday)
 		{
@@ -390,7 +392,7 @@ void CMainWindow::on_actionAdicionar_triggered()
 
 	if (m_activeReserva)
 	{
-		CReservaList::CReserva* reserva = m_activeReserva->getOwner()->addReserva();
+		CReserva* reserva = m_activeReserva->getOwner()->addReserva();
 		
 		reservaItem = new CReservaItem(reserva, m_salaList, this);
 		
@@ -399,7 +401,7 @@ void CMainWindow::on_actionAdicionar_triggered()
 	}
 	else
 	{
-		CReservaList::CReserva* reserva = m_semana->getFirstReservaList()->addReserva();
+		CReserva* reserva = m_semana->getFirstReservaList()->addReserva();
 		
 		reservaItem = new CReservaItem(reserva, m_salaList, this);
 		
@@ -481,7 +483,7 @@ void CMainWindow::on_btProx_clicked()
 	refreshData(m_date.addDays(7));
 }
 
-void CMainWindow::setActiveReserva(CReservaList::CReserva *_reserva)
+void CMainWindow::setActiveReserva(CReserva *_reserva)
 {
 	m_activeReserva = _reserva;
 	
@@ -586,7 +588,7 @@ void CMainWindow::on_actionCopiar_triggered()
 	QString str;
 	const char sep = 9;
 	
-	CReservaList::TReservaList::iterator it;
+	TListaReserva::iterator it;
 
 	CReservaList* reservaList = m_activeReserva->getOwner();
 

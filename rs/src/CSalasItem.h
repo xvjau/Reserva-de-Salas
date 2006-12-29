@@ -25,6 +25,7 @@
 #include "main.h"
 #include "../obj/ui_frsalasitem.h"
 #include "CData.h"
+#include "CSala.h"
 
 #include <QtGui/QIntValidator>
 

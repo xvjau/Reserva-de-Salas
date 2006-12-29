@@ -25,6 +25,7 @@
 #include "main.h"
 #include "../obj/ui_frsalas.h"
 #include "CData.h"
+#include "CSalaList.h"
 
 class CSalas: public QDialog, public Ui::Salas
 {

@@ -21,9 +21,10 @@
 
 #include "CModelos.h"
 #include "main.h"
-#include <QFile>
 #include "CConfig.h"
 #include "CModelosItem.h"
+
+#include <QFile>
 #include <QSettings>
 
 void readString(Statement *stmt, const int col, QString &_value)
@@ -43,7 +44,7 @@ CModelos::CModelos(Database _db, CReservaList *_lista, const QString _sala, QPri
 	init();
 }
 
-CModelos::CModelos(Database _db, CReservaList::CReserva *_reserva, const QString _sala, QPrinter *_printer):
+CModelos::CModelos(Database _db, CReserva *_reserva, const QString _sala, QPrinter *_printer):
 		m_lista(0),
 		m_sala(_sala),
 		m_printer(_printer),
@@ -143,8 +144,8 @@ void CModelos::render(const int _id)
 	bool icolorCycle = false;
 
 	QString s;
-	CReservaList::CReserva					*reserva;
-	CReservaList::TReservaList::iterator	it;
+	CReserva					*reserva;
+	TListaReserva::iterator		it;
 
 	if (m_reserva)
 	{

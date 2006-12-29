@@ -18,39 +18,35 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 	02111-1307, USA.
  */
-#ifndef __INCLUDE_CSALALIST_H
-#define __INCLUDE_CSALALIST_H
+#ifndef __INCLUDE_ROWRESERVA_H
+#define __INCLUDE_ROWRESERVA_H
 
-#include "CData.h"
+
+#include "main.h"
 
 #include <ibpp.h>
 
-#include <QtCore/QMap>
-
-class CSala;
-
-class CSalaList
+class CReservaList;
+class rowRESERVA
 {
-	private:
-		CData   		*m_owner;
-		Transaction 	*m_tr;
-		int				m_areaId;
-		
 	public:
-		CSalaList(CData *_owner, const int _areaId = -1);
-		~CSalaList();
-		
-		void save();
-		
-		Transaction* getTransaction(){return m_tr;};
-		
-		typedef QMap<int, CSala*> TSalaList;
-		bool loadList();
+		int RESERVAID;
+		int SALAID;
+		QDate DATA;
+		QTime HORAIN;
+		QTime HORAFIM;
+		int USUARIOID;
+		QString USUARIO;
+		QString ASSUNTO;
+		QString DEPTO;
+		QString NOTAS;
+		int SCHEMEID;
+		char TIPO;
 
-		TSalaList   m_salas;
-		CSala* addSala();
-		
-		friend class CSala;
+		rowRESERVA(Statement *stmt);
+
+		bool checkRow(CReservaList* _list);
 };
 
 #endif
+
