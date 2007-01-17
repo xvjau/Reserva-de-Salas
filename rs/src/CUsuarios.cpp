@@ -21,6 +21,9 @@
 
 #include "CUsuarios.h"
 
+#include <QFontMetrics>
+#include <QHeaderView>
+
 CUsuarios::CUsuarios(CData* _data):
 	m_data(_data),
 	m_model(0),
@@ -36,6 +39,21 @@ CUsuarios::CUsuarios(CData* _data):
 
 	m_delegate = new CComboBoxDelegate(this);
 	tableView->setItemDelegate(m_delegate);
+	
+	QFontMetrics fontMetrics( tableView->horizontalHeader()->font() );
+	
+	int width = 0;
+	int x = 0;
+	for (int i = 3; i < 5; ++i )
+	{
+		x = fontMetrics.width( m_model->headerData(i, Qt::Horizontal).toString() );
+		if (x > width) width = x;
+	}
+	
+	for (int i = 3; i < 5; ++i )
+	{
+		tableView->setColumnWidth( i, width + 10 );
+	}
 }
 
 CUsuarios::~CUsuarios()
