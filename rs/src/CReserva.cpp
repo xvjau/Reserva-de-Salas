@@ -13,6 +13,30 @@ void exitFunction()
 	    delete g_disabledPalette;
 }
 
+class CReservaLabel: public QLabel
+{
+	private:
+		CReserva*	reserva;
+	
+	public:
+		CReservaLabel( CReserva * _reserva ):
+			QLabel( _reserva )
+		{
+			reserva = _reserva;
+		};
+		
+	protected:
+		virtual void mouseDoubleClickEvent(QMouseEvent * event)
+		{
+			reserva->mouseDoubleClickEvent(event);
+		};
+		
+		virtual void mousePressEvent(QMouseEvent * event)
+		{
+			reserva->mousePressEvent(event);
+		};
+		
+};
 
 CReserva::CReserva(CReservaList *_owner):
 	QFrame(_owner, 0),
@@ -83,7 +107,7 @@ CReserva::CReserva(CReservaList *_owner):
 	font.setUnderline(false);
 	font.setStrikeOut(false);
 
-	lblHoraIn = new QLabel(this);
+	lblHoraIn = new CReservaLabel(this);
 	lblHoraIn->setObjectName(QString::fromUtf8("lblHoraIn"));
 	lblHoraIn->resize(QSize(140, 132));
 	lblHoraIn->setSizePolicy(sizePolicyFixed);
@@ -94,7 +118,7 @@ CReserva::CReserva(CReservaList *_owner):
 
 	vboxLayout1->addWidget(lblHoraIn);
 	
-	lblHoraFim = new QLabel(this);
+	lblHoraFim = new CReservaLabel(this);
 	lblHoraFim->setObjectName(QString::fromUtf8("lblHoraFim"));
 	lblHoraFim->setTextFormat(Qt::PlainText);
 	lblHoraFim->setScaledContents(false);
@@ -108,7 +132,7 @@ CReserva::CReserva(CReservaList *_owner):
 	
 	hboxLayout->addLayout(vboxLayout1);
 	
-	lblTitulo = new QLabel(this);
+	lblTitulo = new CReservaLabel(this);
 	lblTitulo->setObjectName(QString::fromUtf8("lblTitulo"));
 	QSizePolicy sizePolicy(static_cast<QSizePolicy::Policy>(13), static_cast<QSizePolicy::Policy>(13));
 	sizePolicy.setHorizontalStretch(0);

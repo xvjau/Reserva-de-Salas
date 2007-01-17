@@ -36,9 +36,12 @@ class CReservaList;
 
 typedef QList<CReserva*> TListaReserva;
 
+class CReservaLabel;
+
 class CReserva: public QFrame
 {
 	friend class CReservaList;
+	friend class CReservaLabel;
 	
 	private:
 		CReservaList   *m_owner;
@@ -86,9 +89,9 @@ class CReserva: public QFrame
 		QHBoxLayout *hboxLayout;
 		QVBoxLayout *vboxLayout1;
 
-		QLabel	*lblHoraIn;
-		QLabel	*lblHoraFim;
-		QLabel	*lblTitulo;
+		CReservaLabel	*lblHoraIn;
+		CReservaLabel	*lblHoraFim;
+		CReservaLabel	*lblTitulo;
 
 		int	m_height;
 
