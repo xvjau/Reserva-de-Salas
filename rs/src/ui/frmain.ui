@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow" >
   <property name="geometry" >
@@ -193,8 +190,16 @@
     <addaction name="actionUsuarios" />
     <addaction name="actionCores" />
    </widget>
+   <widget class="QMenu" name="menuAjuda" >
+    <property name="title" >
+     <string>Ajuda</string>
+    </property>
+    <addaction name="actionSobreRS" />
+    <addaction name="actionSobreQt" />
+   </widget>
    <addaction name="menuMenu" />
    <addaction name="menuEstilo" />
+   <addaction name="menuAjuda" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
   <action name="actionSalas" >
@@ -300,8 +305,17 @@
     <string>Áreas</string>
    </property>
   </action>
+  <action name="actionSobreRS" >
+   <property name="text" >
+    <string>Sobre o Reserva de Salas</string>
+   </property>
+  </action>
+  <action name="actionSobreQt" >
+   <property name="text" >
+    <string>Sobre o Qt</string>
+   </property>
+  </action>
  </widget>
- <pixmapfunction></pixmapfunction>
  <resources>
   <include location="../res/rs.qrc" />
  </resources>
