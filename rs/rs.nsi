@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Reserva de Salas"
-!define PRODUCT_VERSION "1.0RC3"
+!define PRODUCT_VERSION "1.0.2"
 !define PRODUCT_PUBLISHER "RolTramInfo"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\rs.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -69,8 +69,9 @@ FunctionEnd
 
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR\Conf"
-  SetOverwrite try
+  SetOverwrite off
   File "dist\Conf\RS.ini"
+  SetOverwrite try
   SetOutPath "$INSTDIR"
   File "dist\fbclient.dll"
   File "dist\mingwm10.dll"
