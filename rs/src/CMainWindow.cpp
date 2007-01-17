@@ -37,6 +37,8 @@
 #include <QHeaderView>
 #include <QScrollBar>
 #include <QClipboard>
+#include <QDesktopServices>
+#include <QUrl>
 
 static const int PSALA_COL_ROLE = 1025;
 static const int TABLE_ROW_HEIGHT = 30;
@@ -126,7 +128,31 @@ void CMainWindow::initialize()
 	m_date = QDate::currentDate();
 	m_date = m_date.addDays(m_date.dayOfWeek() * -1 + 1);
 	refreshData(m_date);
+
+	updateButtons();
+	if (m_config->getNivel() > 1)
+	{
+		m_mnPopupReserva.addAction(actionAdicionar);
+		m_mnPopupReserva.addAction(actionRemover);
+		m_mnPopupReserva.addAction(actionAlterar);
+		m_mnPopupReserva.addSeparator();
+	}	
+		
+	bool userHasArea = (m_config->getNivel() == 3) || (m_data.getAreaId( cbArea->currentIndex() ) == CConfig::getConfig()->getUserAreaID());
 	
+	actionAdicionar->setEnabled(userHasArea);
+
+	if (pbAdicionar)
+		pbAdicionar->setEnabled(userHasArea);
+	
+	connect(cbArea, SIGNAL(currentIndexChanged(int)), this, SLOT(cbAreaChanged(int)));
+	
+	m_initialized = true;
+	resizeEvent( 0 );
+}
+
+void CMainWindow::updateButtons()
+{
 	switch (m_config->getNivel())
 	{
 		case 0:
@@ -139,6 +165,10 @@ void CMainWindow::initialize()
 		case 1:
 		case 2:
 		{
+			bool userHasArea = m_data.getAreaId( cbArea->currentIndex() ) == CConfig::getConfig()->getUserAreaID();
+					
+			actionAdicionar->setEnabled(userHasArea);
+				
 			delete menuMenu;
 			menuMenu = 0;
 
@@ -149,29 +179,12 @@ void CMainWindow::initialize()
 				pbAdicionar = 0;
 				pbRemover = 0;
 			}
+			else
+				pbAdicionar->setEnabled(userHasArea);
+				
 			break;
 		}
 	}
-
-	if (m_config->getNivel() > 1)
-	{
-		m_mnPopupReserva.addAction(actionAdicionar);
-		m_mnPopupReserva.addAction(actionRemover);
-		m_mnPopupReserva.addAction(actionAlterar);
-		m_mnPopupReserva.addSeparator();
-	}
-	
-	bool userHasArea = (m_config->getNivel() == 3) || (m_data.getAreaId( cbArea->currentIndex() ) == CConfig::getConfig()->getUserAreaID());
-	
-	actionAdicionar->setEnabled(userHasArea);
-
-	if (pbAdicionar)
-		pbAdicionar->setEnabled(userHasArea);
-	
-	connect(cbArea, SIGNAL(currentIndexChanged(int)), this, SLOT(cbAreaChanged(int)));
-	
-	m_initialized = true;
-	resizeEvent( 0 );
 }
 
 void CMainWindow::onSetStyle()
@@ -210,6 +223,9 @@ void CMainWindow::resizeEvent(QResizeEvent * event)
 	
 	if (iWidth < 170)
 		iWidth = 170;
+	else
+		if (iWidth > 300)
+			iWidth = 300;
 	
 	for(int i = 0; i < tbReservas->columnCount(); ++i)
 		tbReservas->setColumnWidth(i, iWidth);
@@ -629,11 +645,15 @@ void CMainWindow::cbAreaChanged(int index)
 	refreshData(m_activeDate);
 	resizeEvent(0);
 
-	bool userHasArea = m_data.getAreaId( cbArea->currentIndex() ) == CConfig::getConfig()->getUserAreaID();
-			
-	actionAdicionar->setEnabled(userHasArea);
+	updateButtons();
+}
 
-	if (pbAdicionar)
-		pbAdicionar->setEnabled(userHasArea);
+void CMainWindow::on_actionSobreRS_triggered()
+{
+	QDesktopServices::openUrl ( QUrl( "http://reservadesalas.sourceforge.net/" ));
+}
 
+void CMainWindow::on_actionSobreQt_triggered()
+{
+	QMessageBox::aboutQt ( this );
 }
