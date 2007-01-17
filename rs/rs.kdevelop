@@ -144,7 +144,7 @@
     <qt>
       <used>true</used>
       <version>4</version>
-      <root>/usr/lib/qt4</root>
+      <root>/usr</root>
       <includestyle>4</includestyle>
       <designerintegration>ExternalDesigner</designerintegration>
     </qt>

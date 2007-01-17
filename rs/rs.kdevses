@@ -9,6 +9,7 @@
      <tracedExpressions/>
     </breakpoint0>
    </breakpointList>
+   <showInternalCommands value="0" />
   </kdevdebugger>
   <kdevbookmarks>
    <bookmarks/>
