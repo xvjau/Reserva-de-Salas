@@ -34,8 +34,6 @@ CSchemas::CSchemas(CData* _data):
 	connect(slGreen, SIGNAL(valueChanged(int)), this, SLOT(onsliderMoved()));
 	connect(slBlue, SIGNAL(valueChanged(int)), this, SLOT(onsliderMoved()));
 	
-	connect(tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(cellDoubleClicked(QModelIndex)));
-	
 	m_model = new CSchemasModel(m_data);
 	tableView->setModel(m_model);
 	
@@ -61,13 +59,26 @@ void CSchemas::onsliderMoved()
 	lblCor->setPalette(palette);
 }
 
-void CSchemas::cellDoubleClicked(const QModelIndex &index)
+void CSchemas::on_pbAlterar_clicked()
 {
 	int icolor	= (slRed->value() * 65536) +
 					(slGreen->value() * 256) +
 					(slBlue->value());
 	
-	std::cout << "Cor " << icolor << std::endl;
-	m_model->setData(index, icolor, Qt::DisplayRole);
-	tableView->repaint();
+	m_model->setData(m_activeIndex, icolor, Qt::BackgroundColorRole);
 }
+
+void CSchemas::on_tableView_pressed( const QModelIndex & index )
+{
+	m_activeIndex = index;
+	
+	int iRed, iGreen, iBlue;
+	QColor color = m_model->data(m_activeIndex, Qt::BackgroundColorRole).value<QColor>();
+	
+	color.getRgb(&iRed, &iGreen, &iBlue);
+	
+	slRed->setValue(iRed);
+	slGreen->setValue(iGreen);
+	slBlue->setValue(iBlue);
+}
+

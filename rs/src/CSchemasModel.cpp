@@ -123,7 +123,7 @@ QVariant CSchemasModel::headerData(int section, Qt::Orientation orientation, int
 
 bool CSchemasModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-	if (role == Qt::DisplayRole || role == Qt::EditRole)
+	if (role == Qt::BackgroundColorRole)
 	{
         ROW_SCHEMAS *row = m_rows[index.row()];
 
@@ -158,6 +158,8 @@ bool CSchemasModel::setData(const QModelIndex &index, const QVariant &value, int
 					case 2: row->BORDER = value.toInt(); break;
 				}
 				stmt->Close();
+				
+				emit dataChanged( index, index );
 				return true;
 			}
 			stmt->Close();

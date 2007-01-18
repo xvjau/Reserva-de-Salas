@@ -35,11 +35,11 @@ class CSchemas: public QDialog, public Ui::frSchemas
 	private:
 		CData			*m_data;
 		CSchemasModel	*m_model;
+		QModelIndex 	m_activeIndex;
 
 	private slots:
 		void onAccept();
-		
 		void onsliderMoved();
-		
-		void cellDoubleClicked(const QModelIndex &index);
+		void on_tableView_pressed( const QModelIndex & index );
+		void on_pbAlterar_clicked();
 };
