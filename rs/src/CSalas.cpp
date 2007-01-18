@@ -161,29 +161,29 @@ void CSalas::on_btExcluir_clicked()
 	for( it = m_salaList.m_salas.begin();
 			it != m_salaList.m_salas.end();
 			++it)
+	{
+        sala = *it;
+
+		if (sala->m_column == irow)
 		{
-            sala = *it;
+			QString txtSala = sala->getNome().length() ? sala->getNome() : QString::number(sala->getSalaID());
 
-			if (sala->m_column == irow)
+			if (! QMessageBox::question(
+			    this,
+			    tr("Excluir Sala?"),
+			    tr("Tem certeza que deseja excluir a sala %1")
+			    	.arg(txtSala),
+			    tr("&Sim"), tr("&Não"),
+			    QString(), 1, 0))
 			{
-				QString txtSala = sala->getNome().length() ? sala->getNome() : QString::number(sala->getSalaID());
-
-				if (! QMessageBox::question(
-				    this,
-				    tr("Excluir Sala?"),
-				    tr("Tem certeza que deseja excluir a sala %1")
-				    	.arg(txtSala),
-				    tr("&Sim"), tr("&Não"),
-				    QString(), 1, 0))
-				{
-					sala->del();
-					refreshData();
-					btAlterar->setEnabled(false);
-					btExcluir->setEnabled(false);
-				}
-				break;
+				sala->del();
+				refreshData();
+				btAlterar->setEnabled(false);
+				btExcluir->setEnabled(false);
 			}
+			break;
 		}
+	}
 }
 
 void CSalas::on_tbSalas_currentCellChanged ( int currentRow, int currentColumn, int previousRow, int previousColumn )
