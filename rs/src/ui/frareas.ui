@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>areas</class>
  <widget class="QDialog" name="areas" >
   <property name="geometry" >
@@ -69,7 +66,11 @@
     </layout>
    </item>
    <item row="1" column="0" >
-    <widget class="QTableView" name="tableView" />
+    <widget class="QTableView" name="tableView" >
+     <property name="alternatingRowColors" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0" >
     <layout class="QHBoxLayout" >
@@ -116,7 +117,6 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <resources>
   <include location="../res/rs.qrc" />
  </resources>
