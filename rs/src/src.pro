@@ -14,7 +14,8 @@ FORMS += ui/frmain.ui \
          ui/itemreserva.ui \
          ui/listareservas.ui \
          ui/frdbsettings.ui \
-         ui/frareas.ui 
+         ui/frareas.ui \
+         ui/frusersareas.ui
 RESOURCES += res/rs.qrc 
 HEADERS += CConfig.h \
            CData.h \
@@ -30,7 +31,7 @@ HEADERS += CConfig.h \
            CUsuarios.h \
            CUsuariosModel.h \
            main.h \
-           CComboBoxDelegate.h \
+           CUsuarioDelegate.h \
            CDBSettings.h \
            CAreas.h \
            CAreasModel.h \
@@ -39,7 +40,8 @@ HEADERS += CConfig.h \
            CReservaList.h \
            CSemana.h \
            CReserva.h \
-           rowRESERVA.h 
+           rowRESERVA.h \
+           CUsuariosAreas.h
 SOURCES += CConfig.cpp \
            CData.cpp \
            CMainWindow.cpp \
@@ -54,7 +56,7 @@ SOURCES += CConfig.cpp \
            CUsuarios.cpp \
            CUsuariosModel.cpp \
            main.cpp \
-           CComboBoxDelegate.cpp \
+           CUsuarioDelegate.cpp \
            CDBSettings.cpp \
            CAreas.cpp \
            CAreasModel.cpp \
@@ -63,7 +65,8 @@ SOURCES += CConfig.cpp \
            CReservaList.cpp \
            CSemana.cpp \
            CReserva.cpp \
-           rowRESERVA.cpp 
+           rowRESERVA.cpp \
+           CUsuariosAreas.cpp
 RCC_DIR = $$OBJECTS_DIR
 DEPENDPATH = .
 INCLUDEPATH += ../ibpp \
