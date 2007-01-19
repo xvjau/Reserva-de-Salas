@@ -182,13 +182,72 @@ Qt::ItemFlags CSchemasModel::flags(const QModelIndex & index) const
 
 bool CSchemasModel::insertRows(int row, int count, const QModelIndex & parent)
 {
-	return false;
+	beginInsertRows(parent, row, row + count - 1);
+	bool result = false;
+
+	ROW_SCHEMAS *rowData = new ROW_SCHEMAS;
+	try
+	{
+		Statement stmt = StatementFactory(m_data->m_db, *m_tr);
+		
+		stmt->Execute("Select Max(SCHEMEID) From COLOR_SCHEME");
+		
+		if ( stmt->Fetch() )
+			stmt->Get(1, rowData->SCHEMEID);
+		else	
+			throw QString("Unknown Error");
+		
+		stmt->Close();
+		
+		rowData->SCHEMEID++;
+		rowData->BACKGROUND = 0;
+		rowData->BORDER = 0;
+		rowData->FONT = 0;
+
+		stmt->Prepare("INSERT INTO COLOR_SCHEME (SCHEMEID) VALUES (?)");
+		stmt->Set(1, rowData->SCHEMEID);
+		stmt->Execute();
+		stmt->Close();
+		
+		m_rows.push_back(rowData);
+		result = true;
+	}
+	catch (Exception &e)
+	{
+		std::cerr << e.ErrorMessage() << std::endl;
+		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+	}
+	
+	endInsertRows();
+	return result;
 }
 
 bool CSchemasModel::removeRows(int row, int count, const QModelIndex & parent)
 {
-    return false;
 	beginRemoveRows(parent, row, row + count - 1);
+	bool result = false;
 
+	ROW_SCHEMAS *rowData = m_rows[row];
+	try
+	{
+		Statement stmt = StatementFactory(m_data->m_db, *m_tr);
+		
+		stmt->Prepare("Delete From COLOR_SCHEME Where SCHEMEID = ?");
+		stmt->Set(1, rowData->SCHEMEID);	
+		stmt->Execute();
+		stmt->Close();
+		
+		m_rows.removeAt(row);
+		delete rowData;
+	
+		result = true;
+	}
+	catch (Exception &e)
+	{
+		std::cerr << e.ErrorMessage() << std::endl;
+		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+	}
+	
 	endRemoveRows();
+	return result;
 }
