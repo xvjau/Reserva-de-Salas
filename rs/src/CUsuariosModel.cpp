@@ -70,7 +70,11 @@ CUsuariosModel::CUsuariosModel(CData* _data):
 		stmt->Get(4, s);
 		row->STYLE = s.c_str();
 
-		stmt->Get(5, row->SCHEMEID);
+		if (! stmt->IsNull(5))
+			stmt->Get(5, row->SCHEMEID);
+		else
+			row->SCHEMEID = -1;
+			
 		stmt->Get(6, row->NIVEL);
 
 		if (! stmt->IsNull(7))
@@ -253,7 +257,10 @@ bool CUsuariosModel::setData(const QModelIndex &index, const QVariant &value, in
 		catch (Exception &e)
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
-			QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			if ( index.column() == 3 ) // Scheme ID
+				QMessageBox("Erro", "Esse esquema de cores não existe!", QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			else
+				QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 			return false;
 		}
 	}
@@ -269,6 +276,7 @@ Qt::ItemFlags CUsuariosModel::flags(const QModelIndex & index) const
 bool CUsuariosModel::insertRows(int row, int count, const QModelIndex & parent)
 {
 	beginInsertRows(parent, row, row + count - 1);
+	bool result = false;
 
 	ROW_USUARIOS *rowData = new ROW_USUARIOS;
 	try
@@ -276,7 +284,12 @@ bool CUsuariosModel::insertRows(int row, int count, const QModelIndex & parent)
 		Statement stmt = StatementFactory(m_data->m_db, *m_tr);
 		
 		stmt->Execute("Select GEN_ID(GENUsuarioS, 1) From RDB$DATABASE");
-		stmt->Get(1, rowData->USUARIOID);
+		
+		if ( stmt->Fetch() )
+			stmt->Get(1, rowData->USUARIOID);
+		else
+			throw QString("Unknown Error");
+			
 		stmt->Close();
 	
 		stmt->Execute("Select First 1 SCHEMEID, COUNT(*) \
@@ -285,22 +298,27 @@ bool CUsuariosModel::insertRows(int row, int count, const QModelIndex & parent)
 								  Not SCHEMEID is Null           \
 								Group By SCHEMEID                \
 								Order By COUNT(*) Desc");
-		stmt->Get(1, rowData->SCHEMEID);
+		
+		if ( stmt->Fetch() )
+			stmt->Get(1, rowData->SCHEMEID);
+		else
+			throw QString("Unknown Error");
+		
 		stmt->Close();
 		
 		rowData->NOME = QString::number(rowData->USUARIOID);
 		
 		m_rows.push_back(rowData);
-		endInsertRows();
-		
-		return true;
+		result = true;
 	}
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
 		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 	}
-	return false;
+	
+	endInsertRows();
+	return result;
 }
 
 bool CUsuariosModel::removeRows(int row, int count, const QModelIndex & parent)
@@ -320,7 +338,6 @@ bool CUsuariosModel::removeRows(int row, int count, const QModelIndex & parent)
 		
 		m_rows.removeAt(row);
 		delete rowData;
-		
 		result = true;
 	}
 	catch (Exception &e)
