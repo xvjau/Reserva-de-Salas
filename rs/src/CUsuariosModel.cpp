@@ -305,8 +305,30 @@ bool CUsuariosModel::insertRows(int row, int count, const QModelIndex & parent)
 
 bool CUsuariosModel::removeRows(int row, int count, const QModelIndex & parent)
 {
-	return false;
 	beginRemoveRows(parent, row, row + count - 1);
+	bool result = false;
+
+	ROW_USUARIOS *rowData = m_rows[row];
+	try
+	{
+		Statement stmt = StatementFactory(m_data->m_db, *m_tr);
+		
+		stmt->Prepare("Delete From USUARIOS Where USUARIOID = ?");
+		stmt->Set(1, rowData->USUARIOID);	
+		stmt->Execute();
+		stmt->Close();
+		
+		m_rows.removeAt(row);
+		delete rowData;
+		
+		result = true;
+	}
+	catch (Exception &e)
+	{
+		std::cerr << e.ErrorMessage() << std::endl;
+		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+	}
 	
 	endRemoveRows();
+	return result;
 }

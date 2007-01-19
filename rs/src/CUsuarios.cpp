@@ -69,3 +69,38 @@ void CUsuarios::onAccept()
 {
 	m_model->CommitData();
 }
+
+void CUsuarios::on_pbRemover_clicked()
+{
+	QModelIndex index = tableView->selectionModel()->currentIndex();
+	
+	if (index.isValid())
+	{
+		
+		QString usuario = m_model->data( m_model->index( index.row(), 0 )).toString();
+		QString nome = m_model->data( m_model->index( index.row(), 1 )).toString();
+		
+		if ( nome.length() )
+			usuario += " <i>(" + nome + ") </i>";
+		
+		if (! QMessageBox::question(
+		    this,
+		    tr("Excluir Usuário?"),
+		    tr("Tem certeza que deseja excluir o usuário(a) %1?")
+		    	.arg(usuario),
+		    tr("&Sim"), tr("&Não"),
+		    QString(), 1, 0))
+		{
+			if (! QMessageBox::question(
+			    this,
+			    tr("Excluir Usuário?"),
+			    tr("Isso irá remover também todas as reservas feitas por %1, tem certeza <i>mesmo</i> que você quer fazer isso?")
+			    	.arg(usuario),
+			    tr("&Sim"), tr("&Não"),
+			    QString(), 1, 0))
+			{
+				m_model->removeRows(index.row(), 1);
+			}
+		}
+	}
+}
