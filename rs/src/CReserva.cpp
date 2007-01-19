@@ -74,7 +74,7 @@ CReserva::CReserva(CReservaList *_owner):
 	setSizePolicy(FormsizePolicy);
 		
 	vboxLayout = new QVBoxLayout(this);
-	vboxLayout->setSpacing(1);
+	vboxLayout->setSpacing(0);
 	vboxLayout->setMargin(0);
 	vboxLayout->setObjectName(QString::fromUtf8("vboxLayout"));
 	hboxLayout = new QHBoxLayout();
@@ -86,11 +86,7 @@ CReserva::CReserva(CReservaList *_owner):
 	vboxLayout1->setMargin(0);
 	vboxLayout1->setObjectName(QString::fromUtf8("vboxLayout1"));
 
-#if QT_VERSION < 0x040200
-	QSizePolicy sizePolicyFixed(static_cast<QSizePolicy::Policy>(0), static_cast<QSizePolicy::Policy>(13));
-#else
-	QSizePolicy sizePolicyFixed(static_cast<QSizePolicy::Policy>(0), static_cast<QSizePolicy::Policy>(1));
-#endif
+	QSizePolicy sizePolicyFixed(QSizePolicy::Fixed, QSizePolicy::Expanding);
 	sizePolicyFixed.setHorizontalStretch(0);
 	sizePolicyFixed.setVerticalStretch(0);
 	sizePolicyFixed.setHeightForWidth(false);
@@ -134,7 +130,7 @@ CReserva::CReserva(CReservaList *_owner):
 	
 	lblTitulo = new CReservaLabel(this);
 	lblTitulo->setObjectName(QString::fromUtf8("lblTitulo"));
-	QSizePolicy sizePolicy(static_cast<QSizePolicy::Policy>(13), static_cast<QSizePolicy::Policy>(13));
+	QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	sizePolicy.setHorizontalStretch(0);
 	sizePolicy.setVerticalStretch(0);
 	sizePolicy.setHeightForWidth(lblTitulo->sizePolicy().hasHeightForWidth());
@@ -559,7 +555,10 @@ void CReserva::refreshData()
 	if (m_deleting)
 		return;
 	
-	setToolTip("Resp.: " + USUARIO + '\n' + NOTAS);
+	if ( NOTAS.length() )
+		setToolTip("Resp.: " + USUARIO + '\n' + NOTAS);
+	else
+		setToolTip("Resp.: " + USUARIO);
 
 	lblHoraIn->setText(HORAIN.toString("HH:mm"));
 	lblHoraFim->setText(HORAFIM.toString("HH:mm"));

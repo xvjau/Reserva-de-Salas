@@ -61,7 +61,7 @@ void CAreas::on_pbRemover_pressed()
 		if (! QMessageBox::question(
 		    this,
 		    tr("Excluir Área?"),
-		    tr("Tem certeza que deseja excluir a área %1")
+		    tr("Tem certeza que deseja excluir a área %1?")
 		    	.arg(index.data().toString()),
 		    tr("&Sim"), tr("&Não"),
 		    QString(), 1, 0))
