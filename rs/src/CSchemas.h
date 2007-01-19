@@ -42,4 +42,6 @@ class CSchemas: public QDialog, public Ui::frSchemas
 		void onsliderMoved();
 		void on_tableView_pressed( const QModelIndex & index );
 		void on_pbAlterar_clicked();
+		void on_pbAdcionar_clicked();
+		void on_pbRemover_clicked();
 };

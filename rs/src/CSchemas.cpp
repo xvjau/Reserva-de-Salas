@@ -82,3 +82,29 @@ void CSchemas::on_tableView_pressed( const QModelIndex & index )
 	slBlue->setValue(iBlue);
 }
 
+void CSchemas::on_pbAdcionar_clicked()
+{
+	QModelIndex index = m_model->index( m_model->rowCount(), 0 );
+	m_model->insertRows(m_model->rowCount(), 1, index);
+}
+
+void CSchemas::on_pbRemover_clicked()
+{
+	QModelIndex index = tableView->selectionModel()->currentIndex();
+	
+	if (index.isValid())
+	{		
+		int i = m_model->headerData( index.row(), Qt::Vertical ).toInt();
+		
+		if (! QMessageBox::question(
+		    this,
+		    tr("Excluir Esquema de Cores?"),
+		    tr("Tem certeza que deseja excluir este esquema de cores <b>%1</b>?")
+		    .arg(QString::number(i)),
+		    tr("&Sim"), tr("&Não"),
+		    QString(), 1, 0))
+		{
+			m_model->removeRows(index.row(), 1);
+		}
+	}
+}
