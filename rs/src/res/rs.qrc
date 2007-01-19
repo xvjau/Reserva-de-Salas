@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/png/buttons/16" >
+        <file>1leftarrow.png</file>
+        <file>1rightarrow.png</file>
         <file>2leftarrow.png</file>
         <file>2rightarrow.png</file>
         <file>agt_action_fail.png</file>
