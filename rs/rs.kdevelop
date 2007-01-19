@@ -97,7 +97,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir></activedir>
+      <activedir>src</activedir>
     </general>
     <run>
       <directoryradio>custom</directoryradio>
@@ -144,7 +144,7 @@
     <qt>
       <used>true</used>
       <version>4</version>
-      <root>/usr</root>
+      <root>/usr/qt/4</root>
       <includestyle>4</includestyle>
       <designerintegration>ExternalDesigner</designerintegration>
     </qt>
