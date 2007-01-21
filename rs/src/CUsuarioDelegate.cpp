@@ -19,53 +19,47 @@
 	02111-1307, USA.
  */
 
-#include "CComboBoxDelegate.h"
-#include <QtGui/QComboBox>
+#include "CUsuarioDelegate.h"
+#include "CUsuariosModel.h"
+#include "CUsuariosAreas.h"
 
-CComboBoxDelegate::CComboBoxDelegate(QObject *_parent):
-	QItemDelegate(_parent)
+CUsuarioDelegate::CUsuarioDelegate( CData * _data, QObject *_parent ):
+	QItemDelegate(_parent),
+	m_data( _data )
 {
 	
 }
 
-QWidget * CComboBoxDelegate::createEditor ( QWidget * parent, const QStyleOptionViewItem & option,
+QWidget * CUsuarioDelegate::createEditor ( QWidget * parent, const QStyleOptionViewItem & option,
 									const QModelIndex & index ) const
 {
 	if (index.column() == 5)
 	{
-		QComboBox *editor = new QComboBox(parent);
-		
-		editor->installEventFilter(const_cast<CComboBoxDelegate*>(this));
-	
-		QStringList stringList = index.model()->data(index, Qt::LookUpRole).toStringList();
-		editor->addItems(stringList);
-
+		CUsuariosAreas * editor = new CUsuariosAreas( m_data, parent );
+		editor->installEventFilter(const_cast<CUsuarioDelegate*>(this));
 		return editor;
 	}
 	else
 		return QItemDelegate::createEditor(parent, option, index);
 }
 
-void CComboBoxDelegate::setEditorData ( QWidget * editor, const QModelIndex & index ) const
+void CUsuarioDelegate::setEditorData ( QWidget * editor, const QModelIndex & index ) const
 {
-	if (index.column() == 5)
+	if ( index.column() == 5 )
 	{
-		QComboBox *comboBox = static_cast<QComboBox*>(editor);
-
-		int listIndex = comboBox->findText( index.model()->data(index, Qt::DisplayRole).toString() );
-		comboBox->setCurrentIndex(listIndex);
+		CUsuariosAreas * form = static_cast<CUsuariosAreas*>(editor);
+		form->setUserAreas( index.model()->data(index, Qt::DisplayRole).toString() );
 	}
 	else
 		QItemDelegate::setEditorData(editor, index);
 }
 
-void CComboBoxDelegate::setModelData ( QWidget * editor, QAbstractItemModel * model, const QModelIndex & index ) const
+void CUsuarioDelegate::setModelData ( QWidget * editor, QAbstractItemModel * model, const QModelIndex & index ) const
 {
-	if (index.column() == 5)
+	if ( index.column() == 5 )
 	{
-		QComboBox *comboBox = static_cast<QComboBox*>(editor);
-
-		model->setData(index, comboBox->currentText());
+		CUsuariosAreas * form = static_cast<CUsuariosAreas*>(editor);
+		model->setData( index, form->getUserAreas() );
 	}
 	else
 		QItemDelegate::setModelData(editor, model, index);

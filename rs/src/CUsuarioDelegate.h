@@ -22,21 +22,25 @@
 #ifndef CCOMBOBOXDELEGATE_H
 #define CCOMBOBOXDELEGATE_H
 
-#include <QtGui/QItemDelegate>
+#include <QItemDelegate>
+#include <QAbstractItemView>
+
 #include "main.h"
+#include "CData.h"
 
 /**
 	@author Gianni Rossi <gianni.rossi@gmail.com>
 */
-class CComboBoxDelegate: public QItemDelegate
+class CUsuarioDelegate: public QItemDelegate
 {
 	Q_OBJECT
 	
 	public:
-		CComboBoxDelegate(QObject *_parent = 0);
+		CUsuarioDelegate( CData * _data, QObject *_parent = 0 );
 
 	private:
-		QStringList	*m_items;
+		QStringList		* m_items;
+		CData 			* m_data;
 
 	public:
 		virtual QWidget * createEditor ( QWidget * parent, const QStyleOptionViewItem & option,

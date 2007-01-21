@@ -34,11 +34,11 @@ CUsuarios::CUsuarios(CData* _data):
 	
 	connect(this, SIGNAL(accepted()), this, SLOT(onAccept()));
 		
-	m_model = new CUsuariosModel(m_data);
-	tableView->setModel(m_model);
+	m_model = new CUsuariosModel( m_data );
+	tableView->setModel( m_model );
 
-	m_delegate = new CComboBoxDelegate(this);
-	tableView->setItemDelegate(m_delegate);
+	m_delegate = new CUsuarioDelegate( m_data, this );
+	tableView->setItemDelegate( m_delegate );
 	
 	QFontMetrics fontMetrics( tableView->horizontalHeader()->font() );
 	

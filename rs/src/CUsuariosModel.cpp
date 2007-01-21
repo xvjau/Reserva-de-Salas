@@ -20,7 +20,9 @@
  */
 
 #include "CUsuariosModel.h"
-#include "CComboBoxDelegate.h"
+#include "CUsuarioDelegate.h"
+
+#include <QStringList>
 
 CUsuariosModel::CUsuariosModel(CData* _data):
 	m_data(_data)
@@ -30,6 +32,7 @@ CUsuariosModel::CUsuariosModel(CData* _data):
 	(*m_tr)->Start();
 	
 	Statement stmt = StatementFactory(_data->m_db, *m_tr);
+	Statement stmtArea = StatementFactory(_data->m_db, *m_tr);
 	
 	stmt->Execute("Select \
 						US.USUARIOID, \
@@ -39,19 +42,29 @@ CUsuariosModel::CUsuariosModel(CData* _data):
 						US.SCHEMEID, \
 						US.NIVEL, \
 						(Select First 1 \
-							AR.AREA \
+							AR.AREAID \
 						From \
 							AREAS AR \
 								join USUARIOS_AREAS UA on \
 									UA.AREAID = AR.AREAID \
 						Where \
-							UA.USUARIOID = US.USUARIOID) AREA \
+							UA.USUARIOID = US.USUARIOID) HAS_AREA \
 					From \
 						USUARIOS US \
 					Order By \
 						US.NOME");
 	
-	std::string     s;
+	stmtArea->Prepare("Select \
+							AREA \
+						From \
+							AREAS AR \
+								join USUARIOS_AREAS UA on \
+									UA.AREAID = AR.AREAID \
+						Where \
+							UA.USUARIOID = ?");
+			
+	std::string		s;
+	QStringList		list;
 	ROW_USUARIOS 	*row;
 	
 	while (stmt->Fetch())
@@ -77,10 +90,22 @@ CUsuariosModel::CUsuariosModel(CData* _data):
 			
 		stmt->Get(6, row->NIVEL);
 
-		if (! stmt->IsNull(7))
+		if (! stmt->IsNull(5))
 		{
-			stmt->Get(7, s);
-			row->AREA = s.c_str();
+			stmtArea->Set( 1, row->USUARIOID );
+			stmtArea->Execute();
+
+			list.clear();
+			while ( stmtArea->Fetch() )
+			{
+				if ( ! stmtArea->IsNull( 1 ) )
+				{
+					stmtArea->Get( 1, s );
+					list.append( QString::fromStdString(s) );
+				}
+
+				row->AREA = list.join( ", " );
+			}
 		}
 	}
 	stmt->Close();
@@ -194,20 +219,30 @@ bool CUsuariosModel::setData(const QModelIndex &index, const QVariant &value, in
 					stmt->Execute();
 					stmt->Close();
 
-					stmt->Prepare("insert into USUARIOS_AREAS (USUARIOID, AREAID) \
-									select \
-										?, \
-										AREAID \
-									from \
-										AREAS \
-									where \
-										AREA = ?");
-					stmt->Set(1, row->USUARIOID);
-					stmt->Set(2, value.toString().toStdString());
-					stmt->Execute();
+					QStringList list = value.toString().split(", ");
 
-					if (stmt->AffectedRows())
-						row->AREA = value.toString();
+					for ( int i = 0; i < list.count(); )
+					{
+						stmt->Prepare("insert into USUARIOS_AREAS (USUARIOID, AREAID) \
+										select \
+											?, \
+											AREAID \
+										from \
+											AREAS \
+										where \
+											AREA = ?");
+						
+						stmt->Set( 1, row->USUARIOID );
+						stmt->Set( 2, list[i].toStdString() );
+						stmt->Execute();
+
+						if ( ! stmt->AffectedRows() )
+							list.removeAt( i );
+						else
+							++i;
+					}
+
+					row->AREA = list.join(", ");
 					
 					stmt->Close();
 				}
@@ -217,6 +252,7 @@ bool CUsuariosModel::setData(const QModelIndex &index, const QVariant &value, in
 					QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 					return false;
 				}
+				emit dataChanged( index, index );
 				return true;
 			}
 			default:
@@ -250,6 +286,7 @@ bool CUsuariosModel::setData(const QModelIndex &index, const QVariant &value, in
 					case 4: row->NIVEL = value.toInt(); break;
 				}
 				stmt->Close();
+				emit dataChanged( index, index );
 				return true;
 			}
 			stmt->Close();

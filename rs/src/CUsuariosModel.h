@@ -50,6 +50,7 @@ class CUsuariosModel : public QAbstractTableModel
 		
 	public:
 		void CommitData() {(*m_tr)->Commit();};
+		CData*	getData() { return m_data; };
 
 		virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 		virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
