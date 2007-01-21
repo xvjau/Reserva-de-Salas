@@ -33,7 +33,11 @@ CUsuariosModel::CUsuariosModel(CData* _data):
 	
 	Statement stmt = StatementFactory(_data->m_db, *m_tr);
 	Statement stmtArea = StatementFactory(_data->m_db, *m_tr);
-	
+
+	/*
+	 * This SQL only checks if the user has an area.  If he does, then the 2nd SQL gets all the areas.
+	 * This is done to avoid unnecessary round-trips to the server.
+	 */
 	stmt->Execute("Select \
 						US.USUARIOID, \
 						US.LOGIN, \
@@ -42,13 +46,21 @@ CUsuariosModel::CUsuariosModel(CData* _data):
 						US.SCHEMEID, \
 						US.NIVEL, \
 						(Select First 1 \
-							AR.AREAID \
+							AR.AREA \
 						From \
 							AREAS AR \
 								join USUARIOS_AREAS UA on \
 									UA.AREAID = AR.AREAID \
 						Where \
-							UA.USUARIOID = US.USUARIOID) HAS_AREA \
+							UA.USUARIOID = US.USUARIOID) HAS_AREA, \
+						(Select \
+							Count(*) \
+						From \
+							AREAS AR \
+								join USUARIOS_AREAS UA on \
+									UA.AREAID = AR.AREAID \
+						Where \
+							UA.USUARIOID = US.USUARIOID) AREA_COUNT \
 					From \
 						USUARIOS US \
 					Order By \
@@ -92,19 +104,30 @@ CUsuariosModel::CUsuariosModel(CData* _data):
 
 		if (! stmt->IsNull(5))
 		{
-			stmtArea->Set( 1, row->USUARIOID );
-			stmtArea->Execute();
+			int count;
+			stmt->Get( 6, count );
 
-			list.clear();
-			while ( stmtArea->Fetch() )
+			if ( count == 1 )
 			{
-				if ( ! stmtArea->IsNull( 1 ) )
-				{
-					stmtArea->Get( 1, s );
-					list.append( QString::fromStdString(s) );
-				}
+				stmtArea->Get( 1, s );
+				row->AREA = QString::fromStdString(s);
+			}
+			else
+			{
+				stmtArea->Set( 1, row->USUARIOID );
+				stmtArea->Execute();
 
-				row->AREA = list.join( ", " );
+				list.clear();
+				while ( stmtArea->Fetch() )
+				{
+					if ( ! stmtArea->IsNull( 1 ) )
+					{
+						stmtArea->Get( 1, s );
+						list.append( QString::fromStdString(s) );
+					}
+
+					row->AREA = list.join( ", " );
+				}
 			}
 		}
 	}
