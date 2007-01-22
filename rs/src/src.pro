@@ -41,7 +41,8 @@ HEADERS += CConfig.h \
            CSemana.h \
            CReserva.h \
            rowRESERVA.h \
-           CUsuariosAreas.h
+           CUsuariosAreas.h \
+           CEsquemaComboBox.h
 SOURCES += CConfig.cpp \
            CData.cpp \
            CMainWindow.cpp \
@@ -66,7 +67,8 @@ SOURCES += CConfig.cpp \
            CSemana.cpp \
            CReserva.cpp \
            rowRESERVA.cpp \
-           CUsuariosAreas.cpp
+           CUsuariosAreas.cpp \
+           CEsquemaComboBox.cpp
 RCC_DIR = $$OBJECTS_DIR
 DEPENDPATH = .
 INCLUDEPATH += ../ibpp \
