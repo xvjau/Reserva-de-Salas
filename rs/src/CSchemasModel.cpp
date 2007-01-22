@@ -21,7 +21,7 @@
 
 #include "CSchemasModel.h"
 
-CSchemasModel::CSchemasModel(CData* _data):
+CSchemasModel::CSchemasModel( CData * _data ):
 	m_data(_data)
 {
 	m_tr    = new Transaction();

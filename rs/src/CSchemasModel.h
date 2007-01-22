@@ -25,7 +25,7 @@
 class CSchemasModel: public QAbstractTableModel
 {
 	public:
-		CSchemasModel(CData* _data);
+		CSchemasModel( CData * _data );
 		virtual ~CSchemasModel();
 
 	private:
