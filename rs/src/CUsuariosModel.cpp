@@ -102,14 +102,14 @@ CUsuariosModel::CUsuariosModel(CData* _data):
 			
 		stmt->Get(6, row->NIVEL);
 
-		if (! stmt->IsNull(5))
+		if (! stmt->IsNull(7))
 		{
 			int count;
-			stmt->Get( 6, count );
+			stmt->Get( 8, count );
 
 			if ( count == 1 )
 			{
-				stmtArea->Get( 1, s );
+				stmt->Get( 7, s );
 				row->AREA = QString::fromStdString(s);
 			}
 			else
