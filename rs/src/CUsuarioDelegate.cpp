@@ -22,6 +22,8 @@
 #include "CUsuarioDelegate.h"
 #include "CUsuariosModel.h"
 #include "CUsuariosAreas.h"
+#include "CEsquemaComboBox.h"
+#include <QComboBox>
 
 CUsuarioDelegate::CUsuarioDelegate( CData * _data, QObject *_parent ):
 	QItemDelegate(_parent),
@@ -33,35 +35,90 @@ CUsuarioDelegate::CUsuarioDelegate( CData * _data, QObject *_parent ):
 QWidget * CUsuarioDelegate::createEditor ( QWidget * parent, const QStyleOptionViewItem & option,
 									const QModelIndex & index ) const
 {
-	if (index.column() == 5)
+	switch ( index.column() )
 	{
-		CUsuariosAreas * editor = new CUsuariosAreas( m_data, parent );
-		editor->installEventFilter(const_cast<CUsuarioDelegate*>(this));
-		return editor;
+		case 3: // Esquema de Cores
+		{
+			CEsquemaComboBox * editor = new CEsquemaComboBox( m_data, parent );
+			editor->installEventFilter(const_cast<CUsuarioDelegate*>(this));
+			
+			return editor;
+		}
+		case 4: // Nivel
+		{
+			QComboBox * editor = new QComboBox( parent );
+			editor->installEventFilter(const_cast<CUsuarioDelegate*>(this));
+			
+			editor->addItem(QString::fromAscii("0 - Somente leitura"));
+			editor->addItem(QString::fromAscii("1 - Criar reservas"));
+			editor->addItem(QString::fromAscii("2 - Criar, Alterar reservas de qualquer usuário"));
+			editor->addItem(QString::fromAscii("3 - Administrador(a)"));
+			
+			return editor;
+		}
+		case 5: // Areas
+		{
+			CUsuariosAreas * editor = new CUsuariosAreas( m_data, parent );
+			editor->installEventFilter(const_cast<CUsuarioDelegate*>(this));
+			return editor;
+		}
+		default:
+			return QItemDelegate::createEditor(parent, option, index);
 	}
-	else
-		return QItemDelegate::createEditor(parent, option, index);
 }
 
 void CUsuarioDelegate::setEditorData ( QWidget * editor, const QModelIndex & index ) const
 {
-	if ( index.column() == 5 )
+	switch ( index.column() )
 	{
-		CUsuariosAreas * form = static_cast<CUsuariosAreas*>(editor);
-		form->setUserAreas( index.model()->data(index, Qt::DisplayRole).toString() );
+		case 3: // Esquema de Cores
+		{
+			CEsquemaComboBox * combo = static_cast<CEsquemaComboBox*>(editor);
+			int i = combo->findText( index.data(Qt::DisplayRole).toString() );
+			combo->setCurrentIndex( i );
+			break;
+		}
+		case 4: // Nivel
+		{
+			QComboBox * combo = static_cast<QComboBox*>(editor);
+			combo->setCurrentIndex( index.data(Qt::DisplayRole).toInt() );
+			break;
+		}
+		case 5: // Areas
+		{
+			CUsuariosAreas * form = static_cast<CUsuariosAreas*>(editor);
+			form->setUserAreas( index.data(Qt::DisplayRole).toString() );
+			break;
+		}
+		default:
+			QItemDelegate::setEditorData(editor, index);
 	}
-	else
-		QItemDelegate::setEditorData(editor, index);
 }
 
 void CUsuarioDelegate::setModelData ( QWidget * editor, QAbstractItemModel * model, const QModelIndex & index ) const
 {
-	if ( index.column() == 5 )
+	switch ( index.column() )
 	{
-		CUsuariosAreas * form = static_cast<CUsuariosAreas*>(editor);
-		model->setData( index, form->getUserAreas() );
+		case 3: // Esquema de Cores
+		{
+			CEsquemaComboBox * combo = static_cast<CEsquemaComboBox*>(editor);
+			model->setData( index, combo->currentText() );
+			break;
+		}
+		case 4: // Nivel
+		{
+			QComboBox * combo = static_cast<QComboBox*>(editor);
+			model->setData( index, combo->currentIndex() );
+			break;
+		}
+		case 5: // Areas
+		{
+			CUsuariosAreas * form = static_cast<CUsuariosAreas*>(editor);
+			model->setData( index, form->getUserAreas() );
+			break;
+		}
+		default:
+			QItemDelegate::setModelData(editor, model, index);
 	}
-	else
-		QItemDelegate::setModelData(editor, model, index);
 }
 
