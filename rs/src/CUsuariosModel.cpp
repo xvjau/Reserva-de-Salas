@@ -156,7 +156,7 @@ int CUsuariosModel::columnCount(const QModelIndex &parent) const
 
 QVariant CUsuariosModel::data(const QModelIndex &index, int role) const
 {
-	switch (role)
+	switch ( role )
 	{
 	    case Qt::DisplayRole:
 		case Qt::EditRole:
@@ -178,6 +178,26 @@ QVariant CUsuariosModel::data(const QModelIndex &index, int role) const
 			}
 			return QVariant();
 		}
+		
+		case Qt::BackgroundRole:
+		case Qt::ForegroundRole:
+		{
+			if (index.row() >= 0 && index.row() < m_rows.size() &&
+			    index.column() == 3)
+			{
+				ROW_USUARIOS *row = m_rows[index.row()];
+				
+				QPalette * palette = m_data->getColorScheme( row->SCHEMEID );
+				if ( palette )
+				{
+					
+					return ( role == Qt::BackgroundRole ) ?
+									palette->brush( QPalette::Base ) :
+									palette->brush( QPalette::Text ); 
+				}
+			}
+		}		
+		
 		case Qt::LookUpRole:
 			if (index.column() == 5)
 			{
