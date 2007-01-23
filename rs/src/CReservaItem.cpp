@@ -131,8 +131,10 @@ CSalaList *_salas, CMainWindow *_form):
 		deDataTermino->setDate(QDate::currentDate().addMonths(6));
 	}
 
-	//cbRecorrente->setEnabled(false);
-	cbTipoRecorrencia->setEnabled(false);
+	/*
+	 * TODO: Add ReservaMesal support to Database.
+	 */
+	cbTipoRecorrencia->setVisible( false );
 	
 	onValidate();
 	updateRecorrencia();
