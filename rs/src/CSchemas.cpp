@@ -36,6 +36,7 @@ CSchemas::CSchemas(CData* _data):
 	
 	m_model = new CSchemasModel(m_data);
 	tableView->setModel(m_model);
+	tableView->setColumnHidden( 2, true ); 
 	
 	lblCor->setBackgroundRole(QPalette::Window);
 	onsliderMoved();
@@ -70,16 +71,19 @@ void CSchemas::on_pbAlterar_clicked()
 
 void CSchemas::on_tableView_pressed( const QModelIndex & index )
 {
-	m_activeIndex = index;
-	
-	int iRed, iGreen, iBlue;
-	QColor color = m_model->data(m_activeIndex, Qt::BackgroundColorRole).value<QColor>();
-	
-	color.getRgb(&iRed, &iGreen, &iBlue);
-	
-	slRed->setValue(iRed);
-	slGreen->setValue(iGreen);
-	slBlue->setValue(iBlue);
+	if ( index.column() < 2 )
+	{
+		m_activeIndex = index;
+		
+		int iRed, iGreen, iBlue;
+		QColor color = m_model->data(m_activeIndex, Qt::BackgroundColorRole).value<QColor>();
+		
+		color.getRgb(&iRed, &iGreen, &iBlue);
+		
+		slRed->setValue(iRed);
+		slGreen->setValue(iGreen);
+		slBlue->setValue(iBlue);
+	}
 }
 
 void CSchemas::on_pbAdcionar_clicked()

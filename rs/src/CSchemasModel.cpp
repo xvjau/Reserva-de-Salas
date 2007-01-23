@@ -64,13 +64,22 @@ int CSchemasModel::rowCount(const QModelIndex &parent) const
 
 int CSchemasModel::columnCount(const QModelIndex &parent) const
 {
-	return 3;
+	return 4;
 }
 
 QVariant CSchemasModel::data(const QModelIndex &index, int role) const
 {
 	switch (role)
 	{
+		case Qt::DisplayRole:
+		{
+			if (index.row() >= 0 && index.row() < m_rows.size() &&
+			    index.column() == 3)
+			{
+				return QString(" Exemplo ");
+			}
+			break;
+		}
 		case Qt::BackgroundColorRole:
 		{
 			if (index.row() >= 0 && index.row() < m_rows.size() &&
@@ -81,9 +90,16 @@ QVariant CSchemasModel::data(const QModelIndex &index, int role) const
 				int i = 0;
 				switch (index.column())
 				{
-					case 0: i = row->BACKGROUND; break;
-					case 1: i = row->FONT; break;
-					case 2: i = row->BORDER; break;
+					case 0:
+					case 3: 
+						i = row->BACKGROUND; 
+						break;
+					case 1: 
+						i = row->FONT; 
+						break;
+					case 2: 
+						i = row->BORDER; 
+						break;
 				}
 				QString s;
 				s.setNum(i, 16);
@@ -91,6 +107,19 @@ QVariant CSchemasModel::data(const QModelIndex &index, int role) const
                 return QColor(s);
 			}
 			return QVariant();
+		}
+		case Qt::ForegroundRole:
+		{
+			if (index.row() >= 0 && index.row() < m_rows.size() &&
+			    index.column() == 3)
+			{
+				ROW_SCHEMAS *row = m_rows[index.row()];
+				
+				QString s;
+				s.setNum(row->FONT, 16);
+    			s = "#" + s.rightJustified(6, '0');
+                return QColor(s);
+			}
 		}
 	}
 	return QVariant();
@@ -107,6 +136,7 @@ QVariant CSchemasModel::headerData(int section, Qt::Orientation orientation, int
 	  			case 0: return QString("Fundo");
 				case 1: return QString("Fonte");
 				case 2: return QString("Borda");
+				case 3: return QString("Exemplo");
 			}
 			return QVariant();
 		}
