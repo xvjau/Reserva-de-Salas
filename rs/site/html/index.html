@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <title>Reserva de Salas</title>
+
+
+  <style title="rs" type="text/css"></style>
+</head>
+
+
+<body>
+
+<div style="text-align: center;"><span style="font-weight: bold; color: rgb(204, 0, 0);">Aten&ccedil;&atilde;o:
+Esta p&aacute;gina ainda est&aacute;
+em&nbsp;constru&ccedil;&atilde;o.<br>
+
+<br>
+
+</span></div>
+
+<table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="0">
+
+  <tbody>
+
+    <tr>
+
+      <td style="text-align: center;"><img style="width: 32px; height: 32px;" alt="logo" src="img/rs.png"></td>
+
+      <td>
+      <h1>Reserva de Salas</h1>
+
+      </td>
+
+      <td style="text-align: center;"><a href="http://firebirdsql.org/"><img style="border: 0px solid ; width: 102px; height: 47px;" alt="firebird logo" src="img/firebird_gloat1.png"></a>
+      </td>
+
+      <td style="text-align: right;"> <a href="http://sourceforge.net"><img src="sflogo.php" alt="SourceForge.net Logo" border="0" height="62" width="210"></a></td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<hr style="width: 100%; height: 2px;"><br>
+
+<br>
+
+<h2><a name="Introducao"></a>Introdu&ccedil;&atilde;o</h2>
+
+Este programa foi projetado para organizar o processo de reservar salas
+de aula ou reuni&atilde;o em um ambiente multi-usu&aacute;rio.
+&nbsp;Basicamente, um &uacute;nico servidor (com o banco de
+dados) controla as reservas feitas pelos usu&aacute;rios.
+&nbsp;Caso um usu&aacute;rio tente reservar uma sala em um
+hor&aacute;rio cujo &nbsp;j&aacute; tenha
+sido feito uma reserva, o sistema impedir&aacute; e
+avisar&aacute; o usu&aacute;rio.<br>
+
+<br>
+
+Os usu&aacute;rios e as salas s&atilde;o organizados
+em '&aacute;reas', para simplificar a interface (n&atilde;o
+haver informa&ccedil;&atilde;o demais na tela) e
+tamb&eacute;m para separar logicamente todos, assim
+usu&aacute;rios poder&atilde;o ter apenas permiss&atilde;o
+de criar reservas nas salas da sua pr&oacute;pria &aacute;rea.
+&nbsp;Um usu&aacute;rio, por&eacute;m, pode pertencer a quantas &aacute;reas for preciso.<br>
+
+<br>
+
+A distribui&ccedil;&atilde;o de usu&aacute;rios e salas
+pode ser a seguinte:<br>
+<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+
+  <tbody>
+    <tr>
+      <td><img style="width: 581px; height: 212px;" alt="areas" src="img/areas.png"></td>
+      <td>No diagrama &agrave; esquerda:<br>
+      <ul>
+        <li>As salas 1 e 2 pertencem a &aacute;rea comercial. &nbsp;Os
+usu&aacute;rios Carlos e Jo&atilde;o tamb&eacute;m, logo estes
+usu&aacute;rios podem fazer reservas nas salas 1 e 2, mas n&atilde;o
+podem na 'Sala de Video-conferencia'.</li>
+        <li>O usu&aacute;rio 'Nuno' pertence a ambas as &aacute;reas,
+logo pode fazer reservas nas salas 1 e 2, al&eacute;m da sala de
+video-confer&ecirc;ncia.</li>
+      </ul>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+<br>
+
+<h2><a name="Indice"></a>Indice</h2>
+
+<table style="text-align: left;" border="1" cellpadding="2" cellspacing="0">
+
+  <tbody>
+
+    <tr>
+
+      <td><a href="#Instalacao">Instala&ccedil;&atilde;o</a></td>
+
+      <td>
+      <table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="0">
+
+        <tbody>
+
+          <tr>
+
+            <td><a href="#Cliente">Cliente</a></td>
+
+            <td>
+            <table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="0">
+
+              <tbody>
+
+                <tr>
+
+                  <td><a href="#inst_cli_linux">Linux</a></td>
+
+                </tr>
+
+                <tr>
+
+                  <td><a href="#inst_cli_windows">Windows</a></td>
+
+                </tr>
+
+                <tr>
+
+                  <td><a href="#Banco_de_Dados">Banco
+de Dados</a></td>
+
+                </tr>
+
+              </tbody>
+            </table>
+
+            </td>
+
+          </tr>
+
+          <tr>
+
+            <td><a href="#Servidor">Servidor</a></td>
+
+            <td>
+            <table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="0">
+
+              <tbody>
+
+                <tr>
+
+                  <td><a href="#inst_serv_linux">Linux</a></td>
+
+                </tr>
+
+                <tr>
+
+                  <td><a href="#inst_serv_windows">Windows</a></td>
+
+                </tr>
+
+              </tbody>
+            </table>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td><a href="#Configura%E7%E3o_Inicial">Configura&ccedil;&atilde;o
+Inicial</a></td>
+
+      <td>
+      <table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="0">
+
+        <tbody>
+
+          <tr>
+
+            <td><a href="#Areas">&Aacute;reas</a></td>
+
+          </tr>
+
+          <tr>
+
+            <td><a href="#Salas">Salas</a></td>
+
+          </tr>
+
+          <tr>
+
+            <td><a href="#Esquemas_de_Cores">Esquemas
+de Cores</a></td>
+
+          </tr>
+
+          <tr>
+
+            <td><a href="#Usuarios">Usu&aacute;rios</a></td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <td colspan="2" rowspan="1"><a href="#Reservando_Salas">Reservando
+Salas</a> - Uso cotidiano</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<h2><a name="Instalacao"></a>Instala&ccedil;&atilde;o</h2>
+
+<h3><a name="Cliente"></a>Cliente</h3>
+
+<h4><a name="inst_cli_linux"></a>Linux</h4>
+
+Estamos trabalhando para gerar pacotes de
+instala&ccedil;&atilde;o para as
+distribui&ccedil;&otilde;es mais communs, tais como Slackware,
+Debian, Red Hat, SuSE, et cetera.<br>
+
+<br>
+
+Por hora, basta compilar os fontes e copiar (manualmente) para um
+diret&oacute;rio em seu path (tal como /usr/local/bin).<br>
+
+<br>
+
+Para compilar, baixe os fontes, e extraia-os em um diret&oacute;rio
+tempor&aacute;rio:<br>
+
+<br>
+
+Aten&ccedil;&atilde;o: &Eacute; preciso ter os fontes do <a href="http://www.trolltech.com/qt/">Qt</a> da
+vers&atilde;o 4 (recomendav&eacute;l 4.2 ou superior) para
+compilar.<br>
+
+<br>
+
+Baixar:<br>
+
+<table style="width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+  <tbody>
+
+    <tr>
+
+      <td style="background-color: rgb(232, 232, 232);"><span style="font-family: monospace;">cd /tmp</span><br style="font-family: monospace;">
+
+      <span style="font-family: monospace;">wget
+http://ufpr.dl.sourceforge.net/sourceforge/reservadesalas/rs-1.0.4-src.tar.gz</span></td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<span style="font-family: monospace;"></span><br>
+
+Compilar:<br>
+
+<table border="1" cellpadding="2" cellspacing="2" width="100%">
+
+  <tbody>
+
+    <tr>
+
+      <td style="background-color: rgb(232, 232, 232);"><span style="font-family: monospace;">cd rs</span><br style="font-family: monospace;">
+
+      <span style="font-family: monospace;">qmake</span><br style="font-family: monospace;">
+
+      <span style="font-family: monospace;">make</span><br style="font-family: monospace;">
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+Copiar o bin&aacute;rio:<br>
+
+<table border="1" cellpadding="2" cellspacing="2" width="100%">
+
+  <tbody>
+
+    <tr>
+
+      <td style="background-color: rgb(232, 232, 232);"><span style="font-family: monospace;">cp bin/rs /usr/local/bin</span></td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<span style="font-family: monospace;"></span>
+<h4><a name="inst_cli_windows"></a></h4>
+
+&Eacute; preciso, no entanto, apontar o caminho do banco de dados
+na
+primeira vez que o programa &eacute; executado; veja como fazer na
+se&ccedil;&atilde;o <a href="index.html#Banco_de_Dados">Banco
+de Dados</a>.<br>
+
+<h4>Windows</h4>
+
+A instala&ccedil;&atilde;o do programa em windows &eacute;
+trivial. &nbsp;Apenas baixe o instalador, que &eacute; o
+arquivo <span style="font-family: monospace;">rs-install-1.0.x.exe</span>
+disponiv&eacute;l <a href="http://sourceforge.net/project/showfiles.php?group_id=183302">aqui</a>.
+&nbsp;Ao final da instala&ccedil;&atilde;o, o programa
+geralmente
+&eacute; executado. &nbsp;&Eacute; preciso, no entanto,
+apontar o
+caminho do banco de dados na primeira vez que o programa &eacute;
+executado; veja como fazer na se&ccedil;&atilde;o <a href="#Banco_de_Dados">Banco de Dados</a>.<br>
+
+<br>
+
+<h4><a name="Banco_de_Dados"></a>Banco de Dados</h4>
+
+<table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr>
+      <td>
+      <table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr>
+            <td>
+
+
+Ao se usar o programa pela primeira vez,
+aparecer&aacute; a tela &agrave; direita informando que
+n&atilde;o foi possiv&eacute;l conectar-se ao banco de dados.
+&nbsp;Isso &eacute; normal pois a configura&ccedil;&atilde;o default &eacute; tentar conectar-se a um
+servidor em 'localhost', ou seja, na pr&oacute;pria m&aacute;quina. &nbsp;Basta clicar em
+'Cancel' que a tela abaixo aparecer&aacute;.</td>
+            <td>
+            <table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td><img style="width: 391px; height: 355px;" alt="erro ao conectar-se" src="img/screenshots/erro_conectar.png"></td>
+                </tr>
+                <tr align="center">
+                  <td><font size="-1">Fig. 1</font></td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr>
+            <td>
+            <table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td><img style="width: 270px; height: 230px;" alt="configurar servidor" src="img/screenshots/config_servidor.png"></td>
+                </tr>
+                <tr align="center">
+                  <td><font size="-1">Fig. 2</font></td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+            <td>Preencha as caixas com os seguintes valores:<br>
+            <br>
+            <ul>
+              <li><span style="font-weight: bold;">Servidor</span> - Endere&ccedil;o IP ou nome do servidor onde foi instalado o servidor Firebird com o banco de dados (veja se&ccedil;&atilde;o <a href="index.html#Servidor">Servidor</a>). &nbsp;Exemplos:</li>
+              <ul>
+                <li>192.168.128.1</li>
+                <li>servidor_01</li>
+              </ul>
+              <li><span style="font-weight: bold;">Banco</span>
+- Apelido/alias do banco Firebird ou ent&atilde;o, o caminho completo do
+arquivo. &nbsp;Geralmente, basta deixar o valor default. &nbsp;Exemplos:</li>
+              <ul>
+                <li>RS <font size="-1"><span style="font-style: italic;">(default)</span></font></li>
+                <li>/var/db/firebird/rs.fdb <font size="-1"><span style="font-style: italic;">(para Linux)</span></font></li>
+                <li>c:\bancos\rs.fdb <font size="-1"><span style="font-style: italic;">(para Windows)</span></font></li>
+              </ul>
+              <li><span style="font-weight: bold;">Usu&aacute;rio</span> - Nome do usu&aacute;rio <span style="font-style: italic;">do banco</span> que &eacute; usado para conectar-se. &nbsp;Geralmente, basta deixar o valor default. &nbsp;Exemplos:</li>
+              <ul>
+                <li>RS</li>
+                <li>SYSDBA <font size="-1"><span style="font-style: italic;">(caso n&atilde;o se tenha criado uma conta 'especial', veja se&ccedil;&atilde;o </span><a style="font-style: italic;" href="index.html#Servidor">Servidor</a><span style="font-style: italic;">)</span></font></li>
+              </ul>
+              <li><span style="font-weight: bold;">Senha</span> - Senha criada para o usu&aacute;rio acima.</li>
+              <li><span style="font-weight: bold;">Character Set </span>-
+C&oacute;digo de caracteres usado pelo banco. &nbsp;Normalmente este valor deve ser
+deixado em 'ISO8859_1' pois &eacute; o conjuto de caracteres que suporta todos
+os acentos da l&iacute;ngua portuguesa.</li>
+            </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+ 
+<h3><a name="Servidor"></a>Servidor</h3>
+
+<h4><a name="inst_serv_linux"></a>Linux</h4>
+
+<h4><a name="inst_serv_windows"></a>Windows</h4>
+
+<br>
+
+<h2><a name="Configura&ccedil;&atilde;o_Inicial"></a>Configura&ccedil;&atilde;o
+Inicial</h2>
+
+<h3><a name="Areas"></a>&Aacute;reas</h3>
+
+<h3><a name="Salas"></a>Salas</h3>
+
+<h3><a name="Esquemas_de_Cores"></a>Esquemas
+de Cores</h3>
+
+<h3><a name="Usuarios"></a>Usu&aacute;rios</h3>
+
+<br>
+
+<h2><a name="Reservando_Salas"></a>Reservando
+Salas - Uso cotidiano
+</h2>
+
+</body>
+</html>
