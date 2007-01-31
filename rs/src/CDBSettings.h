@@ -40,6 +40,7 @@ class CDBSettings: public QDialog, public Ui::frdbsettings
 	public slots:
 		void onClose();
 		void onCancel();
+		void on_helpButton_pressed();
 };
 
 #endif /*CDBSETTINGS_H_*/

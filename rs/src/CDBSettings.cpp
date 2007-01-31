@@ -21,6 +21,8 @@
  
 #include "CDBSettings.h"
 #include <QtCore/QSettings>
+#include <QDesktopServices>
+#include <QUrl>
 
 CDBSettings::CDBSettings(CMainWindow *_mainWindow):
 	m_mainWindow(_mainWindow)
@@ -115,4 +117,9 @@ void CDBSettings::onClose()
 void CDBSettings::onCancel()
 {
 	g_application->exit(-1);
+}
+
+void CDBSettings::on_helpButton_pressed()
+{
+	QDesktopServices::openUrl ( QUrl( "http://reservadesalas.sourceforge.net/_servidor.php" ));
 }

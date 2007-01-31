@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>frdbsettings</class>
  <widget class="QDialog" name="frdbsettings" >
   <property name="geometry" >
@@ -118,6 +115,16 @@
       <number>6</number>
      </property>
      <item>
+      <widget class="QPushButton" name="helpButton" >
+       <property name="text" >
+        <string>Ajuda</string>
+       </property>
+       <property name="icon" >
+        <iconset resource="../res/rs.qrc" >:/png/buttons/16/help.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer>
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
@@ -154,7 +161,6 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <tabstops>
   <tabstop>leServer</tabstop>
   <tabstop>leDatabase</tabstop>
