@@ -1,0 +1,12 @@
+Para Compilar / To Compile
+--------------------------
+
+é preciso / you need:
+
+  - Qt 4.2.x sources
+  - Firebird 2.x
+
+execute / run:
+
+qmake
+make
