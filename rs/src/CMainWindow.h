@@ -78,8 +78,6 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void on_actionHoje_triggered();
 		void on_btAnte_clicked();
 		void on_btProx_clicked();
-		void on_actionSobreRS_triggered();
-		void on_actionSobreQt_triggered();
 		void onSetStyle();
 		void cbAreaChanged(int index);
 		
@@ -103,6 +101,9 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void setActiveReserva(CReserva *_reserva);
 		void setActiveDate(QDate _date) {m_activeDate = _date;};
 		void setActiveSalaID(int _salaID) {m_activeSalaID = _salaID;};
+
+		void on_actionSobreRS_triggered();
+		void on_actionSobreQt_triggered();
 
         void showReservaMenu(const QPoint _pos);
         void initialize();

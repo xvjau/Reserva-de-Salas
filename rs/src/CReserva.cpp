@@ -599,6 +599,11 @@ void CReserva::refreshData()
 		this->setPalette(*g_disabledPalette);
 
 	m_height = lblTitulo->heightForWidth(150) + 5;
+	
+	int timeHeight = ( lblHoraIn->heightForWidth(150) * 2 ) + 5;
+	
+	if ( timeHeight > m_height )
+		m_height = timeHeight;
 }
 
 void CReserva::mouseDoubleClickEvent(QMouseEvent * event)
