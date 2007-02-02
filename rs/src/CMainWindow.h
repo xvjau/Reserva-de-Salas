@@ -37,7 +37,7 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 	Q_OBJECT
 	
 	public:
-		CMainWindow();
+		CMainWindow( QWidget * _parent = 0 );
 		~CMainWindow();
 	private:
 		QActionGroup	m_stylesgroup;
@@ -93,6 +93,8 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void setCanRefresh(bool _value) { m_canRefresh = _value; };
 		void checkRefresh() {if (m_needRefresh) refreshData(m_date);};
 		
+		bool initialize();
+		
 	public slots:
 		void refreshSalas();
 		void refreshAreas();
@@ -106,7 +108,6 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void on_actionSobreQt_triggered();
 
         void showReservaMenu(const QPoint _pos);
-        void initialize();
 };
 
 #endif // __INCLUDE_MAINWINDOW_H

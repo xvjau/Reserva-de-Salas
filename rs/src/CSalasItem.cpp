@@ -23,9 +23,10 @@
 #include "CSalas.h"
 
 CSalasItem::CSalasItem(PSala _sala, CSalas *_form):
-	m_sala(_sala),
-	m_validAndar(0, 4, this),
-	m_validSalaID(0, 999, this)
+	QDialog( _form ),
+	m_sala( _sala ),
+	m_validAndar( 0, 4, this ),
+	m_validSalaID( 0, 999, this )
 {
 	setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose);

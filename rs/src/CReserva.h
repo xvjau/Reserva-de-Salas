@@ -45,7 +45,7 @@ class CReserva: public QFrame
 	
 	private:
 		CReservaList   *m_owner;
-		CReserva(CReservaList *_owner);
+		CReserva( CReservaList *_owner );
 
 	public:
 		~CReserva();

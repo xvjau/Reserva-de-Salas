@@ -24,8 +24,9 @@
 
 #include <QStringList>
 
-CUsuariosModel::CUsuariosModel(CData* _data):
-	m_data(_data)
+CUsuariosModel::CUsuariosModel( CData* _data ):
+	QAbstractTableModel( _data ),
+	m_data( _data )
 {
 	m_tr    = new Transaction();
 	(*m_tr) = TransactionFactory(_data->m_db, amWrite, ilConcurrency, lrWait);

@@ -21,9 +21,10 @@
 
 #include "CSchemas.h"
 
-CSchemas::CSchemas(CData* _data):
-	m_data(_data),
-	m_model(0)
+CSchemas::CSchemas( CData* _data, QWidget * _parent ):
+	QDialog( _parent ),
+	m_data( _data ),
+	m_model( 0 )
 {
 	setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose);

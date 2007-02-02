@@ -28,6 +28,7 @@
 
 CReservaItem::CReservaItem(CReserva *_reserva,
 CSalaList *_salas, CMainWindow *_form):
+	QDialog( _form ), 
 	m_reserva(_reserva),
 	m_salas(_salas),
 	m_form(_form)

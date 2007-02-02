@@ -25,7 +25,9 @@
 #include <QUrl>
 
 CDBSettings::CDBSettings(CMainWindow *_mainWindow):
-	m_mainWindow(_mainWindow)
+	QDialog( 0 ),
+	m_mainWindow( _mainWindow ),
+	m_result( 0 )
 {
 	setupUi(this);
 	
@@ -80,7 +82,7 @@ CDBSettings::CDBSettings(CMainWindow *_mainWindow):
 	
 	connect(this, SIGNAL(accepted()), this, SLOT(onClose()));
 	connect(this, SIGNAL(rejected()), this, SLOT(onCancel()));
-	connect(this, SIGNAL(accepted()), m_mainWindow, SLOT(initialize()));
+	//connect(this, SIGNAL(accepted()), m_mainWindow, SLOT(initialize()));
 	
 	QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, ".");
 	QSettings settings(QSettings::IniFormat, QSettings::SystemScope, "Conf","RS");
@@ -116,7 +118,6 @@ void CDBSettings::onClose()
 
 void CDBSettings::onCancel()
 {
-	g_application->exit(-1);
 }
 
 void CDBSettings::on_helpButton_pressed()

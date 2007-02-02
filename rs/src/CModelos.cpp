@@ -35,11 +35,12 @@ void readString(Statement *stmt, const int col, QString &_value)
 }
 
 CModelos::CModelos(Database _db, CReservaList *_lista, const QString _sala, QPrinter *_printer):
-		m_lista(_lista),
-		m_sala(_sala),
-		m_printer(_printer),
-		m_db(_db),
-		m_reserva(0)
+		QDialog( _lista ),
+		m_lista( _lista ),
+		m_sala( _sala ),
+		m_printer( _printer ),
+		m_db( _db ),
+		m_reserva( 0 )
 {
 	init();
 }

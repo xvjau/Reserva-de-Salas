@@ -37,7 +37,7 @@ class CNotification: public QObject, public IBPP::EventInterface
 	Q_OBJECT
 
 	public:
-        CNotification();
+        CNotification( QObject * _parent = 0 );
         
         enum FBEventType {FBEUnknown, FBEInsert, FBEUpdate, FBEDelete};
 	    void ibppEventHandler(IBPP::Events _events, const std::string& _eventName, int _count);

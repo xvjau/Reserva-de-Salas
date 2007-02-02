@@ -32,7 +32,7 @@ class CUsuariosAreas: public QDialog, public Ui::frUsersAreas
 	Q_OBJECT
 	
 	public:
-		CUsuariosAreas( CData * _data, QWidget * _parent );
+		CUsuariosAreas( CData * _data, QWidget * _parent = 0 );
 		virtual ~CUsuariosAreas();
 
 	private:

@@ -24,10 +24,11 @@
 #include <QFontMetrics>
 #include <QHeaderView>
 
-CUsuarios::CUsuarios(CData* _data):
-	m_data(_data),
-	m_model(0),
-	m_delegate(0)
+CUsuarios::CUsuarios( CData* _data, QWidget *_parent ):
+	QDialog( _parent ),
+	m_data( _data ),
+	m_model( 0 ),
+	m_delegate( 0 )
 {
 	setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose);

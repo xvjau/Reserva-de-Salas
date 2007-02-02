@@ -22,9 +22,10 @@
 #include <QListWidgetItem>
 
 CUsuariosAreas::CUsuariosAreas( CData * _data, QWidget * _parent ):
-	QDialog(_parent)
+	QDialog( _parent )
 {
 	setupUi(this);
+	setAttribute( Qt::WA_DeleteOnClose );
 
 	Transaction tr = TransactionFactory(_data->m_db, amWrite, ilConcurrency, lrWait);
 	tr->Start();

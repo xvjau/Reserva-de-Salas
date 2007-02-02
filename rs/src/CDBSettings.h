@@ -31,11 +31,12 @@ class CDBSettings: public QDialog, public Ui::frdbsettings
 	Q_OBJECT
 	
 	public:
-		CDBSettings(CMainWindow *_mainWindow);
+		CDBSettings( CMainWindow *_mainWindow );
 		virtual ~CDBSettings();
 		
 	private:
-		CMainWindow	*m_mainWindow;
+		CMainWindow		*m_mainWindow;
+		int				m_result;
 				
 	public slots:
 		void onClose();

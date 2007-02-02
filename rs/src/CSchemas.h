@@ -29,7 +29,7 @@ class CSchemas: public QDialog, public Ui::frSchemas
 	Q_OBJECT
 	
 	public:
-		CSchemas(CData* _data);
+		CSchemas( CData* _data, QWidget * _parent = 0 );
 		~CSchemas();
 		
 	private:

@@ -35,11 +35,14 @@
 
 #include <iostream>
 
-CData::CData():
-	m_db(0),
-	m_notify(0),
-	m_areas(0),
-	m_areasId(0)
+CData::CData( QObject * _parent ):
+	QObject( _parent ),
+	m_db( 0 ),
+	m_notify( 0 ),
+	m_areas( 0 ),
+	m_areasId( 0 ),
+	m_event( 0 ),
+	m_connected( false )
 {
 
 }
@@ -111,7 +114,7 @@ bool CData::connect()
 			std::cerr << e.ErrorMessage() << std::endl;
 			QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		}
-		return true;
+		m_connected = true;
 	}
 	catch (Exception &e)
 	{
@@ -122,14 +125,19 @@ bool CData::connect()
 					QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 					
 
-		return false;
+		m_connected = false;
 	}
+	
+	return m_connected;
 }
 
 void CData::disconnect()
 {
-	m_event->Clear();
-	m_db->Disconnect();
+	if ( m_connected )
+	{
+		m_event->Clear();
+		m_db->Disconnect();
+	}
 }
 
 void CData::loadColorSchemes()

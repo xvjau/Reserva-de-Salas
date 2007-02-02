@@ -28,7 +28,7 @@
 class CUsuariosModel : public QAbstractTableModel
 {
 	public:
-		CUsuariosModel(CData* _data);
+		CUsuariosModel( CData* _data );
 		virtual ~CUsuariosModel();
 	
 	private:

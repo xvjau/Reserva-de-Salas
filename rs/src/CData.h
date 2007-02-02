@@ -49,10 +49,11 @@ class CData: public QObject
 	friend class CSemana;
 
 	public:
-		CData();
+		CData( QObject * _parent = 0 );
 		~CData();
 	
 	private:
+		bool				m_connected;
 		TColorSchemeList	m_colorSchemes;
 		QStringList*		m_areas;
 		QList<int>*			m_areasId;

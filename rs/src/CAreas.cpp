@@ -23,6 +23,7 @@
 #include <QMessageBox>
 
 CAreas::CAreas(CData* _data, CMainWindow* _form):
+	QDialog( _form ),
 	m_model(0)
 {
 	setupUi(this);

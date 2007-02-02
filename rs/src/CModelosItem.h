@@ -32,7 +32,7 @@ class CModelosItem: public QDialog, public Ui::ModeloItem
 	Q_OBJECT
 
 	public:
-		CModelosItem(Database _db, CModelos *_owner);
+		CModelosItem( Database _db, CModelos *_owner );
 		~CModelosItem();
 
 	private:

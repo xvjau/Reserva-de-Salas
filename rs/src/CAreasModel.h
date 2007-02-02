@@ -28,7 +28,7 @@
 class CAreasModel: public QAbstractTableModel
 {
 	public:
-		CAreasModel(CData* _data);
+		CAreasModel( CData* _data );
 		virtual ~CAreasModel();
 	
 	private:

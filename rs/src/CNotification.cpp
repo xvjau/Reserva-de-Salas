@@ -22,9 +22,11 @@
 #include "CNotification.h"
 #include <QtCore/QTimer>
 
-CNotification::CNotification():
+CNotification::CNotification( QObject * _parent ):
+	QObject( _parent ),
 	m_ignoreCount(0)
 {
+	// Async Events got deprecated in IBPP
 	#ifndef __ASYNC_EVENTS
 	m_timer.setInterval(500);
 	if (! connect(&m_timer, SIGNAL(timeout()), this, SLOT(onTimer())))

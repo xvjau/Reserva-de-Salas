@@ -22,8 +22,9 @@
 #include "CAreasModel.h"
 #include "main.h"
 
-CAreasModel::CAreasModel(CData* _data):
-	m_data(_data)
+CAreasModel::CAreasModel( CData* _data ):
+	QAbstractTableModel( _data ),
+	m_data( _data )
 {
 	m_tr    = new Transaction();
 	(*m_tr) = TransactionFactory(_data->m_db, amWrite, ilConcurrency, lrWait);

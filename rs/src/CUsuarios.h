@@ -36,7 +36,7 @@ class CUsuarios : public QDialog, public Ui::frUsers
 	Q_OBJECT
 	
 	public:
-		CUsuarios(CData* _data);
+		CUsuarios( CData* _data, QWidget *_parent = 0 );
 		~CUsuarios();
 		
 	private:

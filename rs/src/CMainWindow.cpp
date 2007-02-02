@@ -43,7 +43,8 @@
 static const int PSALA_COL_ROLE = 1025;
 static const int TABLE_ROW_HEIGHT = 30;
 
-CMainWindow::CMainWindow():
+CMainWindow::CMainWindow( QWidget * _parent ):
+	QMainWindow( _parent ),
 	m_salaList(0),
 	m_semana(0),
 	m_stylesgroup(this),
@@ -52,7 +53,7 @@ CMainWindow::CMainWindow():
 	m_needRefresh(true),
 	m_initialized(false)
 {
-	setupUi(this);
+	setupUi( this );
 	
 	#ifndef __unix__
 	QFont font(lbData->font());
@@ -72,32 +73,36 @@ CMainWindow::CMainWindow():
 	//m_mnPopupReserva.addAction(actionImprimirReserva);
 	
 	m_mnPopupHoje.addAction(actionHoje);
-	
-	initialize();
 }
 
 CMainWindow::~CMainWindow()
 {
-	m_config->setLastArea( cbArea->currentText() );
+	if ( m_initialized )
+	{
+		m_config->setLastArea( cbArea->currentText() );
 			
-	if (m_salaList)
-		delete m_salaList;
-
-	clearData();
+		if ( m_salaList )
+			delete m_salaList;
+	
+		clearData();
+	}
 }
 
-void CMainWindow::initialize()
+bool CMainWindow::initialize()
 {
-	if (m_initialized)
-		return;
+	if ( m_initialized )
+		return true;
 		
-	if (! m_data.connect())
+	if ( ! m_data.connect() )
 	{
-		CDBSettings *dbsettings = new CDBSettings(this);
-					
-		dbsettings->setModal(true);
-		dbsettings->show();
-		return;
+		CDBSettings dbsettings( this );
+		
+		do
+		{
+			if ( dbsettings.exec() == QDialog::Rejected )
+				return false;
+		}
+		while  ( ! m_data.connect() );
 	}
 
 	m_config = CConfig::getConfig(&m_data);
@@ -149,6 +154,8 @@ void CMainWindow::initialize()
 	
 	m_initialized = true;
 	resizeEvent( 0 );
+	
+	return m_initialized;
 }
 
 void CMainWindow::updateButtons()
@@ -397,8 +404,8 @@ void CMainWindow::on_actionUsuarios_triggered()
 
 void CMainWindow::on_actionCores_triggered()
 {
-	CSchemas *schemas = new CSchemas(&m_data);
-	schemas->setModal(true);
+	CSchemas *schemas = new CSchemas( &m_data, this );
+	schemas->setModal( true );
 	schemas->show();
 }
 

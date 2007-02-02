@@ -24,9 +24,10 @@
 #include "CModelos.h"
 
 CModelosItem::CModelosItem(Database _db, CModelos *_owner):
-	m_ModeloID(-1),
-	m_owner(_owner),
-	m_db(_db)
+	QDialog( _owner ),
+	m_ModeloID( -1 ),
+	m_owner( _owner ),
+	m_db( _db )
 {
 	setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose);

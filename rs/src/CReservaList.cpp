@@ -26,10 +26,10 @@
 #include "CSala.h"
 
 CReservaList::CReservaList(CSemana *_owner, QDate _date, int _salaID):
-	QFrame(_owner->getParent()),
-	m_owner(_owner),
-	m_date(_date),
-	m_salaID(_salaID)
+	QFrame( _owner->getParent() ),
+	m_owner( _owner ),
+	m_date( _date ),
+	m_salaID( _salaID )
 
 {
 	gridLayout = new QGridLayout(this);

@@ -26,8 +26,9 @@
 #include <QtGui/QHeaderView>
 
 CSalas::CSalas(CMainWindow *_form, CData *_data):
-	m_data(_data),
-    m_salaList(_data)
+	QDialog( _form ),
+	m_data( _data ),
+    m_salaList( _data )
 {
 	setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose);
