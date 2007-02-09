@@ -63,6 +63,7 @@ CSalaList *_salas, CMainWindow *_form):
 	connect(teHoraIN, SIGNAL(timeChanged(QTime)), this, SLOT(onValidate()));
 	connect(teHoraFim, SIGNAL(timeChanged(QTime)), this, SLOT(onValidate()));
 	connect(leAssunto, SIGNAL(textChanged(QString)), this, SLOT(onValidate()));
+	connect(cbSala, SIGNAL(currentIndexChanged (int)), this, SLOT(onValidate()));
 	
 	connect(cbRecorrente, SIGNAL(clicked()), this, SLOT(onValidate()));
 	connect(cbSemanal1, SIGNAL(clicked()), this, SLOT(onValidate()));
