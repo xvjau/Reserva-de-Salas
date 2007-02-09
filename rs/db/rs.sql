@@ -571,25 +571,23 @@ BEGIN
     SELECT FIRST 1
         R.RESERVAID
     FROM
-        RESERVAS R JOIN RESERVA_SIMPLES RS ON
-            R.RESERVAID = RS.RESERVAID
+        GET_RESERVAS_SEMANA(:DATA, :DATA, (SELECT AREAID FROM SALAS_AREAS WHERE SALAID = :SALAID)) R
     WHERE
-        (:SALAID = R.SALAID) AND 
-        (:DATA = RS.DATA) AND
-            (((:HORAIN >= RS.HORAIN) AND (:HORAIN < RS.HORAFIM))
+        (:SALAID = R.SALAID) AND
+            (((:HORAIN >= R.HORAIN) AND (:HORAIN < R.HORAFIM))
             OR
-            ((:HORAFIM > RS.HORAIN) AND (:HORAFIM <= RS.HORAFIM))
+            ((:HORAFIM > R.HORAIN) AND (:HORAFIM <= R.HORAFIM))
             OR
-            ((:HORAIN <= RS.HORAIN) AND (:HORAFIM > RS.HORAIN)))
+            ((:HORAIN <= R.HORAIN) AND (:HORAFIM > R.HORAIN)))
     INTO
         I;
 
     IF (NOT (I IS NULL OR I = :RESERVAID)) THEN
-        EXCEPTION EXPRESERVAHORA; 
+        EXCEPTION EXPRESERVAHORA;
 
     SEQ = GEN_ID(SEQRESERVAS, 1);
 
-    IF ((:RESERVAID IS NULL) OR (:RESERVAID < 0)) THEN  
+    IF ((:RESERVAID IS NULL) OR (:RESERVAID < 0)) THEN
     BEGIN
         OUT_RESERVAID = GEN_ID(GENRESERVAS, 1);
 
@@ -598,7 +596,7 @@ BEGIN
         VALUES
             (:OUT_RESERVAID, :SALAID, :USUARIOID, :ASSUNTO, :DEPTO, :NOTAS, :SEQ, 'S');
 
-        INSERT INTO 
+        INSERT INTO
             RESERVA_SIMPLES (RESERVAID, DATA, HORAIN, HORAFIM)
         VALUES
             (:OUT_RESERVAID, :DATA, :HORAIN, :HORAFIM);
@@ -616,14 +614,14 @@ BEGIN
         INTO
             :OLD_TIPO;
 
-        UPDATE  
+        UPDATE
             RESERVAS
         SET
-            SALAID = :SALAID, 
-            USUARIOID = :USUARIOID, 
-            ASSUNTO = :ASSUNTO, 
-            DEPTO = :DEPTO, 
-            NOTAS = :NOTAS, 
+            SALAID = :SALAID,
+            USUARIOID = :USUARIOID,
+            ASSUNTO = :ASSUNTO,
+            DEPTO = :DEPTO,
+            NOTAS = :NOTAS,
             SEQ = :SEQ
         WHERE
             RESERVAID = :RESERVAID;
@@ -643,7 +641,7 @@ BEGIN
             WHERE
                 RESERVAID = :RESERVAID;
         ELSE
-            INSERT INTO 
+            INSERT INTO
                 RESERVA_SIMPLES (DATA, HORAIN, HORAFIM)
             VALUES
                 (:DATA, :HORAIN, :HORAFIM);
