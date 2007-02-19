@@ -54,6 +54,8 @@ Section "MainSection" SEC01
   FileWrite $1 "$\r$\nRS = $0\rs.fdb$\r$\n"
   FileClose $1 ;Closes the filled file
 
+  ExecWait "$0\bin\gsec.exe -user SYSDBA -password masterkey -add RS -pw rs"
+
   ExecWait "$0\bin\isql.exe -i $TEMP\rs.sql -u SYSDBA -p masterkey"
 SectionEnd
 
