@@ -112,15 +112,15 @@ bool CData::connect()
 		catch (Exception &e)
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
-			QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		}
 		m_connected = true;
 	}
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro ao conectar-se ao Servidor",
-					QString("<b>Foi impossiv&eacute;l connectar-se ao servidor</b><br><br><small>Mensagem do banco:<br>") +
+		QMessageBox(tr("Erro ao conectar-se ao Servidor"),
+					tr("<b>Foi impossiv&eacute;l connectar-se ao servidor</b><br><br><small>Mensagem do banco:<br>") +
 							QString(e.ErrorMessage()).replace(QChar(10), "<br>") + QString("</small>"),
 					QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 					

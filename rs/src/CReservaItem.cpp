@@ -235,14 +235,14 @@ void CReservaItem::ok()
 		std::cerr << "SQLCode:" << SQLCode << std::endl; 
 		if (SQLCode == -836)
 		{
-			QMessageBox msg("Erro", "J&aacute; existe uma reserva<br>nessa sala neste hor&aacute;rio.", QMessageBox::Warning, QMessageBox::Cancel, 0, 0);
+			QMessageBox msg(tr("Erro"), tr("J&aacute; existe uma reserva<br>nessa sala neste hor&aacute;rio."), QMessageBox::Warning, QMessageBox::Cancel, 0, 0);
 			msg.setWindowIcon(QIcon(":/png/buttons/16/agt_update_critical.png"));
 			msg.setIconPixmap(QPixmap(":/png/buttons/16/kopete016.png"));
 			msg.exec();
 		}
 		else
 		{
-			QMessageBox("Erro", QString("La maison est tombe&eacute;<br>SQLError:") + QString::number(SQLCode), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			QMessageBox(tr("Erro"), QString("La maison est tombe&eacute;<br>SQLError:") + QString::number(SQLCode), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		}
 	}
 }
@@ -285,7 +285,7 @@ void CReservaItem::updateRecorrencia()
 	
 	frameRecorrente->setEnabled(cbRecorrente->checkState() == Qt::Checked);
 		
-	if (cbTipoRecorrencia->currentText() == QString::fromUtf8("Semanal"))
+	if ( cbTipoRecorrencia->currentIndex() == 0 )
 	{
 		frameSemanal->setVisible(true);
 		frameMensal->setVisible(false);

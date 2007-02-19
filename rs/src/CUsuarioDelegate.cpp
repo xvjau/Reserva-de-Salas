@@ -49,10 +49,10 @@ QWidget * CUsuarioDelegate::createEditor ( QWidget * parent, const QStyleOptionV
 			QComboBox * editor = new QComboBox( parent );
 			editor->installEventFilter(const_cast<CUsuarioDelegate*>(this));
 			
-			editor->addItem(QString::fromAscii("0 - Somente leitura"));
-			editor->addItem(QString::fromAscii("1 - Criar reservas"));
-			editor->addItem(QString::fromAscii("2 - Criar, Alterar reservas de qualquer usuário"));
-			editor->addItem(QString::fromAscii("3 - Administrador(a)"));
+			editor->addItem(tr("0 - Somente leitura"));
+			editor->addItem(tr("1 - Criar reservas"));
+			editor->addItem(tr("2 - Criar, Alterar reservas de qualquer usuário"));
+			editor->addItem(tr("3 - Administrador(a)"));
 			
 			return editor;
 		}

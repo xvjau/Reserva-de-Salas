@@ -104,7 +104,7 @@ bool CSalaList::loadList()
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(QObject::tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		return false;
 	}
 }

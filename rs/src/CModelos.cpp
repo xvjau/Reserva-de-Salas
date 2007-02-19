@@ -266,7 +266,7 @@ void CModelos::on_btDelete_clicked()
 		catch (Exception &e)
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
-			QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 			return;
 		}
 		m_modelos.removeAt(comboBox->currentIndex());

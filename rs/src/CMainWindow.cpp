@@ -39,6 +39,9 @@
 #include <QClipboard>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QSettings>
+#include <QTranslator>
+#include <QProcess>
 
 static const int PSALA_COL_ROLE = 1025;
 static const int TABLE_ROW_HEIGHT = 30;
@@ -308,7 +311,7 @@ void CMainWindow::refreshData(const QDate &_date)
 			sala = *it;
 			sala->m_column = icol;
 			
-			nomeSala = sala->getNome().length() ? sala->getNome() : QString("Sala ") + QString::number(sala->getSalaID());
+			nomeSala = sala->getNome().length() ? sala->getNome() : tr("Sala ") + QString::number(sala->getSalaID());
 			
 			item = tbReservas->horizontalHeaderItem(icol);
 
@@ -352,7 +355,7 @@ void CMainWindow::refreshData(const QDate &_date)
 		catch (Exception &e)
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
-			QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 			throw -1;
 		}
 	}
@@ -449,10 +452,10 @@ void CMainWindow::on_actionRemover_triggered()
 	if (m_activeReserva)
 		if (! QMessageBox::question(
 			this,
-			"Excluir Reserva",
-			"Tem certeza que deseja excluir a reserva " +
+			tr("Excluir Reserva"),
+			tr("Tem certeza que deseja excluir a reserva ") +
 					m_activeReserva->getASSUNTO(),
-			"&Sim", "&Não",
+			tr("&Sim"), tr("&Não"),
 			QString(), 1, 0))
 		{
 			m_activeReserva->del();
@@ -663,4 +666,26 @@ void CMainWindow::on_actionSobreRS_triggered()
 void CMainWindow::on_actionSobreQt_triggered()
 {
 	QMessageBox::aboutQt ( this );
+}
+
+void CMainWindow::on_actionPortugu_s_triggered()
+{
+	changeLocale( "ptBR" );
+}
+
+void CMainWindow::on_actionEnglish_triggered()
+{
+	changeLocale( "en" );
+}
+
+void CMainWindow::changeLocale( const QString &locale )
+{
+	{
+		QSettings settings("RolTram", "RS");
+		settings.beginGroup("Locale");
+		settings.setValue("Locale", locale);
+	}
+
+	QProcess::startDetached( g_application->arguments().join(" ") );
+	g_application->closeAllWindows();
 }

@@ -22,6 +22,7 @@
 #include "CConfig.h"
 #include <string>
 #include <QSettings>
+#include <QObject>
 
 #ifdef __unix__
 #include <unistd.h>
@@ -272,7 +273,7 @@ void CConfig::loadConfig()
 		catch (Exception &e)
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
-			QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			QMessageBox(QObject::tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		}
 	
 		m_loaded = true;

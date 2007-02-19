@@ -261,7 +261,7 @@ void CReserva::readSemanal()
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		throw;
 	}
 }
@@ -308,7 +308,7 @@ void CReserva::readMensal()
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		throw;
 	}
 }
@@ -488,7 +488,7 @@ bool CReserva::save()
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		return false;
 	}
 }
@@ -566,7 +566,7 @@ bool CReserva::del()
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		return false;
 	}
 }
@@ -577,9 +577,9 @@ void CReserva::refreshData()
 		return;
 	
 	if ( NOTAS.length() )
-		setToolTip("Resp.: " + USUARIO + '\n' + NOTAS);
+		setToolTip(tr("Resp.: ") + USUARIO + '\n' + NOTAS);
 	else
-		setToolTip("Resp.: " + USUARIO);
+		setToolTip(tr("Resp.: ") + USUARIO);
 
 	lblHoraIn->setText(HORAIN.toString("HH:mm"));
 	lblHoraFim->setText(HORAFIM.toString("HH:mm"));

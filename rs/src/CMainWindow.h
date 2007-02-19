@@ -55,6 +55,7 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		
 		void clearData();
 		void updateButtons();
+		void changeLocale( const QString &locale );
 
 		QMenu		m_mnPopupReserva;
 		QMenu		m_mnPopupHoje;
@@ -76,6 +77,8 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void on_actionImprimirReserva_triggered();
 		void on_actionCopiar_triggered();
 		void on_actionHoje_triggered();
+		void on_actionPortugu_s_triggered();
+		void on_actionEnglish_triggered();
 		void on_btAnte_clicked();
 		void on_btProx_clicked();
 		void onSetStyle();

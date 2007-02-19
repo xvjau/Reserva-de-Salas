@@ -43,7 +43,7 @@ CUsuarios::CUsuarios( CData* _data, QWidget *_parent ):
 	
 	QFontMetrics fontMetrics( tableView->horizontalHeader()->font() );
 	
-	int width = fontMetrics.width( " Esquema XX " );;
+	int width = fontMetrics.width( tr(" Esquema XX ") );;
 	int x = 0;
 	for (int i = 3; i < 5; ++i )
 	{

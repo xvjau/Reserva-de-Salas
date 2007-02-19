@@ -77,7 +77,7 @@ QVariant CSchemasModel::data(const QModelIndex &index, int role) const
 			if (index.row() >= 0 && index.row() < m_rows.size() &&
 			    index.column() == 3)
 			{
-				return QString(" Exemplo ");
+				return tr(" Exemplo ");
 			}
 			break;
 		}
@@ -134,10 +134,10 @@ QVariant CSchemasModel::headerData(int section, Qt::Orientation orientation, int
 		{
 			switch (section)
 			{
-	  			case 0: return QString("Fundo");
-				case 1: return QString("Fonte");
-				case 2: return QString("Borda");
-				case 3: return QString("Exemplo");
+	  			case 0: return tr("Fundo");
+				case 1: return tr("Fonte");
+				case 2: return tr("Borda");
+				case 3: return tr("Exemplo");
 			}
 			return QVariant();
 		}
@@ -198,7 +198,7 @@ bool CSchemasModel::setData(const QModelIndex &index, const QVariant &value, int
 		catch (Exception &e)
 		{
 	        std::cerr << e.ErrorMessage() << std::endl;
-	        QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+	        QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 	        return false;
 		}
 	}
@@ -246,7 +246,7 @@ bool CSchemasModel::insertRows(int row, int count, const QModelIndex & parent)
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 	}
 	
 	endInsertRows();
@@ -276,7 +276,7 @@ bool CSchemasModel::removeRows(int row, int count, const QModelIndex & parent)
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 	}
 	
 	endRemoveRows();

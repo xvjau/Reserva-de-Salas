@@ -34,4 +34,23 @@ class CEsquemaComboBox: public QComboBox
 		virtual ~CEsquemaComboBox();
 };
 
+class CEsquemaDelegate : public QAbstractItemDelegate
+{
+	Q_OBJECT
+
+	public:
+		CEsquemaDelegate( CData * _data, QObject * parent );
+
+	private:
+		CData * m_data;
+			
+	public:
+		// painting
+		virtual void paint ( QPainter * painter, const QStyleOptionViewItem & option,
+								const QModelIndex & index ) const;
+				
+		virtual QSize sizeHint ( const QStyleOptionViewItem & option,
+									const QModelIndex & index ) const;
+};
+
 #endif /*CESQUEMACOMBOBOX_H_*/

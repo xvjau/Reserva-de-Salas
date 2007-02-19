@@ -173,7 +173,7 @@
      <x>0</x>
      <y>0</y>
      <width>722</width>
-     <height>19</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuEstilo" >
@@ -197,7 +197,15 @@
     <addaction name="actionSobreRS" />
     <addaction name="actionSobreQt" />
    </widget>
+   <widget class="QMenu" name="menuLingua" >
+    <property name="title" >
+     <string>Lingua</string>
+    </property>
+    <addaction name="actionEnglish" />
+    <addaction name="actionPortugu_s" />
+   </widget>
    <addaction name="menuMenu" />
+   <addaction name="menuLingua" />
    <addaction name="menuEstilo" />
    <addaction name="menuAjuda" />
   </widget>
@@ -313,6 +321,16 @@
   <action name="actionSobreQt" >
    <property name="text" >
     <string>Sobre o Qt</string>
+   </property>
+  </action>
+  <action name="actionEnglish" >
+   <property name="text" >
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionPortugu_s" >
+   <property name="text" >
+    <string>Português</string>
    </property>
   </action>
  </widget>

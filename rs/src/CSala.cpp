@@ -20,6 +20,7 @@
  */
 #include "CSala.h"
 #include "main.h"
+#include <QObject>
  
 CSala::CSala(CSalaList *_owner):
     m_owner(_owner),
@@ -105,7 +106,7 @@ bool CSala::save()
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(QObject::tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		return false;
 	}
 }
@@ -136,7 +137,7 @@ bool CSala::del()
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(QObject::tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		return false;
 	}
 }

@@ -101,7 +101,7 @@ QVariant CAreasModel::headerData(int section, Qt::Orientation orientation, int r
 		{
 			switch (section)
 			{
-				case 0: return QString("Área");
+				case 0: return tr("Área");
 			}
 			return QVariant();
 		}
@@ -142,16 +142,16 @@ bool CAreasModel::setData(const QModelIndex &index, const QVariant &value, int r
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
 			if (e.SqlCode() == -803)
-				QMessageBox("Erro", "Já existe uma área com esse nome.", QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+				QMessageBox(tr("Erro"), tr("Já existe uma área com esse nome."), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 			else
-				QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+				QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 			
 			return false;
 		}
 		catch (Exception &e)
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
-			QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 			return false;
 		}
 	}
@@ -180,7 +180,7 @@ bool CAreasModel::insertRows(int row, int count, const QModelIndex & parent)
 				
 		stmt->Close();
 
-		rowData->AREA = QString("Nova área ") + QString::number( rowData->AREAID );
+		rowData->AREA = tr("Nova área ") + QString::number( rowData->AREAID );
 		
 		m_rows.push_back(rowData);
 
@@ -197,7 +197,7 @@ bool CAreasModel::insertRows(int row, int count, const QModelIndex & parent)
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 	}
 	return false;
 }
@@ -225,7 +225,7 @@ bool CAreasModel::removeRows(int row, int count, const QModelIndex & parent)
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 	}
 	return false;
 }

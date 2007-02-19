@@ -71,28 +71,31 @@ SOURCES += CConfig.cpp \
            CEsquemaComboBox.cpp
 RCC_DIR = $$OBJECTS_DIR
 DEPENDPATH = .
-INCLUDEPATH += ../ibpp \
-.
 MOC_DIR = ../obj
 UI_DIR = ../obj
 OBJECTS_DIR = ../obj
 TARGET = rs
 DESTDIR = ../bin
-CONFIG += warn_off \
-qt \
+CONFIG += qt \
 exceptions \
-debug
+debug \
+warn_on
 TEMPLATE = app
-LIBS += ../obj/libibpp.a
 linux-g++{
-  LIBS += /opt/firebird/lib/libfbclient.so
-  DEFINES += IBPP_LINUX
+    LIBS += /opt/firebird/lib/libfbclient.so
+    DEFINES += IBPP_LINUX
 }
 win32{
-  DEFINES += IBPP_WINDOWS
-  RC_FILE = ./res/rs.rc
+    DEFINES += IBPP_WINDOWS
+    RC_FILE = ./res/rs.rc
 }
 xwin32-g++{
-  DEFINES += IBPP_WINDOWS
-  RC_FILE = ./res/rs.rc
+    DEFINES += IBPP_WINDOWS
+    RC_FILE = ./res/rs.rc
 }
+TRANSLATIONS = rs_en.ts \
+rs_ptBR.ts
+INCLUDEPATH += ../ibpp \
+.
+LIBS += ../obj/libibpp.a
+

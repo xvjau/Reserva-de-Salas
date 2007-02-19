@@ -22,11 +22,30 @@
 #include "main.h"
 #include "CMainWindow.h"
 #include <QSettings>
+#include <QLocale>
+#include <QTranslator>
 
 int main (int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	g_application = &app;
+
+	QString locale;
+
+	{
+		QSettings settings("RolTram", "RS");
+		settings.beginGroup("Locale");
+		
+		if ( settings.contains("Locale") )
+			locale = settings.value("Locale").toString();
+		else
+			locale = QLocale::system().name();
+	}
+	
+	QTranslator translator;
+
+	translator.load(QString("rs_") + locale);
+	app.installTranslator(&translator);
 	
 	int exitCode = -1;
 	
@@ -37,7 +56,7 @@ int main (int argc, char *argv[])
 		{
 			QSettings settings("RolTram", "RS");
 			settings.beginGroup("mainwindow");
-			
+
 			if (settings.contains("maxed") && (settings.value("maxed") == true))
 				mainwindow.setWindowState(Qt::WindowMaximized);
 			else

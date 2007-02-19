@@ -40,6 +40,8 @@ class CReservaLabel;
 
 class CReserva: public QFrame
 {
+	Q_OBJECT
+	
 	friend class CReservaList;
 	friend class CReservaLabel;
 	

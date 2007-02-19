@@ -108,7 +108,7 @@ void CModelosItem::onAccept()
 	{
 		if (e.SqlCode() == -803)
 		{
-			QMessageBox msg("Erro", "Já existe um modelo<br>com esse nome.", QMessageBox::Warning, QMessageBox::Cancel, 0, 0);
+			QMessageBox msg(tr("Erro"), tr("Já existe um modelo<br>com esse nome."), QMessageBox::Warning, QMessageBox::Cancel, 0, 0);
 			msg.setWindowIcon(QIcon(":/png/buttons/16/agt_update_critical.png"));
 			msg.setIconPixmap(QPixmap(":/png/buttons/16/kopete016.png"));
 			msg.exec();
@@ -118,7 +118,7 @@ void CModelosItem::onAccept()
 	{
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
-			QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		}
 	}
 }

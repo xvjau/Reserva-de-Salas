@@ -76,7 +76,7 @@ void CSalasItem::ok()
 	{
 		if (SQLCode == -803)
 		{
-		    QMessageBox msg("Erro", "Esse numero de sala já existe!", QMessageBox::Warning, QMessageBox::Cancel, 0, 0);
+		    QMessageBox msg(tr("Erro"), tr("Esse número de sala já existe!"), QMessageBox::Warning, QMessageBox::Cancel, 0, 0);
 		    msg.setWindowIcon(QIcon(":/png/buttons/16/agt_update_critical.png"));
 			msg.setIconPixmap(QPixmap(":/png/buttons/16/kopete016.png"));
 			msg.exec();

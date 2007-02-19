@@ -217,12 +217,12 @@ QVariant CUsuariosModel::headerData(int section, Qt::Orientation orientation, in
 		{
 			switch (section)
 			{
-	  			case 0: return QString("Login");
-				case 1: return QString("Nome");
-				case 2: return QString("Estilo");
-				case 3: return QString("Esquema");
-				case 4: return QString("Nível");
-				case 5: return QString("Área");
+	  			case 0: return tr("Login");
+				case 1: return tr("Nome");
+				case 2: return tr("Estilo");
+				case 3: return tr("Esquema");
+				case 4: return tr("Nível");
+				case 5: return tr("Área");
 			}
 			return QVariant();
 		}
@@ -339,9 +339,9 @@ bool CUsuariosModel::setData(const QModelIndex &index, const QVariant &value, in
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
 			if ( index.column() == 3 ) // Scheme ID
-				QMessageBox("Erro", "Esse esquema de cores não existe!", QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+				QMessageBox(tr("Erro"), tr("Esse esquema de cores não existe!"), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 			else
-				QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+				QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 			return false;
 		}
 	}
@@ -395,7 +395,7 @@ bool CUsuariosModel::insertRows(int row, int count, const QModelIndex & parent)
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 	}
 	
 	endInsertRows();
@@ -424,7 +424,7 @@ bool CUsuariosModel::removeRows(int row, int count, const QModelIndex & parent)
 	catch (Exception &e)
 	{
 		std::cerr << e.ErrorMessage() << std::endl;
-		QMessageBox("Erro", e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+		QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 	}
 	
 	endRemoveRows();
