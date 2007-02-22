@@ -156,7 +156,7 @@ void CData::loadColorSchemes()
 
 	while (stmt->Fetch())
 	{
-		scheme = new QPalette(g_application->palette());
+		scheme = new QPalette( app()->palette() );
 		
 		#define GET_COLOR(INT, NAME) \
 			if (! stmt->IsNull(INT)) \

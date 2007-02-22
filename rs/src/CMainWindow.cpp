@@ -114,7 +114,7 @@ bool CMainWindow::initialize()
 	QAction *action;
 	
 	QString defStyle = m_config->getStyle();
-	g_application->setStyle(defStyle);
+	app()->setStyle(defStyle);
 	
 	for(int i = 0; i < styles.count(); ++i)
 	{
@@ -202,7 +202,6 @@ void CMainWindow::onSetStyle()
 	const QAction *action = dynamic_cast<QAction*>(sender());
 	
 	m_config->setStyle(action->text());
-	g_application->setStyle(action->text());
 }
 
 void CMainWindow::checkRowHeight(int _row, int _salaID)
@@ -210,6 +209,7 @@ void CMainWindow::checkRowHeight(int _row, int _salaID)
 	TListaReserva::iterator it;
 	int iHeight = 0;
 
+	app()->setStyle(action->text());
 	CReservaList* reservaList = m_semana->getReservaList(_row+1, _salaID);
 
 	for (it = reservaList->m_reservas.begin(); it != reservaList->m_reservas.end(); ++it)

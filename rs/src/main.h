@@ -38,7 +38,10 @@
 class CSalas;
 class CMainWindow;
 
-static QApplication *g_application;
+inline QApplication* app()
+{
+	return static_cast<QApplication*>(QApplication::instance());
+}
 
 namespace Qt
 {
@@ -70,13 +73,13 @@ class CWaitCursor
 {
 	public:
 		CWaitCursor()
-			{
-				g_application->setOverrideCursor(Qt::WaitCursor);
-			};
+		{
+			app()->setOverrideCursor(Qt::WaitCursor);
+		};
 			
 		~CWaitCursor()
 		{
-			g_application->restoreOverrideCursor();
+			app()->restoreOverrideCursor();
 		};
 };
 
