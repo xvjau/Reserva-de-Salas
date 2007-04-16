@@ -78,8 +78,8 @@ TARGET = rs
 DESTDIR = ../bin
 CONFIG += qt \
 exceptions \
-debug \
-warn_on
+warn_on \
+debug_and_release
 TEMPLATE = app
 linux-g++{
     LIBS += /opt/firebird/lib/libfbclient.so
@@ -95,6 +95,8 @@ xwin32-g++{
 }
 TRANSLATIONS = rs_en.ts \
 rs_ptBR.ts
+QT += core \
+gui
 INCLUDEPATH += ../ibpp \
 .
 LIBS += ../obj/libibpp.a
