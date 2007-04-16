@@ -24,6 +24,7 @@
 #include <QSettings>
 #include <QLocale>
 #include <QTranslator>
+#include <QDir>
 
 int main (int argc, char *argv[])
 {
@@ -43,8 +44,15 @@ int main (int argc, char *argv[])
 	
 	QTranslator translator;
 
-	translator.load(QString("rs_") + locale);
-	app.installTranslator(&translator);
+	{
+		QString localeFileName = app.applicationDirPath() + QDir::separator();
+		localeFileName += QString("rs_") + locale + ".qm";
+		
+		if ( translator.load( localeFileName ) )
+			app.installTranslator( &translator );
+		else
+			QMessageBox("Erro", "Unable to Load language file: " + localeFileName, QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+	}
 	
 	int exitCode = -1;
 	

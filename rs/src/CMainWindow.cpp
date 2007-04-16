@@ -201,6 +201,7 @@ void CMainWindow::onSetStyle()
 {
 	const QAction *action = dynamic_cast<QAction*>(sender());
 	
+	app()->setStyle(action->text());
 	m_config->setStyle(action->text());
 }
 
@@ -209,7 +210,6 @@ void CMainWindow::checkRowHeight(int _row, int _salaID)
 	TListaReserva::iterator it;
 	int iHeight = 0;
 
-	app()->setStyle(action->text());
 	CReservaList* reservaList = m_semana->getReservaList(_row+1, _salaID);
 
 	for (it = reservaList->m_reservas.begin(); it != reservaList->m_reservas.end(); ++it)
@@ -686,6 +686,6 @@ void CMainWindow::changeLocale( const QString &locale )
 		settings.setValue("Locale", locale);
 	}
 
-	QProcess::startDetached( g_application->arguments().join(" ") );
-	g_application->closeAllWindows();
+	QProcess::startDetached( app()->arguments().join(" ") );
+	app()->closeAllWindows();
 }
