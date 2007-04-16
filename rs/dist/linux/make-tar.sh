@@ -6,5 +6,7 @@ libfbclient.so.2 libicudata.so libicui18n.so libicuuc.so rs rs_ptBR.qm"
 if [ "${1}" == "" ]; then
 	echo error: Version string missing
 else
+	cp ../../bin/rs .
+	upx -9 rs
 	tar cjvf rs-${1}-$(uname -m).tar.bz2 $FILES
 fi
