@@ -5,7 +5,7 @@ FB_FILES="libicuuc.so libicudata.so libicui18n.so libfbclient.so libib_util.so"
  
 QT_FILES="libQtCore.so libQtGui.so"
 
-STATIC_QT=0
+STATIC_QT=1
 
 FB_DIR="/opt/firebird"
 QT_DIR=$(qmake -v | tail -1 | cut -c 27-)
@@ -42,18 +42,18 @@ else
 			if [ -f $QT_DIR/lib/$FILE ]; then
 				echo "Copying $FB_DIR/lib/$FILE"
 				cp $FB_DIR/lib/$FILE ./rs/$FILE
-				STATIC_QT=1
+				STATIC_QT=0
 			fi
 			echo "Checking $QT_DIR/$FILE"
 			if [ -f $QT_DIR/$FILE ]; then
 				echo "Copying $QT_DIR/$FILE"
 				cp $QT_DIR/$FILE ./rs/$FILE
-				STATIC_QT=1
+				STATIC_QT=0
 			fi
 		fi
 	done
 
-	if (( $STATIC_QT )); then
+	if (( STATIC_QT )); then
 		tar cjvf rs-${1}-$(uname -m)-static_qt.tar.bz2 -C ./rs $RS_FILES $FB_FILES
 	else
 		tar cjvf rs-${1}-$(uname -m)-no_qt.tar.bz2 -C ./rs $RS_FILES $FB_FILES
