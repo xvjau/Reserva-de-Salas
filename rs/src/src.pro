@@ -69,6 +69,8 @@ SOURCES += CConfig.cpp \
            rowRESERVA.cpp \
            CUsuariosAreas.cpp \
            CEsquemaComboBox.cpp
+TRANSLATIONS +=	rs_en.ts \
+		rs_ptBR.ts
 RCC_DIR = $$OBJECTS_DIR
 DEPENDPATH = .
 MOC_DIR = ../obj
