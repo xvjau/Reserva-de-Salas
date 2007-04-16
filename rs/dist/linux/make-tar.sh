@@ -1,5 +1,5 @@
 #!/bin/bash
-FILES="Conf libfbclient.so.2.0.0 libicudata.so.30 libicui18n.so.30 libicuuc.so.30 rs.sh \
+FILES="Conf/RS.ini libfbclient.so.2.0.0 libicudata.so.30 libicui18n.so.30 libicuuc.so.30 rs.sh \
 libfbclient.so libib_util.so libicudata.so.30.0 libicui18n.so.30.0  libicuuc.so.30.0 rs_en.qm \
 libfbclient.so.2 libicudata.so libicui18n.so libicuuc.so rs rs_ptBR.qm"
 
