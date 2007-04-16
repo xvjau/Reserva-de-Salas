@@ -17,7 +17,7 @@ else
 	if [ ! -d ./rs ]; then
 		mkdir rs
 	fi
-	rm ./rs/lib*
+	rm -f ./rs/lib*
 
 	echo "Upx"
 	upx -9 ../../bin/rs
