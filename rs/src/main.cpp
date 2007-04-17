@@ -45,7 +45,7 @@ int main (int argc, char *argv[])
 	QTranslator translator;
 
 	{
-		QString localeFileName = app.applicationDirPath() + QDir::separator();
+		QString localeFileName = QDir::toNativeSeparators( app.applicationDirPath() + QDir::separator());
 		localeFileName += QString("rs_") + locale + ".qm";
 		
 		if ( translator.load( localeFileName ) )

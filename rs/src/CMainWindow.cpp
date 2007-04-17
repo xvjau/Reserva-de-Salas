@@ -43,6 +43,8 @@
 #include <QTranslator>
 #include <QProcess>
 
+#include <QDir>
+
 static const int PSALA_COL_ROLE = 1025;
 static const int TABLE_ROW_HEIGHT = 30;
 
@@ -686,6 +688,12 @@ void CMainWindow::changeLocale( const QString &locale )
 		settings.setValue("Locale", locale);
 	}
 
-	QProcess::startDetached( app()->arguments().join(" ") );
+	QString path = QDir::toNativeSeparators( app()->applicationFilePath() );
+	path = QString("\"") + path + QString("\""); 
+
+	QStringList args = app()->arguments();
+	args.removeFirst();
+
+	QProcess::startDetached( path + QString(' ') + args.join(" "));
 	app()->closeAllWindows();
 }
