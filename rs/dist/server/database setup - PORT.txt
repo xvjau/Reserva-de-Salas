@@ -1,0 +1,86 @@
+Instalação
+----------
+
+ 1 - Instalar o servidor FirebirdSQL
+
+ 2 - Criar a conta de acesso
+
+ 3 - Instalar o banco de dados
+
+
+
+
+1 - Instalar o servidor FirebirdSQL
+-----------------------------------
+
+O RS é desenvolvido usando a versão 2.0 do FirebirdSQL.  Ele também pode funcionar na versão 1.5, mas isso não é bem testado.  Para mais informações sobre o processo de instalação, por favor consulte: http://www.firebase.com.br/fb/ ou http://www.firebirdsql.org/
+
+O RS funciona na versão "Classic" ou "Super-Server" do FirebirdSQL.  Qualquer uma pode ser baixada daqui:
+
+
+http://www.firebirdsql.org/index.php?op=files&id=engine_200
+
+
+
+
+2 - Criar a conta de acesso
+---------------------------
+
+Este é um passo opcional mais altamente recomendado.  Isso irá criar uma conta para ser usada por todas as estações que usarem o RS.  Como, de uma for ou de outra, o cliente vai ter que ter acesso a senha de uma conta (criptografada ou não), é melhor que tenham uma conta limitada, sem os poderes administrativos do SYSDBA.
+
+Por padrão, a conta geralmente utilizada é o usuário "RS" com a senha "rs".  Isso, porém, pode ser configurado a sua vontade.  Para criar a conta no linux, as seguinte seqüência de comandos pode ser usada:
+
+	tux@linux$ /opt/firebird/bin/gsec -user "SYSDBA" -password "masterkey"
+	GSEC> add RS -pw rs
+	GSEC> quit
+	tux@linux$
+
+Por favor substitua "masterkey" pela senha do seu SYSDBA caso necessário.  Caso você não tenha certeza ou não consegue conectar, verifique o arquivo /opt/firebird/SYSDBA.password - ele pode conter a sua senha correta.
+
+Em "outros" SO's, pode se usar a seguinte seqüencia:
+
+	%ProgramFiles%\Firebird_2_0\firebird\bin\gsec -user "SYSDBA" -password "masterkey"
+	GSEC> add RS -pw rs
+	GSEC> quit
+
+
+
+3 - Instalar o banco de dados
+-----------------------------
+
+Antes de mais nada, é recomendado que se crie um apelido (alias) para o banco RS. para criá-lo basta adicionar ao arquivo:
+
+	/opt/firebird/aliases.conf
+
+uma linha como esta:
+
+	RS = /var/db/firebird/rs.fdb
+
+
+para "outros SO's":
+
+	%ProgramFiles%\Firebird\Firebird_2_0\bin\aliases.conf
+
+	RS = C:\var\db\rs.fdb
+
+
+NOTA:  O caminho/nome do arquivo (o que vem depois do "RS =") não importam se você utilizar um apelido.
+
+NOTA 2: Se você não quiser fazer isto, por favor substitua "RS" pelo caminho/nome do arquivo completo em todas as instruções subseqüentes também como colocando-o por extenso na tela de configuração do servidor quando o cliente for conectar.
+
+
+Há duas formas de se criar o banco.  A maneira recomendada é executando o script de criação, ou então a forma simplificada é simplesmente restaurando o backup.
+
+
+NOTA: O character set usado em todos os exemplos é o "ISO8859_1", que comporta todos os acentos, caracters, etc da língua portuguesa em todas as plataformas.  Se você deseja usar outro, você deve alterar o script de criação e a linha de comando abaixo, e também não se pode usar o método de restauração do backup para criar o banco.  Todos os clientes também devem ser configurados para utilizarem o character set apropriado.
+
+
+3a - Executando o script
+
+	tux@linux$ /opt/firebird/bin/isql -d RS -ch ISO8859_1 -u SYSDBA -p masterkey -i rs.sql
+
+
+
+3b - Restaurando o backup
+
+	tux@linux$ /opt/firebird/bin/gbak -C -V -USER SYSDBA -PAS masterkey rs.fbk localhost:RS 
