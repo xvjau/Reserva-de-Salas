@@ -1,0 +1,5 @@
+#!/bin/bash
+echo configure, is a simple run of \"qmake -recursive\"
+echo
+echo "ps: after configure, run make (there is no make install tough).  The binary will be created in the bin directory."
+qmake -recursive
