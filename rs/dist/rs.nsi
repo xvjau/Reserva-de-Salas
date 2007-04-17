@@ -28,7 +28,7 @@ SetCompressor bzip2
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!insertmacro MUI_PAGE_LICENSE "src\res\GPL-pt_BR.txt"
+!insertmacro MUI_PAGE_LICENSE "..\src\res\GPL-pt_BR.txt"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
 ; Start menu page
@@ -58,7 +58,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "bin\rs-${PRODUCT_VERSION}-install.exe"
+OutFile "rs-${PRODUCT_VERSION}-install.exe"
 InstallDir "$PROGRAMFILES\Reserva de Salas"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -71,16 +71,18 @@ FunctionEnd
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR\Conf"
   SetOverwrite off
-  File "dist\Conf\RS.ini"
+  File "windows\Conf\RS.ini"
   SetOverwrite try
   SetOutPath "$INSTDIR"
-  File "dist\fbclient.dll"
-  File "dist\mingwm10.dll"
-  File "dist\QtCore4.dll"
-  File "dist\QtGui4.dll"
-  File "dist\msvcp71.dll"
-  File "dist\msvcr71.dll"
-  File "dist\rs.exe"
+  File "windows\fbclient.dll"
+  File "windows\mingwm10.dll"
+  File "windows\QtCore4.dll"
+  File "windows\QtGui4.dll"
+  File "windows\msvcp71.dll"
+  File "windows\msvcr71.dll"
+  File "windows\rs_ptBR.qm"
+  File "windows\rs_en.qm"
+  File "windows\rs.exe"
 
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
