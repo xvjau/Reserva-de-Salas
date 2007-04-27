@@ -48,6 +48,12 @@ class CConfig
 
 		const TIntList* getUserSalaList() {return &m_userSalaList;};
 		int getUserAreaID() {return m_userArea;};
+
+		void setIntervalKind ( const IntervalKind& theValue );
+		IntervalKind getIntervalKind() const;
+
+		void setDayInterval ( int theValue );
+		int getDayInterval() const;
 		
 	private:
         CConfig(CData *_data);
@@ -64,6 +70,8 @@ class CConfig
 		int			m_colorScheme;
 		TIntList	m_userSalaList;
 		int			m_userArea;
+		IntervalKind m_intervalKind;
+		int			m_dayInterval;
 };
 
 #endif // __INCLUDE_CCONFIG_H

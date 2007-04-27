@@ -176,11 +176,6 @@
      <height>29</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuEstilo" >
-    <property name="title" >
-     <string>Estilo</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuMenu" >
     <property name="title" >
      <string>Menu</string>
@@ -197,16 +192,42 @@
     <addaction name="actionSobreRS" />
     <addaction name="actionSobreQt" />
    </widget>
-   <widget class="QMenu" name="menuLingua" >
+   <widget class="QMenu" name="menuConfigura_es" >
     <property name="title" >
-     <string>Lingua</string>
+     <string>Configurações</string>
     </property>
-    <addaction name="actionEnglish" />
-    <addaction name="actionPortugu_s" />
+    <widget class="QMenu" name="menuType_Here" >
+     <property name="title" >
+      <string>Type Here</string>
+     </property>
+    </widget>
+    <widget class="QMenu" name="menuLingua" >
+     <property name="title" >
+      <string>Lingua</string>
+     </property>
+     <addaction name="actionEnglish" />
+     <addaction name="actionPortugu_s" />
+    </widget>
+    <widget class="QMenu" name="menuEstilo" >
+     <property name="title" >
+      <string>Estilo</string>
+     </property>
+     <addaction name="separator" />
+    </widget>
+    <widget class="QMenu" name="menuIntervalo" >
+     <property name="title" >
+      <string>Intervalo</string>
+     </property>
+     <addaction name="actionSemanal" />
+     <addaction name="actionMensal" />
+     <addaction name="actionOutro" />
+    </widget>
+    <addaction name="menuLingua" />
+    <addaction name="menuEstilo" />
+    <addaction name="menuIntervalo" />
    </widget>
    <addaction name="menuMenu" />
-   <addaction name="menuLingua" />
-   <addaction name="menuEstilo" />
+   <addaction name="menuConfigura_es" />
    <addaction name="menuAjuda" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
@@ -328,6 +349,9 @@
    <property name="text" >
     <string>Sobre o Qt</string>
    </property>
+   <property name="menuRole" >
+    <enum>QAction::AboutQtRole</enum>
+   </property>
   </action>
   <action name="actionEnglish" >
    <property name="icon" >
@@ -343,6 +367,43 @@
    </property>
    <property name="text" >
     <string>Português</string>
+   </property>
+  </action>
+  <action name="actionTESTE" >
+   <property name="text" >
+    <string>TESTE</string>
+   </property>
+  </action>
+  <action name="actionDs" >
+   <property name="text" >
+    <string>ds</string>
+   </property>
+  </action>
+  <action name="actionSemanal" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Semanal</string>
+   </property>
+  </action>
+  <action name="actionMensal" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Mensal</string>
+   </property>
+  </action>
+  <action name="actionOutro" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Outro...</string>
    </property>
   </action>
  </widget>

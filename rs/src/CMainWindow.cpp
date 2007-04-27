@@ -42,8 +42,8 @@
 #include <QSettings>
 #include <QTranslator>
 #include <QProcess>
-
 #include <QDir>
+#include <QInputDialog>
 
 static const int PSALA_COL_ROLE = 1025;
 static const int TABLE_ROW_HEIGHT = 30;
@@ -52,11 +52,14 @@ CMainWindow::CMainWindow( QWidget * _parent ):
 	QMainWindow( _parent ),
 	m_salaList(0),
 	m_semana(0),
-	m_stylesgroup(this),
+	m_stylesGroup(this),
+	m_intervalGroup(this),
 	m_config(0),
 	m_canRefresh(true),
 	m_needRefresh(true),
-	m_initialized(false)
+	m_initialized(false),
+	m_dayInterval( 7 ),
+ 	m_intervalKind( ikWeekly )
 {
 	setupUi( this );
 	
@@ -75,7 +78,7 @@ CMainWindow::CMainWindow( QWidget * _parent ):
 	m_mnPopupReserva.addAction(actionImprimirLista);
 	m_mnPopupReserva.addAction(actionCopiar);
 	
-	//m_mnPopupReserva.addAction(actionImprimirReserva);
+	m_mnPopupReserva.addAction(actionImprimirReserva);
 	
 	m_mnPopupHoje.addAction(actionHoje);
 }
@@ -121,7 +124,7 @@ bool CMainWindow::initialize()
 	for(int i = 0; i < styles.count(); ++i)
 	{
 		action = new QAction(styles[i], this);
-		action->setActionGroup(&m_stylesgroup);
+		action->setActionGroup(&m_stylesGroup);
 		action->setCheckable(true);
 		action->setChecked(defStyle == styles[i]);
 		
@@ -129,6 +132,9 @@ bool CMainWindow::initialize()
 		
 		menuEstilo->addAction(action);
 	}
+	actionSemanal->setActionGroup(&m_intervalGroup);
+	actionMensal->setActionGroup(&m_intervalGroup);
+	actionOutro->setActionGroup(&m_intervalGroup);
 
 	refreshAreas();
 	int index = cbArea->findText( m_config->getLastArea() );
@@ -136,7 +142,18 @@ bool CMainWindow::initialize()
 		cbArea->setCurrentIndex( index );
 	
 	m_date = QDate::currentDate();
-	m_date = m_date.addDays(m_date.dayOfWeek() * -1 + 1);
+
+	m_intervalKind = m_config->getIntervalKind();
+	m_dayInterval = m_config->getDayInterval();
+
+
+	switch( m_intervalKind )
+	{
+		case ikCustom: actionOutro->setChecked( true ); break;
+		case ikMonthly: actionMensal->setChecked( true ); break;
+		default: actionSemanal->setChecked( true );
+	}
+	
 	refreshData(m_date);
 
 	updateButtons();
@@ -269,9 +286,20 @@ void CMainWindow::clearData()
 void CMainWindow::refreshData(const QDate &_date)
 {
 	m_date = _date;
+	
+	switch( m_intervalKind )
+	{
+		case ikWeekly:
+			m_date = m_date.addDays(m_date.dayOfWeek() * -1 + 1);
+			break;
+		case ikMonthly:
+			m_date = m_date.addDays(m_date.day() * -1 + 1);
+			break;
+	}
+
 	m_activeDate = m_date;
 	m_needRefresh = true;
-	
+
 	if (!m_canRefresh)
 		return;
 	
@@ -295,7 +323,7 @@ void CMainWindow::refreshData(const QDate &_date)
 		CSalaList::TSalaList::iterator it;
 		
 		tbReservas->setColumnCount(m_salaList->m_salas.size());
-		tbReservas->setRowCount(7);
+		tbReservas->setRowCount( getDayInterval() );
 		
 		btProx->setEnabled(m_salaList->m_salas.size());
 		btAnte->setEnabled(m_salaList->m_salas.size());
@@ -332,9 +360,11 @@ void CMainWindow::refreshData(const QDate &_date)
 	}
 	
 	QString sdow;
-	for (int iday = 1; iday < 8; ++iday)
+	QDate ddow;
+	for (int iday = 1; iday < getDayInterval() + 1; ++iday)
 	{
-		sdow = QDate::shortDayName(iday) + " " + m_date.addDays(iday - 1).toString("dd");
+		ddow = m_date.addDays(iday - 1);
+		sdow = QDate::shortDayName( ddow.dayOfWeek() ) + " " + ddow.toString("dd");
 		item = tbReservas->verticalHeaderItem(iday - 1);
 		
 		if (item)
@@ -368,7 +398,7 @@ void CMainWindow::refreshData(const QDate &_date)
 	{
 		TListaReserva::iterator it;
 		CReservaList* reserva;
-		for (int iday = 1; iday < 8; ++iday)
+		for (int iday = 1; iday < getDayInterval() + 1; ++iday)
 		{
 			iRowHeight = TABLE_ROW_HEIGHT;
 			
@@ -503,12 +533,12 @@ void CMainWindow::refreshAreas()
 
 void CMainWindow::on_btAnte_clicked()
 {
-	refreshData(m_date.addDays(-7));
+	refreshData( m_date.addDays( -1 * getDayInterval() ));
 }
 
 void CMainWindow::on_btProx_clicked()
 {
-	refreshData(m_date.addDays(7));
+	refreshData( m_date.addDays( getDayInterval() ));
 }
 
 void CMainWindow::setActiveReserva(CReserva *_reserva)
@@ -696,4 +726,57 @@ void CMainWindow::changeLocale( const QString &locale )
 
 	QProcess::startDetached( path + QString(' ') + args.join(" "));
 	app()->closeAllWindows();
+}
+
+
+void CMainWindow::setIntervalKind ( const IntervalKind& theValue )
+{
+	m_intervalKind = theValue;
+	
+	m_config->setIntervalKind( m_intervalKind );
+	
+	refreshData(m_date);
+}
+
+
+void CMainWindow::setDayInterval ( int theValue )
+{
+	m_dayInterval = theValue;
+	m_intervalKind = ikCustom;
+
+	m_config->setIntervalKind( m_intervalKind );
+	m_config->setDayInterval( m_dayInterval );
+	
+	refreshData(m_date);
+}
+
+int CMainWindow::getDayInterval() const 
+{
+	switch( m_intervalKind )
+	{
+		case ikWeekly: return 7;
+		case ikMonthly: return m_date.daysInMonth();
+		case ikCustom: return m_dayInterval;
+	}
+}
+
+void CMainWindow::on_actionSemanal_triggered()
+{
+	setIntervalKind( ikWeekly );
+}
+
+void CMainWindow::on_actionMensal_triggered()
+{
+	setIntervalKind( ikMonthly );
+}
+
+void CMainWindow::on_actionOutro_triggered()
+{
+	bool ok = true;
+	
+	int interval = QInputDialog::getInteger(this, tr("Intervalo"), tr("Intervalo de dias"),
+											m_dayInterval, 1, 366, 1, &ok );
+
+	if ( ok )
+		setDayInterval( interval );
 }

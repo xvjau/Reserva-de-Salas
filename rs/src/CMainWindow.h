@@ -40,7 +40,8 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		CMainWindow( QWidget * _parent = 0 );
 		~CMainWindow();
 	private:
-		QActionGroup	m_stylesgroup;
+		QActionGroup	m_stylesGroup;
+		QActionGroup	m_intervalGroup;
 
 		CSemana			*m_semana;
 		CSalaList		*m_salaList;
@@ -49,6 +50,9 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		CData		m_data;
 		QDate		m_date;
 		CConfig		*m_config;
+
+		IntervalKind m_intervalKind;
+		int			m_dayInterval;
 		
 		QDate		m_activeDate;
 		int			m_activeSalaID;
@@ -79,6 +83,11 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void on_actionHoje_triggered();
 		void on_actionPortugu_s_triggered();
 		void on_actionEnglish_triggered();
+		void on_actionSemanal_triggered();
+		void on_actionMensal_triggered();
+		void on_actionOutro_triggered();
+		void on_actionSobreRS_triggered();
+		void on_actionSobreQt_triggered();
 		void on_btAnte_clicked();
 		void on_btProx_clicked();
 		void onSetStyle();
@@ -97,6 +106,12 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void checkRefresh() {if (m_needRefresh) refreshData(m_date);};
 		
 		bool initialize();
+
+		void setIntervalKind ( const IntervalKind& theValue );
+		IntervalKind getIntervalKind() const { return m_intervalKind; }
+
+		void setDayInterval ( int theValue );
+		int getDayInterval() const;
 		
 	public slots:
 		void refreshSalas();
@@ -107,10 +122,8 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void setActiveDate(QDate _date) {m_activeDate = _date;};
 		void setActiveSalaID(int _salaID) {m_activeSalaID = _salaID;};
 
-		void on_actionSobreRS_triggered();
-		void on_actionSobreQt_triggered();
-
-        void showReservaMenu(const QPoint _pos);
+		void showReservaMenu(const QPoint _pos);
+	
 };
 
 #endif // __INCLUDE_MAINWINDOW_H

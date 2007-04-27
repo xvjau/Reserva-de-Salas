@@ -77,7 +77,7 @@ void raiseLastOSError()
 
 inline void sfestrcpy(char *_dest, char *_src, uint _maxLen)
 {
-	int len = strlen(_src);
+	uint len = strlen(_src);
 	if (len > _maxLen)
 		len = _maxLen;
 
@@ -336,4 +336,52 @@ void CConfig::setLastArea(const QString &_area)
 	settings.beginGroup("mainwindow");
 		
 	settings.setValue("lastArea", _area);
+}
+
+void CConfig::setIntervalKind ( const IntervalKind& theValue )
+{
+	QSettings settings("RolTram", "RS");
+	settings.beginGroup("mainwindow");
+
+	QString kind;
+
+	switch( theValue )
+	{
+		case ikCustom: kind = 'C'; break;
+		case ikMonthly: kind = 'M'; break;
+		case ikWeekly: kind = 'W'; break;
+		default: kind = 'U'; break;
+	}
+	settings.setValue("intervalKind", kind);
+}
+
+IntervalKind CConfig::getIntervalKind() const
+{
+	QSettings settings("RolTram", "RS");
+	settings.beginGroup("mainwindow");
+
+	QString sKind = settings.value("intervalKind").toString().trimmed().toUpper();
+
+	if ( sKind == "M" )
+		return ikMonthly;
+	else if ( sKind == "C" )
+		return ikCustom;
+	else
+		return ikWeekly;
+}
+
+void CConfig::setDayInterval ( int theValue )
+{
+	QSettings settings("RolTram", "RS");
+	settings.beginGroup("mainwindow");
+		
+	settings.setValue("dayInterval", theValue);
+}
+
+int CConfig::getDayInterval() const
+{
+	QSettings settings("RolTram", "RS");
+	settings.beginGroup("mainwindow");
+		
+	return settings.value("dayInterval", "7").toInt();
 }

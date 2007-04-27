@@ -38,6 +38,8 @@
 class CSalas;
 class CMainWindow;
 
+enum IntervalKind { ikWeekly, ikMonthly, ikCustom };
+
 inline QApplication* app()
 {
 	return static_cast<QApplication*>(QApplication::instance());

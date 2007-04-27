@@ -50,7 +50,7 @@ class CSemana: public QObject
 		CMainWindow		*m_parent;
 		int				m_areaId;
 		
-		typedef	QMap<int, CReserva*> TMapReservas;
+		typedef			QMap<int, CReserva*> TMapReservas;
 		TMapReservas    m_reservaItems;
 		
 		Transaction		m_tr;
@@ -60,8 +60,9 @@ class CSemana: public QObject
 		
 		int				m_lastUpdate;
 		
-		typedef QMap<int, CReservaList*> TSemanaList;
-		TSemanaList m_reservas[7];
+		typedef			QMap<int, CReservaList*> TSemanaListMap;
+		typedef			QList<TSemanaListMap> TSemanaList;
+		TSemanaList		m_reservas;
 		
 		CReservaList* m_firstReservaList;
 		

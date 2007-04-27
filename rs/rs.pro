@@ -6,3 +6,5 @@ TEMPLATE = subdirs
 
 # Directories
 SUBDIRS += ibpp src
+CONFIG += warn_on
+

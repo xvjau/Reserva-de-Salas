@@ -80,8 +80,7 @@ TARGET = rs
 DESTDIR = ../bin
 CONFIG += qt \
 exceptions \
-warn_on \
-debug_and_release
+debug
 TEMPLATE = app
 linux-g++{
     LIBS += /opt/firebird/lib/libfbclient.so
@@ -95,8 +94,6 @@ xwin32-g++{
     DEFINES += IBPP_WINDOWS
     RC_FILE = ./res/rs.rc
 }
-TRANSLATIONS = rs_en.ts \
-rs_ptBR.ts
 QT += core \
 gui
 INCLUDEPATH += ../ibpp \

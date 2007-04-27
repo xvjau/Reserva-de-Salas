@@ -33,14 +33,6 @@ CSemana::CSemana(CMainWindow *_parent, QDate &_segunda, CData *_owner,
 	m_areaId(_areaId)
 {
 	connect(m_owner->m_notify, SIGNAL(FBEvent(int, int)), this, SLOT(onFBEvent(int , int)), Qt::QueuedConnection);
-	
-	for(int idow = 0; idow < 7; ++idow)
-	{
-		for (int i = 0; i < m_reservas[idow].count(); ++i)
-		{
-			m_reservas[idow][i] = 0;
-		}
-	}
 }
 
 CSemana::~CSemana()
@@ -82,7 +74,7 @@ bool CSemana::loadData()
 		QDate day;
 		Date pdate = Date(m_date.year(), m_date.month(), m_date.day());
 		m_stmt->Set(1, pdate);
-		pdate.Add(6);
+		pdate.Add(m_parent->getDayInterval() - 1);
 		m_stmt->Set(2, pdate);
 		m_stmt->Set(3, m_areaId);
 
@@ -95,6 +87,15 @@ bool CSemana::loadData()
 	
 		CSalaList::TSalaList::iterator it;
 		PSala sala;
+
+		for(int idow = 0; idow < m_parent->getDayInterval(); ++idow)
+		{
+			m_reservas.append(TSemanaListMap());
+			for (int i = 0; i < m_reservas[idow].count(); ++i)
+			{
+				m_reservas[idow][i] = 0;
+			}
+		}
 		
 		for(it = m_salas->m_salas.begin();
 			it != m_salas->m_salas.end();
@@ -102,7 +103,7 @@ bool CSemana::loadData()
 		{
 			sala = *it;
 			
-			for(int idow = 0; idow < 7; ++idow)
+			for(int idow = 0; idow < m_parent->getDayInterval(); ++idow)
 			{
 				day = m_date.addDays(idow);
 	
@@ -134,7 +135,7 @@ bool CSemana::loadData()
 
 void CSemana::clear()
 {
-	for(int idow = 0; idow < 7; ++idow)
+	for(int idow = 0; idow < m_reservas.count(); ++idow)
 	{
 		for (int i = 0; i < m_reservas[idow].count(); ++i)
 		{
@@ -146,6 +147,8 @@ void CSemana::clear()
 	
 		m_reservas[idow].clear();
 	}
+	
+	m_reservas.clear();
 }
 
 CReservaList* CSemana::getReservaList(int _dow, int _salaID)
