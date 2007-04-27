@@ -11,6 +11,7 @@
         <file>agt_support.png</file>
         <file>agt_update_critical.png</file>
         <file>appearance.png</file>
+        <file>brasil.png</file>
         <file>button_cancel.png</file>
         <file>cell_layout.png</file>
         <file>dissociatecell.png</file>
@@ -24,5 +25,6 @@
         <file>player_time.png</file>
         <file>print_printer.png</file>
         <file>today.png</file>
+        <file>uk.png</file>
     </qresource>
 </RCC>
