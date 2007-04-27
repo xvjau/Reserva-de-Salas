@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>722</width>
-    <height>553</height>
+    <height>554</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -314,21 +314,33 @@
    </property>
   </action>
   <action name="actionSobreRS" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/rs.png</iconset>
+   </property>
    <property name="text" >
     <string>Sobre o Reserva de Salas</string>
    </property>
   </action>
   <action name="actionSobreQt" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/help.png</iconset>
+   </property>
    <property name="text" >
     <string>Sobre o Qt</string>
    </property>
   </action>
   <action name="actionEnglish" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/uk.png</iconset>
+   </property>
    <property name="text" >
     <string>English</string>
    </property>
   </action>
   <action name="actionPortugu_s" >
+   <property name="icon" >
+    <iconset resource="../res/rs.qrc" >:/png/buttons/16/brasil.png</iconset>
+   </property>
    <property name="text" >
     <string>Português</string>
    </property>
