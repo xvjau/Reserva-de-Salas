@@ -25,6 +25,8 @@
 #include <QPainter>
 #include <QPalette>
 
+#include <math.h>
+
 CEsquemaDelegate::CEsquemaDelegate( CData * _data, QObject * parent ):
 	QAbstractItemDelegate( parent ),
 	m_data( _data )
@@ -36,7 +38,7 @@ QSize CEsquemaDelegate::sizeHint(const QStyleOptionViewItem &option,
 {
 	QString text = tr("Esquema ") + index.data(Qt::DisplayRole).toString();
 	QFontMetrics fontMetrics(option.font);
-	return QSize( fontMetrics.width(text), fontMetrics.lineSpacing() * 1.5 );
+	return QSize( fontMetrics.width(text), lround( fontMetrics.lineSpacing() * 1.5 ));
 }
 
 

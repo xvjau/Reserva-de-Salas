@@ -32,7 +32,7 @@ CSemana::CSemana(CMainWindow *_parent, QDate &_segunda, CData *_owner,
 	m_row(0),
 	m_areaId(_areaId)
 {
-	connect(m_owner->m_notify, SIGNAL(FBEvent(int, int)), this, SLOT(onFBEvent(int , int)), Qt::QueuedConnection);
+	connect(m_owner->m_notify, SIGNAL( FBEvent( int )), this, SLOT(onFBEvent( int )), Qt::QueuedConnection);
 }
 
 CSemana::~CSemana()
@@ -156,7 +156,7 @@ CReservaList* CSemana::getReservaList(int _dow, int _salaID)
 	return m_reservas[_dow-1][_salaID];
 }
 
-void CSemana::onFBEvent(int event, int count)
+void CSemana::onFBEvent( int event )
 {
 	bool needRefresh = false;
 	
@@ -202,12 +202,12 @@ void CSemana::onFBEvent(int event, int count)
 				fetchRow();
 				m_stmt->Get(13, m_lastUpdate);
 				
-				while ((m_row.RESERVAID != -1) && (! needRefresh))
+				while ( (m_row.RESERVAID != -1) && (! needRefresh) )
 				{
-					iRow = m_row.DATA.dayOfWeek();
+					iRow = m_date.daysTo( m_row.DATA ) + 1;
 					iSalaID = m_row.SALAID;
 					
-					reservaList = getReservaList(iRow,iSalaID);
+					reservaList = getReservaList( iRow, iSalaID );
 	
 					if (event == CNotification::FBEInsert)
 					{
@@ -272,7 +272,6 @@ void CSemana::onFBEvent(int event, int count)
 				Timestamp ts;
 				int iReservaID;
 				
-				CReservaList* reservaList;
 				CReserva* reserva;
 				TListaReserva::iterator it;
 				

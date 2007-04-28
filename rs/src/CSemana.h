@@ -77,7 +77,7 @@ class CSemana: public QObject
 		CMainWindow*	getParent() { return m_parent; };
 		
 	public slots:
-		void onFBEvent(int event, int count);
+		void onFBEvent( int event );
 };
 
 #endif

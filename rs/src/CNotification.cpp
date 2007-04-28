@@ -61,7 +61,7 @@ void CNotification::ibppEventHandler(IBPP::Events _events,
 	else if (_eventName == "reserva_del")
 		type = FBEDelete;
 	
-	emit FBEvent(type, _count);
+	emit FBEvent( type );
 }
 
 void CNotification::incIgnoreCount()

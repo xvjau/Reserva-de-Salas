@@ -225,7 +225,7 @@ void CReservaItem::ok()
 			if (m_reserva->getTIPO() == 'W')
 				m_form->refreshData(m_form->getDate());
 			else
-				m_form->checkRowHeight(deData->date().dayOfWeek()-1, m_reserva->getSALAID());
+				m_form->checkRowHeight( m_reserva->getOwner()->getPosition().x(), m_reserva->getOwner()->getPosition().y() );
 		}
 	
 		emit accepted();

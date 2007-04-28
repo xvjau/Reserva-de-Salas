@@ -161,7 +161,6 @@ void CReservaList::mousePressEvent(QMouseEvent * event)
 		emit showReservaMenu(mapToGlobal(event->pos()));
 	
 	CSalaList* salaList = m_owner->m_salas;
-	PSala sala = salaList->m_salas[m_salaID];
 
 	form->tbReservas->setCurrentCell( m_position.x(), m_position.y() );
 }

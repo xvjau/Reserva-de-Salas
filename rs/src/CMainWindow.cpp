@@ -53,13 +53,13 @@ CMainWindow::CMainWindow( QWidget * _parent ):
 	m_salaList(0),
 	m_config(0),
 	m_canRefresh(true),
-	m_initialized(false),
 	m_stylesGroup(this),
 	m_intervalGroup(this),
+	m_initialized(false),
 	m_semana(0),
-	m_needRefresh(true),
+	m_intervalKind( ikWeekly ),
 	m_dayInterval( 7 ),
-	m_intervalKind( ikWeekly )
+	m_needRefresh(true)
 {
 	setupUi( this );
 	
@@ -311,8 +311,11 @@ void CMainWindow::refreshData(const QDate &_date)
 	setActiveReserva(0);
 	
 	clearData();
-	
-	lbData->setText(m_date.toString("dd/MM/yyyy"));
+
+	if ( m_intervalKind == ikMonthly )
+		lbData->setText( m_date.toString("MMMM") );
+	else
+		lbData->setText( m_date.toString("dd/MM/yyyy") );
 	
 	if (! m_salaList)
 	{
@@ -424,10 +427,23 @@ void CMainWindow::refreshData(const QDate &_date)
 		}
 	}
 
+	/**
+	 * This SHOULD scroll the table to the current date, but currently,
+	 * nothing happens!
+	 */
+	/*
 	QDate today = QDate::currentDate();
 	if (( today >= m_date ) &&
 			 ( today <= m_date.addDays( dayInterval )))
-		tbReservas->scrollToItem( tbReservas->item( m_date.daysTo( today ) ,0 ) );
+	{
+		int idaysTo = m_date.daysTo( today );
+		int scrollBy = 0;
+		for ( int iday = 0; iday <= idaysTo ; ++iday )
+			scrollBy += tbReservas->rowHeight( iday );
+			
+		tbReservas->scroll( scrollBy, 0 );
+	}
+	*/
 	
 	m_needRefresh = false;
 }

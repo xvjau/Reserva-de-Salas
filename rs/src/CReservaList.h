@@ -54,13 +54,6 @@ class CReservaList: public QFrame
 	public:
 		CReservaList(CSemana *_owner, QDate _date, int _salaID);
 		~CReservaList();
-
-		Q_PROPERTY ( QString text
-				READ getText
-				WRITE setText );
-		
-		QString getText() { return QString(); };
-		void setText( QString _value ) {};
 		
 		bool loadList(rowRESERVA* _row);
 	

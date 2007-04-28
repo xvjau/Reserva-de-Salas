@@ -34,34 +34,34 @@
 
 class CNotification: public QObject, public IBPP::EventInterface
 {
-	Q_OBJECT
+		Q_OBJECT
 
 	public:
-        CNotification( QObject * _parent = 0 );
-        
-        enum FBEventType {FBEUnknown, FBEInsert, FBEUpdate, FBEDelete};
-	    void ibppEventHandler(IBPP::Events _events, const std::string& _eventName, int _count);
-        
+		CNotification ( QObject * _parent = 0 );
+
+		enum FBEventType {FBEUnknown, FBEInsert, FBEUpdate, FBEDelete};
+		void ibppEventHandler ( IBPP::Events _events, const std::string& _eventName, int _count );
+
 		void incIgnoreCount();
-		
+
 	private:
-        #ifdef __ASYNC_EVENTS
-        QMutex		m_mutex;
-		#else
+#ifdef __ASYNC_EVENTS
+		QMutex		m_mutex;
+#else
 		QTimer      m_timer;
 		IBPP::Events m_event;
-		#endif
+#endif
 		int 		m_ignoreCount;
 
-    #ifndef __ASYNC_EVENTS
-    public:
-        void setEvents(IBPP::Events _event) {m_event = _event;};
-    #endif
+#ifndef __ASYNC_EVENTS
+	public:
+		void setEvents ( IBPP::Events _event ) {m_event = _event;};
+#endif
 	public slots:
 		void onTimer();
-	
+
 	signals:
-		void FBEvent(int event, int count);
+		void FBEvent ( int event );
 };
 
 #endif // __INCLUDE_CNOTIFICATION_H
