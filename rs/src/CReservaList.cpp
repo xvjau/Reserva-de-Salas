@@ -160,8 +160,6 @@ void CReservaList::mousePressEvent(QMouseEvent * event)
 	if (event->button() == Qt::RightButton)
 		emit showReservaMenu(mapToGlobal(event->pos()));
 	
-	CSalaList* salaList = m_owner->m_salas;
-
 	form->tbReservas->setCurrentCell( m_position.x(), m_position.y() );
 }
 
