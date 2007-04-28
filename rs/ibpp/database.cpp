@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	File    : $Id: database.cpp 57 2006-04-02 17:44:00Z epocman $
+//	File    : $Id: database.cpp 92 2006-11-08 14:18:11Z epocman $
 //	Subject : IBPP, Database class implementation
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -160,8 +160,6 @@ void DatabaseImpl::Connect()
 void DatabaseImpl::Inactivate()
 {
 	if (mHandle == 0) return;	// Not connected anyway
-
-    IBS status;
 
     // Rollback any started transaction...
 	for (unsigned i = 0; i < mTransactions.size(); i++)

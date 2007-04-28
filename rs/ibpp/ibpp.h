@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-//	File    : $Id: ibpp.h 89 2006-07-23 13:22:12Z epocman $
+//	File    : $Id: ibpp.h 92 2006-11-08 14:18:11Z epocman $
 //	Subject : IBPP public header file. This is _the_ only file you include in
 //			  your application files when developing with IBPP.
 //
@@ -95,7 +95,7 @@ namespace IBPP
 {
 	//	Typically you use this constant in a call IBPP::CheckVersion as in:
 	//	if (! IBPP::CheckVersion(IBPP::Version)) { throw .... ; }
-	const uint32_t Version = (2<<24) + (5<<16) + (3<<8) + 0; // Version == 2.5.3.0
+	const uint32_t Version = (2<<24) + (5<<16) + (3<<8) + 1; // Version == 2.5.3.1
 
 	//	Dates range checking
 	const int MinDate = -693594;	//  1 JAN 0001
