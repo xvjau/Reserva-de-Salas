@@ -25,6 +25,75 @@
 #include <QLocale>
 #include <QTranslator>
 #include <QDir>
+#include <QFileInfo>
+
+static QSettings* globalSettings = 0;
+
+QSettings* getConfigFile()
+{
+	if ( ! globalSettings )
+	{
+		if ( QFile::exists( "./Conf/RS.ini" ) )
+		{
+			QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, ".");
+			globalSettings = new QSettings(QSettings::IniFormat, QSettings::SystemScope, "Conf","RS");
+		}
+		else
+		{
+			QString path;
+			QStringList searchPaths;
+#ifdef __unix__
+			searchPaths << "/etc/rs.conf" << "/etc/rs/rs.conf" << "/etc/xdg/rs.conf" << "/etc/xdg/rs/rs.conf"
+						<< "../etc/rs.conf" << "./config/rs.conf" << "/usr/share/rs/rs.conf"
+						<< "/usr/local/etc/rs.conf" << "/usr/local/etc/rs/rs.conf"
+						<< QDir::home().path() + "/.config/rs/rs.conf" << QDir::home().path() + "/.config/RolTram/RS.conf";
+#else
+			searchPaths << "c:/etc/rs.conf" << "c:/etc/rs/rs.conf" 
+						<< "../etc/rs.conf" << "./config/rs.conf" << "c:/usr/share/rs/rs.conf"
+						<< "c:/usr/local/etc/rs.conf" << "c:/usr/local/etc/rs/rs.conf"
+						<< QDir::home().path() + "/.config/rs/rs.conf" << QDir::home().path() + "/.config/RolTram/RS.conf";
+#endif
+
+			for ( int i = 0; i < searchPaths.count(); ++i )
+			{
+				path = searchPaths[i];
+
+				if ( QFileInfo( path ).exists() )
+				{
+					path = searchPaths[i];
+					goto FOUND;
+				}
+			}
+
+			for ( int i = 0; i < searchPaths.count(); ++i )
+			{
+				QFileInfo fileInfo = QFileInfo( searchPaths[i] );
+
+				if ( QFileInfo( fileInfo.path() ).isWritable() )
+				{
+					path = searchPaths[i];
+					goto FOUND;
+				}
+			}
+#ifdef __unix__
+			path =  QDir::tempPath () + QDir::separator ()  + "rs.conf";
+#else
+			globalSettings = new QSettings( QSettings::SystemScope, "RolTram", "RS" );
+			return globalSettings;
+#endif
+			FOUND:
+				globalSettings = new QSettings( path, QSettings::NativeFormat );
+		}
+	}
+	return globalSettings;
+}
+
+void deleteConfigFile()
+{
+	delete globalSettings;
+	globalSettings = 0;
+}
+
 
 int main (int argc, char *argv[])
 {

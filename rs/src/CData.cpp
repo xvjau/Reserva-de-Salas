@@ -70,36 +70,37 @@ CData::~CData()
 
 bool CData::connect()
 {
-	QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, ".");
-	QSettings settings(QSettings::IniFormat, QSettings::SystemScope, "Conf","RS");
+	QSettings* settings = getConfigFile();
 	
 	try
 	{
 		QString sdbName, sserverName, suserName, spassword, scharset;
 		
-		settings.beginGroup("DB");
+		settings->beginGroup("DB");
 		
-		if (! settings.contains("DB"))
+		if (! settings->contains("DB"))
 		{
-			settings.setValue("DB", "RS");
-			settings.setValue("Server", "localhost");
-			settings.setValue("User", "RS");
-			settings.setValue("Password", "rs");
-			settings.setValue("Characterset", "ISO8859_1");
+			settings->setValue("DB", "RS");
+			settings->setValue("Server", "localhostz");
+			settings->setValue("User", "RS");
+			settings->setValue("Password", "rs");
+			settings->setValue("Characterset", "ISO8859_1");
 		}
 		
-		sdbName = settings.value("DB", "RS").toString();
-		sserverName = settings.value("Server", "localhost").toString();
-		suserName = settings.value("User", "RS").toString();
-		spassword = settings.value("Password", "rs").toString();
-		scharset = settings.value("Characterset", "ISO8859_1").toString();
+		sdbName = settings->value("DB").toString();
+		sserverName = settings->value("Server").toString();
+		suserName = settings->value("User").toString();
+		spassword = settings->value("Password").toString();
+		scharset = settings->value("Characterset").toString();
+
+		settings->endGroup();
 		
 		m_db = DatabaseFactory(sserverName.toStdString(), sdbName.toStdString(),
 					suserName.toStdString(), spassword.toStdString(), "",
 	                        	scharset.toStdString(), "");
 		m_db->Connect();
 		loadColorSchemes();
-
+		
 		try
 		{
 			m_notify = new CNotification();
@@ -114,7 +115,9 @@ bool CData::connect()
 			std::cerr << e.ErrorMessage() << std::endl;
 			QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
 		}
+		
 		m_connected = true;
+		deleteConfigFile();
 	}
 	catch (Exception &e)
 	{
@@ -127,7 +130,7 @@ bool CData::connect()
 
 		m_connected = false;
 	}
-	
+
 	return m_connected;
 }
 

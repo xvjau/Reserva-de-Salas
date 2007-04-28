@@ -33,6 +33,8 @@
 #include <QtGui/QApplication>
 #include <QtGui/QMessageBox>
 #include <QtCore/QAbstractTableModel>
+#include <QtCore/QFile>
+#include <QtCore/QSettings>
 #include <iostream>
 
 class CSalas;
@@ -84,5 +86,8 @@ class CWaitCursor
 			app()->restoreOverrideCursor();
 		};
 };
+
+QSettings* getConfigFile();
+void deleteConfigFile();
 
 #endif // __INCLUDE_MAIN_H

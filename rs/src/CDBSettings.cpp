@@ -20,7 +20,6 @@
  */
  
 #include "CDBSettings.h"
-#include <QtCore/QSettings>
 #include <QDesktopServices>
 #include <QUrl>
 
@@ -84,18 +83,19 @@ CDBSettings::CDBSettings(CMainWindow *_mainWindow):
 	connect(this, SIGNAL(rejected()), this, SLOT(onCancel()));
 	//connect(this, SIGNAL(accepted()), m_mainWindow, SLOT(initialize()));
 	
-	QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, ".");
-	QSettings settings(QSettings::IniFormat, QSettings::SystemScope, "Conf","RS");
+	QSettings* settings = getConfigFile();
+
+	settings->beginGroup("DB");
 	
-	settings.beginGroup("DB");
+	leDatabase->setText( settings->value("DB", "RS").toString() );
+	leServer->setText( settings->value("Server", "localhost").toString() );
+	leUser->setText( settings->value("User", "RS").toString() );
+	lePassword->setText( settings->value("Password", "rs").toString() );
 	
-	leDatabase->setText(settings.value("DB", "RS").toString());
-	leServer->setText(settings.value("Server", "localhost").toString());
-	leUser->setText(settings.value("User", "RS").toString());
-	lePassword->setText(settings.value("Password", "rs").toString());
-	
-	int index = cbCharset->findText(settings.value("Characterset", "ISO8859_1").toString());
+	int index = cbCharset->findText( settings->value("Characterset", "ISO8859_1").toString() );
 	cbCharset->setCurrentIndex(index);
+
+	settings->endGroup();
 }
 
 CDBSettings::~CDBSettings()
@@ -104,16 +104,17 @@ CDBSettings::~CDBSettings()
 
 void CDBSettings::onClose()
 {
-	QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, ".");
-	QSettings settings(QSettings::IniFormat, QSettings::SystemScope, "Conf","RS");
+	QSettings* settings = getConfigFile();
 	
-	settings.beginGroup("DB");
+	settings->beginGroup("DB");
 	
-	settings.setValue("DB", leDatabase->text());
-	settings.setValue("Server", leServer->text());
-	settings.setValue("User", leUser->text());
-	settings.setValue("Password", lePassword->text());
-	settings.setValue("Characterset", cbCharset->currentText());
+	settings->setValue("DB", leDatabase->text());
+	settings->setValue("Server", leServer->text());
+	settings->setValue("User", leUser->text());
+	settings->setValue("Password", lePassword->text());
+	settings->setValue("Characterset", cbCharset->currentText());
+
+	settings->endGroup();
 }
 
 void CDBSettings::onCancel()
