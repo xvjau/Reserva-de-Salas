@@ -64,7 +64,7 @@ QSettings* getConfigFile()
 					goto FOUND;
 				}
 			}
-
+#ifdef __unix__
 			for ( int i = 0; i < searchPaths.count(); ++i )
 			{
 				QFileInfo fileInfo = QFileInfo( searchPaths[i] );
@@ -75,7 +75,7 @@ QSettings* getConfigFile()
 					goto FOUND;
 				}
 			}
-#ifdef __unix__
+
 			path =  QDir::tempPath () + QDir::separator ()  + "rs.conf";
 #else
 			globalSettings = new QSettings( QSettings::SystemScope, "RolTram", "RS" );
