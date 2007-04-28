@@ -495,9 +495,10 @@ bool CReserva::save()
 
 void CReserva::relocate()
 {
-	QDate segunda = m_owner->m_owner->m_date;
+	QDate intervalStart = m_owner->m_owner->m_date;
+	int dayInterval = m_owner->m_owner->m_parent->getDayInterval();
 	
-	if ((DATA < segunda) || (DATA >= segunda.addDays(8)))
+	if ((DATA < intervalStart) || (DATA >= intervalStart.addDays(dayInterval + 1)))
 	{
 		m_owner->m_reservas.removeAll(this);
 		delete this;
@@ -509,7 +510,7 @@ void CReserva::relocate()
 		{
 			m_owner->m_reservas.removeAll(this);
 
-			int idow = segunda.daysTo(DATA) + 1;
+			int idow = intervalStart.daysTo(DATA) + 1;
 
 			CReservaList *reservaList = m_owner->m_owner->getReservaList(idow, SALAID);
 
@@ -643,8 +644,6 @@ void CReserva::mousePressEvent(QMouseEvent * event)
 	
 	if (event->button() == Qt::RightButton)
 		m_owner->emit showReservaMenu(mapToGlobal(event->pos()));
-
-	CSalaList* salaList = m_owner->m_owner->m_salas;
 	
 	form->tbReservas->setCurrentCell( m_owner->m_position.x(), m_owner->m_position.y() );
 }
