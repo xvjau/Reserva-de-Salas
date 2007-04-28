@@ -95,7 +95,7 @@ class CReserva: public QFrame
 		CReservaLabel	*lblHoraFim;
 		CReservaLabel	*lblTitulo;
 
-		int	m_height;
+		int		m_height;
 
 		bool m_relocate;
 		bool m_deleting;

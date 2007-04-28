@@ -51,15 +51,15 @@ static const int TABLE_ROW_HEIGHT = 30;
 CMainWindow::CMainWindow( QWidget * _parent ):
 	QMainWindow( _parent ),
 	m_salaList(0),
-	m_semana(0),
-	m_stylesGroup(this),
-	m_intervalGroup(this),
 	m_config(0),
 	m_canRefresh(true),
-	m_needRefresh(true),
 	m_initialized(false),
+	m_stylesGroup(this),
+	m_intervalGroup(this),
+	m_semana(0),
+	m_needRefresh(true),
 	m_dayInterval( 7 ),
- 	m_intervalKind( ikWeekly )
+	m_intervalKind( ikWeekly )
 {
 	setupUi( this );
 	
@@ -238,7 +238,7 @@ void CMainWindow::checkRowHeight(int _row, int _salaID)
 		tbReservas->setRowHeight(_row, iHeight);
 }
 
-void CMainWindow::resizeEvent(QResizeEvent * event)
+void CMainWindow::resizeEvent( QResizeEvent * event )
 {
 	int iWidth = tbReservas->verticalHeader()->width();
 
@@ -295,11 +295,13 @@ void CMainWindow::refreshData(const QDate &_date)
 		case ikMonthly:
 			m_date = m_date.addDays(m_date.day() * -1 + 1);
 			break;
+		default: break;
 	}
 
 	m_activeDate = m_date;
 	m_needRefresh = true;
-
+	int dayInterval = getDayInterval();
+	
 	if (!m_canRefresh)
 		return;
 	
@@ -322,13 +324,13 @@ void CMainWindow::refreshData(const QDate &_date)
 	{
 		CSalaList::TSalaList::iterator it;
 		
-		tbReservas->setColumnCount(m_salaList->m_salas.size());
-		tbReservas->setRowCount( getDayInterval() );
+		tbReservas->setColumnCount( m_salaList->m_salas.size() );
+		tbReservas->setRowCount( dayInterval );
 		
-		btProx->setEnabled(m_salaList->m_salas.size());
-		btAnte->setEnabled(m_salaList->m_salas.size());
-		if (pbAdicionar)
-			pbAdicionar->setEnabled(m_salaList->m_salas.size());
+		btProx->setEnabled( m_salaList->m_salas.size() );
+		btAnte->setEnabled( m_salaList->m_salas.size() );
+		if ( pbAdicionar )
+			pbAdicionar->setEnabled( m_salaList->m_salas.size() );
 		
 		int icol = 0;
 		PSala sala;
@@ -339,40 +341,41 @@ void CMainWindow::refreshData(const QDate &_date)
 			++it, ++icol)
 		{
 			sala = *it;
+			
 			sala->m_column = icol;
 			
-			nomeSala = sala->getNome().length() ? sala->getNome() : tr("Sala ") + QString::number(sala->getSalaID());
+			nomeSala = sala->getNome().length() ? sala->getNome() : tr("Sala ") + QString::number( sala->getSalaID() );
 			
-			item = tbReservas->horizontalHeaderItem(icol);
+			item = tbReservas->horizontalHeaderItem( icol );
 
-			if (item)
+			if ( item )
 			{
-				item->setText(nomeSala);
-				item->setData(PSALA_COL_ROLE, sala->getSalaID());
+				item->setText( nomeSala );
+				item->setData( PSALA_COL_ROLE, sala->getSalaID() );
 			}
 			else
 			{
-				item = new QTableWidgetItem(nomeSala);
-				item->setData(PSALA_COL_ROLE, sala->getSalaID());
-				tbReservas->setHorizontalHeaderItem (icol, item);
+				item = new QTableWidgetItem( nomeSala );
+				item->setData( PSALA_COL_ROLE, sala->getSalaID() );
+				tbReservas->setHorizontalHeaderItem ( icol, item );
 			}
 		}
 	}
 	
 	QString sdow;
 	QDate ddow;
-	for (int iday = 1; iday < getDayInterval() + 1; ++iday)
+	for ( int iday = 1; iday < dayInterval + 1; ++iday )
 	{
-		ddow = m_date.addDays(iday - 1);
+		ddow = m_date.addDays( iday - 1 );
 		sdow = QDate::shortDayName( ddow.dayOfWeek() ) + " " + ddow.toString("dd");
-		item = tbReservas->verticalHeaderItem(iday - 1);
+		item = tbReservas->verticalHeaderItem( iday - 1 );
 		
 		if (item)
 			item->setText(sdow);
 		else
 		{
-			item = new QTableWidgetItem(sdow);
-			tbReservas->setVerticalHeaderItem (iday - 1, item);
+			item = new QTableWidgetItem( sdow );
+			tbReservas->setVerticalHeaderItem( iday - 1, item );
 		}
 	}
 	
@@ -381,10 +384,10 @@ void CMainWindow::refreshData(const QDate &_date)
 		try
 		{
 			int iareaId = m_data.getAreaId( cbArea->currentText() );
-			m_semana = new CSemana(this, m_date, &m_data, m_salaList, iareaId);
+			m_semana = new CSemana( this, m_date, &m_data, m_salaList, iareaId );
 			m_semana->loadData();
 		}
-		catch (Exception &e)
+		catch ( Exception &e )
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
 			QMessageBox(tr("Erro"), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
@@ -398,27 +401,33 @@ void CMainWindow::refreshData(const QDate &_date)
 	{
 		TListaReserva::iterator it;
 		CReservaList* reserva;
-		for (int iday = 1; iday < getDayInterval() + 1; ++iday)
+		for ( int iday = 1; iday < dayInterval + 1; ++iday )
 		{
 			iRowHeight = TABLE_ROW_HEIGHT;
 			
-			for(int icol = 0; icol < tbReservas->columnCount(); ++icol)
+			for( int icol = 0; icol < tbReservas->columnCount(); ++icol )
 			{
-				isalaid = tbReservas->horizontalHeaderItem(icol)->data(PSALA_COL_ROLE).value<int>();
-				reserva = m_semana->getReservaList(iday, isalaid);
-				tbReservas->setCellWidget(iday - 1, icol, reserva);
+				isalaid = tbReservas->horizontalHeaderItem( icol )->data( PSALA_COL_ROLE ).value<int>();
+				reserva = m_semana->getReservaList( iday, isalaid );
+				tbReservas->setCellWidget( iday - 1, icol, reserva );
+				reserva->setPosition( QPoint( iday - 1, icol ) );
 				
 				iHeight = 0;
-				for (it = reserva->m_reservas.begin(); it != reserva->m_reservas.end(); ++it)
+				for ( it = reserva->m_reservas.begin(); it != reserva->m_reservas.end(); ++it )
 					iHeight += (*it)->getHeight();
 				
-				if (iHeight > iRowHeight)
+				if ( iHeight > iRowHeight )
 					iRowHeight = iHeight;
 			}
 			
-			tbReservas->setRowHeight(iday - 1, iRowHeight);
+			tbReservas->setRowHeight( iday - 1, iRowHeight );
 		}
 	}
+
+	QDate today = QDate::currentDate();
+	if (( today >= m_date ) &&
+			 ( today <= m_date.addDays( dayInterval )))
+		tbReservas->scrollToItem( tbReservas->item( m_date.daysTo( today ) ,0 ) );
 	
 	m_needRefresh = false;
 }
@@ -533,12 +542,18 @@ void CMainWindow::refreshAreas()
 
 void CMainWindow::on_btAnte_clicked()
 {
-	refreshData( m_date.addDays( -1 * getDayInterval() ));
+	if ( m_intervalKind == ikMonthly )
+		refreshData( m_date.addMonths( -1 ));
+	else
+		refreshData( m_date.addDays( -1 * getDayInterval() ));
 }
 
 void CMainWindow::on_btProx_clicked()
 {
-	refreshData( m_date.addDays( getDayInterval() ));
+	if ( m_intervalKind == ikMonthly )
+		refreshData( m_date.addMonths( 1 ));
+	else
+		refreshData( m_date.addDays( getDayInterval() ));
 }
 
 void CMainWindow::setActiveReserva(CReserva *_reserva)
@@ -670,21 +685,20 @@ void CMainWindow::on_actionCopiar_triggered()
 void CMainWindow::on_actionHoje_triggered()
 {
 	QDate date = QDate::currentDate();
-	date = date.addDays(date.dayOfWeek() * -1 + 1);
-	refreshData(date);
+	refreshData( date );
 }
 
 void CMainWindow::on_actionAreas_triggered()
 {
-	CAreas *areas = new CAreas(&m_data, this);
-	areas->setModal(true);
+	CAreas *areas = new CAreas( &m_data, this );
+	areas->setModal( true );
 	areas->show();
 }
 
 void CMainWindow::cbAreaChanged(int index)
 {
 	refreshSalas();
-	refreshData(m_activeDate);
+	refreshData( m_activeDate );
 	resizeEvent(0);
 
 	updateButtons();
@@ -735,7 +749,7 @@ void CMainWindow::setIntervalKind ( const IntervalKind& theValue )
 	
 	m_config->setIntervalKind( m_intervalKind );
 	
-	refreshData(m_date);
+	refreshData( m_date );
 }
 
 
@@ -757,6 +771,7 @@ int CMainWindow::getDayInterval() const
 		case ikWeekly: return 7;
 		case ikMonthly: return m_date.daysInMonth();
 		case ikCustom: return m_dayInterval;
+		default: throw -1;
 	}
 }
 

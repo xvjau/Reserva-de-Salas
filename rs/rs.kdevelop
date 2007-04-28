@@ -114,13 +114,13 @@
       <autoinstall>false</autoinstall>
       <autokdesu>false</autokdesu>
       <runarguments>
-        <rs></rs>
+        <rs/>
       </runarguments>
       <cwd>
         <rs>/home/gianni/Projetos/rs/..</rs>
       </cwd>
       <debugarguments>
-        <rs></rs>
+        <rs/>
       </debugarguments>
     </run>
     <make>
@@ -179,7 +179,7 @@
       <designerpluginpaths/>
     </qt>
     <creategettersetter>
-      <prefixGet></prefixGet>
+      <prefixGet/>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>

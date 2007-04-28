@@ -42,6 +42,7 @@ class CReservaList: public QFrame
 		CSemana		*m_owner;
 		QDate		m_date;
 		int			m_salaID;
+		QPoint		m_position;
 		
 		QGridLayout *gridLayout;
 		QVBoxLayout *vboxLayout;
@@ -72,6 +73,9 @@ class CReservaList: public QFrame
 	
 		friend class CReserva;
 		friend class rowRESERVA;
+
+		void setPosition( const QPoint _value ) { m_position = _value; };
+		QPoint getPosition() const { return m_position; };
 
 	signals:
 		void showReservaMenu(const QPoint _pos);

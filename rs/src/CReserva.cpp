@@ -647,7 +647,7 @@ void CReserva::mousePressEvent(QMouseEvent * event)
 	CSalaList* salaList = m_owner->m_owner->m_salas;
 	PSala sala = salaList->m_salas[SALAID];
 	
-	form->tbReservas->setCurrentCell(DATA.dayOfWeek() - 1, sala->m_column);
+	form->tbReservas->setCurrentCell( m_owner->m_position.x(), m_owner->m_position.y() );
 }
 
 void CReserva::paintEvent(QPaintEvent * event)
