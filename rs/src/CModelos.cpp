@@ -183,11 +183,12 @@ loop_end:
 	sbody = row->BODY;
 
 	QString sdia;
-	if ( m_reserva )
-		sdia = m_reserva->getDATA().toString ( "dddd dd" ) + " de " + m_reserva->getDATA().toString ( "MMMM" );
-	else
-		sdia = m_lista->getDATA().toString ( "dddd dd" ) + " de " + m_lista->getDATA().toString ( "MMMM" );
 
+	if ( m_reserva )
+		sdia = m_reserva->getDATA().toString ( tr( "dddd dd 'de' MMMM" ));
+	else
+		sdia = m_lista->getDATA().toString ( tr("dddd dd 'de' MMMM" ));
+	
 	sbody.replace ( "%SALA%", m_sala );
 	sbody.replace ( "%DATA%", sdia );
 	sbody.replace ( "%BODY%", sdata );
@@ -243,12 +244,12 @@ void CModelos::on_btEdit_clicked()
 void CModelos::on_btDelete_clicked()
 {
 	if ( ! QMessageBox::question (
-	            this,
-	            tr ( "Excluir Reserva" ),
-	            tr ( "Tem certeza que deseja excluir a reserva %1" )
-	            .arg ( comboBox->currentText() ),
-	            tr ( "&Sim" ), tr ( "&Não" ),
-	            QString(), 1, 0 ) )
+				this,
+				tr ( "Excluir Reserva" ),
+				tr ( "Tem certeza que deseja excluir a reserva %1" )
+				.arg ( comboBox->currentText() ),
+				tr ( "&Sim" ), tr ( "&Não" ),
+				QString(), 1, 0 ) )
 	{
 		try
 		{
