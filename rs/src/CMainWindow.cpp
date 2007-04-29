@@ -307,6 +307,7 @@ void CMainWindow::refreshData ( const QDate &_date )
 		return;
 
 	CUpdateLock lock ( this );
+	CHideLock hideLock ( tbReservas );
 	CWaitCursor waitCursor();
 
 	setActiveReserva ( 0 );
@@ -509,12 +510,12 @@ void CMainWindow::on_actionRemover_triggered()
 {
 	if ( m_activeReserva )
 		if ( ! QMessageBox::question (
-		            this,
-		            tr ( "Excluir Reserva" ),
-		            tr ( "Tem certeza que deseja excluir a reserva " ) +
-		            m_activeReserva->getASSUNTO(),
-		            tr ( "&Sim" ), tr ( "&Não" ),
-		            QString(), 1, 0 ) )
+					this,
+					tr ( "Excluir Reserva" ),
+					tr ( "Tem certeza que deseja excluir a reserva " ) +
+					m_activeReserva->getASSUNTO(),
+					tr ( "&Sim" ), tr ( "&Não" ),
+					QString(), 1, 0 ) )
 		{
 			m_activeReserva->del();
 			setActiveReserva ( 0 );
@@ -678,7 +679,7 @@ void CMainWindow::on_actionImprimirReserva_triggered()
 		CSala *sala = m_salaList->m_salas[ m_activeReserva->getSALAID() ];
 
 		CModelos *modelos = new CModelos ( m_data.m_db, m_activeReserva,
-		                                   sala->getNome(), &m_printer );
+											sala->getNome(), &m_printer );
 
 		modelos->setModal ( true );
 		modelos->show();
@@ -819,7 +820,7 @@ void CMainWindow::on_actionOutro_triggered()
 	bool ok = true;
 
 	int interval = QInputDialog::getInteger ( this, tr ( "Intervalo" ), tr ( "Intervalo de dias" ),
-	               m_dayInterval, 1, 366, 1, &ok );
+												m_dayInterval, 1, 366, 1, &ok );
 
 	if ( ok )
 		setDayInterval ( interval );

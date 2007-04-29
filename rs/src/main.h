@@ -73,6 +73,24 @@ class CUpdateLock
 		QWidget     *m_widget;
 };
 
+class CHideLock
+{
+	public:
+		CHideLock ( QWidget *widget ) :
+				m_widget ( widget )
+		{
+			m_widget->setVisible ( false );
+		};
+
+		~CHideLock()
+		{
+			m_widget->setVisible ( true );
+		};
+
+	private:
+		QWidget     *m_widget;
+};
+
 class CWaitCursor
 {
 	public:
