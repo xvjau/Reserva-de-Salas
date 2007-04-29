@@ -225,22 +225,40 @@ QVariant CUsuariosModel::data(const QModelIndex &index, int role) const
 		case Qt::BackgroundRole:
 		case Qt::ForegroundRole:
 		{
-			if (index.row() >= 0 && index.row() < m_rows.size() &&
-			    index.column() == 3)
+			if ( index.row() >= 0 && index.row() < m_rows.size() )
 			{
 				ROW_USUARIOS *row = m_rows[index.row()];
 				
-				QPalette * palette = m_data->getColorScheme( row->SCHEMEID );
-				if ( palette )
+				if ( index.column() == 3 )
 				{
-					
-					return ( role == Qt::BackgroundRole ) ?
-									palette->brush( QPalette::Base ) :
-									palette->brush( QPalette::Text ); 
+					QPalette * palette = m_data->getColorScheme( row->SCHEMEID );
+					if ( palette )
+					{
+						
+						return ( role == Qt::BackgroundRole ) ?
+										palette->brush( QPalette::Base ) :
+										palette->brush( QPalette::Text ); 
+					}
+				}
+				else if (( role == Qt::ForegroundRole ) && ( row->NIVEL > 0 ) && row->AREA.isEmpty()  )
+				{
+					return QBrush( QColor( 225, 0, 0 ) );
 				}
 			}
 		}		
-		
+		case Qt::ToolTipRole:
+		{
+			if ( index.row() >= 0 && index.row() < m_rows.size() )
+			{
+				ROW_USUARIOS *row = m_rows[index.row()];
+
+				if (( index.column() != 3 ) &&
+					( row->NIVEL > 0 ) && row->AREA.isEmpty())
+				{
+					return tr( "Não há áreas associadas à este usuário.");
+				}
+			}
+		}
 		case Qt::LookUpRole:
 			if (index.column() == 5)
 			{

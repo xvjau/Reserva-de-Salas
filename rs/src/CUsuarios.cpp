@@ -71,7 +71,8 @@ void CUsuarios::on_okButton_clicked()
 	if ( m_model->hasUsersWithoutAreas() )
 	{
 		int ret = QMessageBox::warning(this, tr("Usuários"),
-					tr("Alguns usuários que possuem diretos de reservas<br>não possuem areas.<br><br>Deseja adciona-los à <b>todas</b> áreas?"),
+					tr("Alguns usuários que possuem diretos de reservas<br>não possuem areas.<br><br>Deseja adciona-los à <b>todas</b> áreas?") +
+						tr("<br><br><small>Um usuário que não está alocado à nenhuma área não poderá fazer reservas."),
 					QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
 					QMessageBox::Yes);
 
