@@ -6,13 +6,13 @@
 	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 	publicada pela Free Software Foundation; tanto a versão 2 da
 	Licença.
-	
+
 	Este programa é distribuído na expectativa de ser útil, mas SEM
 	QUALQUER GARANTIA; sem mesmo a garantia implícita de
 	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 	detalhes.
-	
+
 	Você deve ter recebido uma cópia da Licença Pública Geral GNU
 	junto com este programa; se não, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -40,23 +40,23 @@ class CReservaLabel;
 
 class CReserva: public QFrame
 {
-	Q_OBJECT
-	
-	friend class CReservaList;
-	friend class CReservaLabel;
-	
+		Q_OBJECT
+
+		friend class CReservaList;
+		friend class CReservaLabel;
+
 	private:
 		CReservaList   *m_owner;
-		CReserva( CReservaList *_owner );
+		CReserva ( CReservaList *_owner );
 
 	public:
 		~CReserva();
 		TListaReserva m_children;
 
 	protected:
-		virtual void mouseDoubleClickEvent(QMouseEvent * event);
-		virtual void mousePressEvent(QMouseEvent * event);
-		virtual void paintEvent(QPaintEvent * event);
+		virtual void mouseDoubleClickEvent ( QMouseEvent * event );
+		virtual void mousePressEvent ( QMouseEvent * event );
+		virtual void paintEvent ( QPaintEvent * event );
 
 	private:
 		int		oldRESERVAID;
@@ -107,44 +107,44 @@ class CReserva: public QFrame
 		void refreshData();
 		void relocate();
 
-		void addChild(CReserva* _reserva) {m_children.append(_reserva); _reserva->m_parent = this;}
+		void addChild ( CReserva* _reserva ) {m_children.append ( _reserva ); _reserva->m_parent = this;}
 		CReserva* getParent() {return m_parent;}
 
 		int		getoldRESERVAID() {return oldRESERVAID;};
 		int		getRESERVAID() {return RESERVAID;};
-		void	setRESERVAID(int _value) { RESERVAID = _value;};
+		void	setRESERVAID ( int _value ) { RESERVAID = _value;};
 		int		getSALAID() {return SALAID;};
-		void	setSALAID(int _value) {SALAID = _value; m_relocate = true;};
+		void	setSALAID ( int _value ) {SALAID = _value; m_relocate = true;};
 		QTime	getHORAIN() {return HORAIN;};
-		void    setHORAIN(QTime _value) { HORAIN = _value; m_relocate = true;};
+		void    setHORAIN ( QTime _value ) { HORAIN = _value; m_relocate = true;};
 		QTime	getHORAFIM() {return HORAFIM;};
-		void	setHORAFIM(QTime _value) { HORAFIM = _value; m_relocate = true;};
+		void	setHORAFIM ( QTime _value ) { HORAFIM = _value; m_relocate = true;};
 		QDate	getDATA() {return DATA;};
-		void	setDATA(QDate _value) {DATA = _value; m_relocate = true;};
+		void	setDATA ( QDate _value ) {DATA = _value; m_relocate = true;};
 		int		getUSUARIOID() {return USUARIOID;};
-		void	setUSUARIOID(int _value) { USUARIOID = _value;};
+		void	setUSUARIOID ( int _value ) { USUARIOID = _value;};
 		QString	getUSUARIO() {return USUARIO;};
-		void	setUSUARIO(QString _value) { USUARIO = _value;};
+		void	setUSUARIO ( QString _value ) { USUARIO = _value;};
 		QString	getASSUNTO() {return ASSUNTO;};
-		void	setASSUNTO(QString _value) { ASSUNTO = _value;};
+		void	setASSUNTO ( QString _value ) { ASSUNTO = _value;};
 		QString	getDEPTO() {return DEPTO;};
-		void	setDEPTO(QString _value) { DEPTO = _value;};
+		void	setDEPTO ( QString _value ) { DEPTO = _value;};
 		QString	getNOTAS() {return NOTAS;};
-		void    setNOTAS(QString _value) { NOTAS = _value;};
+		void    setNOTAS ( QString _value ) { NOTAS = _value;};
 		char	getTIPO() {return TIPO;};
-		void	setTIPO(char _value) { TIPO = _value;};
+		void	setTIPO ( char _value ) { TIPO = _value;};
 
 		// Semanal ou Mensal
 		QDate	getDATAIN();
-		void	getDATAIN(QDate _value) {DATAIN = _value;};
+		void	getDATAIN ( QDate _value ) {DATAIN = _value;};
 		QDate	getDATAFIM();
-		void	setDATAFIM(QDate _value) {DATAFIM = _value;};
+		void	setDATAFIM ( QDate _value ) {DATAFIM = _value;};
 
 		// Semanal
-		bool	getDOW(int _day);
-		void	setDOW(int _day, bool _value);
+		bool	getDOW ( int _day );
+		void	setDOW ( int _day, bool _value );
 		bool    getREVESA();
-		void    setREVESA(bool _value) {REVESA = _value;};
+		void    setREVESA ( bool _value ) {REVESA = _value;};
 
 		QPalette*	m_colorScheme;
 		CReservaList* 	getOwner() {return m_owner;};

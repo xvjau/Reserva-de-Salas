@@ -6,13 +6,13 @@
 	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 	publicada pela Free Software Foundation; tanto a versão 2 da
 	Licença.
-	
+
 	Este programa é distribuído na expectativa de ser útil, mas SEM
 	QUALQUER GARANTIA; sem mesmo a garantia implícita de
 	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 	detalhes.
-	
+
 	Você deve ter recebido uma cópia da Licença Pública Geral GNU
 	junto com este programa; se não, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -34,10 +34,10 @@
 
 class CMainWindow: public QMainWindow, public Ui::MainWindow
 {
-	Q_OBJECT
-	
+		Q_OBJECT
+
 	public:
-		CMainWindow( QWidget * _parent = 0 );
+		CMainWindow ( QWidget * _parent = 0 );
 		~CMainWindow();
 	private:
 		QActionGroup	m_stylesGroup;
@@ -53,27 +53,27 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 
 		IntervalKind m_intervalKind;
 		int			m_dayInterval;
-		
+
 		QDate		m_activeDate;
 		int			m_activeSalaID;
-		
+
 		void clearData();
 		void updateButtons();
-		void changeLocale( const QString &locale );
+		void changeLocale ( const QString &locale );
 
 		QMenu		m_mnPopupReserva;
 		QMenu		m_mnPopupHoje;
 		QPrinter	m_printer;
-		
+
 		bool		m_needRefresh;
 		bool		m_canRefresh;
 		bool		m_initialized;
-		
+
 	private slots:
 		void on_actionSalas_triggered();
- 		void on_actionUsuarios_triggered();
- 		void on_actionCores_triggered();
- 		void on_actionAreas_triggered();
+		void on_actionUsuarios_triggered();
+		void on_actionCores_triggered();
+		void on_actionAreas_triggered();
 		void on_actionAdicionar_triggered();
 		void on_actionRemover_triggered();
 		void on_actionAlterar_triggered();
@@ -91,20 +91,20 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void on_btAnte_clicked();
 		void on_btProx_clicked();
 		void onSetStyle();
-		void cbAreaChanged(int index);
-		
+		void cbAreaChanged ( int index );
+
 	protected:
-		virtual void resizeEvent(QResizeEvent * event);
+		virtual void resizeEvent ( QResizeEvent * event );
 		virtual void showEvent ( QShowEvent * event );
 		virtual void mousePressEvent ( QMouseEvent * event );
-		
+
 	public:
-		void checkRowHeight(int _row, int _salaID);
+		void checkRowHeight ( int _row, int _salaID );
 		QDate getDate() {return m_date;}
-		
-		void setCanRefresh(bool _value) { m_canRefresh = _value; };
-		void checkRefresh() {if (m_needRefresh) refreshData(m_date);};
-		
+
+		void setCanRefresh ( bool _value ) { m_canRefresh = _value; };
+		void checkRefresh() {if ( m_needRefresh ) refreshData ( m_date );};
+
 		bool initialize();
 
 		void setIntervalKind ( const IntervalKind& theValue );
@@ -112,18 +112,18 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 
 		void setDayInterval ( int theValue );
 		int getDayInterval() const;
-		
+
 	public slots:
 		void refreshSalas();
 		void refreshAreas();
-		void refreshData(const QDate &_date);
-		
-		void setActiveReserva(CReserva *_reserva);
-		void setActiveDate(QDate _date) {m_activeDate = _date;};
-		void setActiveSalaID(int _salaID) {m_activeSalaID = _salaID;};
+		void refreshData ( const QDate &_date );
 
-		void showReservaMenu(const QPoint _pos);
-	
+		void setActiveReserva ( CReserva *_reserva );
+		void setActiveDate ( QDate _date ) {m_activeDate = _date;};
+		void setActiveSalaID ( int _salaID ) {m_activeSalaID = _salaID;};
+
+		void showReservaMenu ( const QPoint _pos );
+
 };
 
 #endif // __INCLUDE_MAINWINDOW_H

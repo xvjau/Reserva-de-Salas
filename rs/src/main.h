@@ -6,19 +6,19 @@
 	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 	publicada pela Free Software Foundation; tanto a versão 2 da
 	Licença.
-	
+
 	Este programa é distribuído na expectativa de ser útil, mas SEM
 	QUALQUER GARANTIA; sem mesmo a garantia implícita de
 	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 	detalhes.
-	
+
 	Você deve ter recebido uma cópia da Licença Pública Geral GNU
 	junto com este programa; se não, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 	02111-1307, USA.
  */
- 
+
 #ifndef __INCLUDE_MAIN_H
 #define __INCLUDE_MAIN_H
 
@@ -44,7 +44,7 @@ enum IntervalKind { ikWeekly, ikMonthly, ikCustom };
 
 inline QApplication* app()
 {
-	return static_cast<QApplication*>(QApplication::instance());
+	return static_cast<QApplication*> ( QApplication::instance() );
 }
 
 namespace Qt
@@ -57,17 +57,17 @@ typedef QList<int> TIntList;
 class CUpdateLock
 {
 	public:
-		CUpdateLock(QWidget *widget):
-                m_widget(widget)
-		    {
-				m_widget->setUpdatesEnabled(false);
-			};
-			
+		CUpdateLock ( QWidget *widget ) :
+				m_widget ( widget )
+		{
+			m_widget->setUpdatesEnabled ( false );
+		};
+
 		~CUpdateLock()
-			{
-				m_widget->setUpdatesEnabled(true);
-				m_widget->update();
-			};
+		{
+			m_widget->setUpdatesEnabled ( true );
+			m_widget->update();
+		};
 
 	private:
 		QWidget     *m_widget;
@@ -78,9 +78,9 @@ class CWaitCursor
 	public:
 		CWaitCursor()
 		{
-			app()->setOverrideCursor(Qt::WaitCursor);
+			app()->setOverrideCursor ( Qt::WaitCursor );
 		};
-			
+
 		~CWaitCursor()
 		{
 			app()->restoreOverrideCursor();

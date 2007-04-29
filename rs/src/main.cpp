@@ -6,13 +6,13 @@
 	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 	publicada pela Free Software Foundation; tanto a versão 2 da
 	Licença.
-	
+
 	Este programa é distribuído na expectativa de ser útil, mas SEM
 	QUALQUER GARANTIA; sem mesmo a garantia implícita de
 	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 	detalhes.
-	
+
 	Você deve ter recebido uma cópia da Licença Pública Geral GNU
 	junto com este programa; se não, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -33,10 +33,10 @@ QSettings* getConfigFile()
 {
 	if ( ! globalSettings )
 	{
-		if ( QFile::exists( "./Conf/RS.ini" ) )
+		if ( QFile::exists ( "./Conf/RS.ini" ) )
 		{
-			QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, ".");
-			globalSettings = new QSettings(QSettings::IniFormat, QSettings::SystemScope, "Conf","RS");
+			QSettings::setPath ( QSettings::IniFormat, QSettings::SystemScope, "." );
+			globalSettings = new QSettings ( QSettings::IniFormat, QSettings::SystemScope, "Conf","RS" );
 		}
 		else
 		{
@@ -44,21 +44,21 @@ QSettings* getConfigFile()
 			QStringList searchPaths;
 #ifdef __unix__
 			searchPaths << "/etc/rs.conf" << "/etc/rs/rs.conf" << "/etc/xdg/rs.conf" << "/etc/xdg/rs/rs.conf"
-						<< "../etc/rs.conf" << "./config/rs.conf" << "/usr/share/rs/rs.conf"
-						<< "/usr/local/etc/rs.conf" << "/usr/local/etc/rs/rs.conf"
-						<< QDir::home().path() + "/.config/rs/rs.conf" << QDir::home().path() + "/.config/RolTram/RS.conf";
+			<< "../etc/rs.conf" << "./config/rs.conf" << "/usr/share/rs/rs.conf"
+			<< "/usr/local/etc/rs.conf" << "/usr/local/etc/rs/rs.conf"
+			<< QDir::home().path() + "/.config/rs/rs.conf" << QDir::home().path() + "/.config/RolTram/RS.conf";
 #else
-			searchPaths << "c:/etc/rs.conf" << "c:/etc/rs/rs.conf" 
-						<< "../etc/rs.conf" << "./config/rs.conf" << "c:/usr/share/rs/rs.conf"
-						<< "c:/usr/local/etc/rs.conf" << "c:/usr/local/etc/rs/rs.conf"
-						<< QDir::home().path() + "/.config/rs/rs.conf" << QDir::home().path() + "/.config/RolTram/RS.conf";
+			searchPaths << "c:/etc/rs.conf" << "c:/etc/rs/rs.conf"
+			<< "../etc/rs.conf" << "./config/rs.conf" << "c:/usr/share/rs/rs.conf"
+			<< "c:/usr/local/etc/rs.conf" << "c:/usr/local/etc/rs/rs.conf"
+			<< QDir::home().path() + "/.config/rs/rs.conf" << QDir::home().path() + "/.config/RolTram/RS.conf";
 #endif
 
 			for ( int i = 0; i < searchPaths.count(); ++i )
 			{
 				path = searchPaths[i];
 
-				if ( QFileInfo( path ).exists() )
+				if ( QFileInfo ( path ).exists() )
 				{
 					path = searchPaths[i];
 					goto FOUND;
@@ -67,9 +67,9 @@ QSettings* getConfigFile()
 #ifdef __unix__
 			for ( int i = 0; i < searchPaths.count(); ++i )
 			{
-				QFileInfo fileInfo = QFileInfo( searchPaths[i] );
+				QFileInfo fileInfo = QFileInfo ( searchPaths[i] );
 
-				if ( QFileInfo( fileInfo.path() ).isWritable() )
+				if ( QFileInfo ( fileInfo.path() ).isWritable() )
 				{
 					path = searchPaths[i];
 					goto FOUND;
@@ -78,11 +78,11 @@ QSettings* getConfigFile()
 
 			path =  QDir::tempPath () + QDir::separator ()  + "rs.conf";
 #else
-			globalSettings = new QSettings( QSettings::SystemScope, "RolTram", "RS" );
+			globalSettings = new QSettings ( QSettings::SystemScope, "RolTram", "RS" );
 			return globalSettings;
 #endif
-			FOUND:
-				globalSettings = new QSettings( path, QSettings::NativeFormat );
+		FOUND:
+			globalSettings = new QSettings ( path, QSettings::NativeFormat );
 		}
 	}
 	return globalSettings;
@@ -95,70 +95,70 @@ void deleteConfigFile()
 }
 
 
-int main (int argc, char *argv[])
+int main ( int argc, char *argv[] )
 {
-	QApplication app(argc, argv);
+	QApplication app ( argc, argv );
 
 	QString locale;
 
 	{
-		QSettings settings("RolTram", "RS");
-		settings.beginGroup("Locale");
-		
-		if ( settings.contains("Locale") )
-			locale = settings.value("Locale").toString();
+		QSettings settings ( "RolTram", "RS" );
+		settings.beginGroup ( "Locale" );
+
+		if ( settings.contains ( "Locale" ) )
+			locale = settings.value ( "Locale" ).toString();
 		else
 			locale = QLocale::system().name();
 	}
-	
+
 	QTranslator translator;
 
 	{
-		QString localeFileName = QDir::toNativeSeparators( app.applicationDirPath() + QDir::separator());
-		localeFileName += QString("rs_") + locale + ".qm";
-		
-		if ( translator.load( localeFileName ) )
-			app.installTranslator( &translator );
+		QString localeFileName = QDir::toNativeSeparators ( app.applicationDirPath() + QDir::separator() );
+		localeFileName += QString ( "rs_" ) + locale + ".qm";
+
+		if ( translator.load ( localeFileName ) )
+			app.installTranslator ( &translator );
 		else
-			QMessageBox("Erro", "Unable to Load language file: " + localeFileName, QMessageBox::Warning, QMessageBox::Cancel, 0, 0).exec();
+			QMessageBox ( "Erro", "Unable to Load language file: " + localeFileName, QMessageBox::Warning, QMessageBox::Cancel, 0, 0 ).exec();
 	}
-	
+
 	int exitCode = -1;
-	
+
 	CMainWindow mainwindow;
-	
+
 	if ( mainwindow.initialize() )
 	{
 		{
-			QSettings settings("RolTram", "RS");
-			settings.beginGroup("mainwindow");
+			QSettings settings ( "RolTram", "RS" );
+			settings.beginGroup ( "mainwindow" );
 
-			if (settings.contains("maxed") && (settings.value("maxed") == true))
-				mainwindow.setWindowState(Qt::WindowMaximized);
+			if ( settings.contains ( "maxed" ) && ( settings.value ( "maxed" ) == true ) )
+				mainwindow.setWindowState ( Qt::WindowMaximized );
 			else
 			{
-				if (settings.contains("size"))
-					mainwindow.resize(settings.value("size").toSize());
+				if ( settings.contains ( "size" ) )
+					mainwindow.resize ( settings.value ( "size" ).toSize() );
 			}
 		}
-		
+
 		mainwindow.show();
-	
-		exitCode = app.exec();	
-		
+
+		exitCode = app.exec();
+
 		{
-			QSettings settings("RolTram", "RS");
-			settings.beginGroup("mainwindow");
-			
-			if (mainwindow.windowState() == Qt::WindowMaximized)
-				settings.setValue("maxed", true);
+			QSettings settings ( "RolTram", "RS" );
+			settings.beginGroup ( "mainwindow" );
+
+			if ( mainwindow.windowState() == Qt::WindowMaximized )
+				settings.setValue ( "maxed", true );
 			else
 			{
-				settings.setValue("maxed", false);
-				settings.setValue("size", mainwindow.size());
+				settings.setValue ( "maxed", false );
+				settings.setValue ( "size", mainwindow.size() );
 			}
 		}
 	}
-		
+
 	return exitCode;
 }

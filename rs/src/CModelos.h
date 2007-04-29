@@ -6,13 +6,13 @@
 	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 	publicada pela Free Software Foundation; tanto a versão 2 da
 	Licença.
-	
+
 	Este programa é distribuído na expectativa de ser útil, mas SEM
 	QUALQUER GARANTIA; sem mesmo a garantia implícita de
 	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 	detalhes.
-	
+
 	Você deve ter recebido uma cópia da Licença Pública Geral GNU
 	junto com este programa; se não, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -33,13 +33,13 @@
 
 class CModelos: public QDialog, public Ui::Modelos
 {
-	Q_OBJECT
+		Q_OBJECT
 
-			friend class CModelosItem;
-	
+		friend class CModelosItem;
+
 	public:
-		CModelos(Database _db, CReservaList *_lista, const QString _sala, QPrinter *_printer);
-		CModelos(Database _db, CReserva *_reserva, const QString _sala, QPrinter *_printer);
+		CModelos ( Database _db, CReservaList *_lista, const QString _sala, QPrinter *_printer );
+		CModelos ( Database _db, CReserva *_reserva, const QString _sala, QPrinter *_printer );
 		~CModelos();
 
 	private:
@@ -66,10 +66,10 @@ class CModelos: public QDialog, public Ui::Modelos
 		inline void init();
 	public:
 		int	getCount() const {return m_modelos.size();};
-		QString getNomeModelo(const int _id) const {return m_modelos[_id]->NOME;};
+		QString getNomeModelo ( const int _id ) const {return m_modelos[_id]->NOME;};
 
 	public slots:
-		void render(const int _id);
+		void render ( const int _id );
 		void onAccept();
 		void onClose();
 

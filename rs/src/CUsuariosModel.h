@@ -6,13 +6,13 @@
 	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
 	publicada pela Free Software Foundation; tanto a versão 2 da
 	Licença.
-	
+
 	Este programa é distribuído na expectativa de ser útil, mas SEM
 	QUALQUER GARANTIA; sem mesmo a garantia implícita de
 	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
 	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 	detalhes.
-	
+
 	Você deve ter recebido uma cópia da Licença Pública Geral GNU
 	junto com este programa; se não, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
@@ -27,16 +27,16 @@
 
 class CUsuariosModel : public QAbstractTableModel
 {
-	Q_OBJECT
-	
+		Q_OBJECT
+
 	public:
-		CUsuariosModel( CData* _data );
+		CUsuariosModel ( CData* _data );
 		virtual ~CUsuariosModel();
-	
+
 	private:
 		CData			*m_data;
 		Transaction		*m_tr;
-		
+
 		struct ROW_USUARIOS
 		{
 			int 	USUARIOID;
@@ -49,25 +49,25 @@ class CUsuariosModel : public QAbstractTableModel
 		};
 		typedef QList<ROW_USUARIOS*> TROW_USUARIOS;
 		TROW_USUARIOS m_rows;
-		
+
 	public:
-		void CommitData() {(*m_tr)->Commit();};
+		void CommitData() { ( *m_tr )->Commit(); };
 		CData*	getData() { return m_data; };
 
 		bool hasUsersWithoutAreas();
 		void addAllAreasToUsersWithoutAreas();
-		
-		virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
-		virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
-		virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
-		virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-		
-		virtual bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
-		virtual Qt::ItemFlags flags(const QModelIndex & index) const;
-		
-		virtual bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex());
-		virtual bool removeRows(int row, int count, const QModelIndex & parent = QModelIndex());
+		virtual int rowCount ( const QModelIndex &parent = QModelIndex() ) const;
+		virtual int columnCount ( const QModelIndex &parent = QModelIndex() ) const;
+		virtual QVariant data ( const QModelIndex &index, int role = Qt::DisplayRole ) const;
+
+		virtual QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+
+		virtual bool setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole );
+		virtual Qt::ItemFlags flags ( const QModelIndex & index ) const;
+
+		virtual bool insertRows ( int row, int count, const QModelIndex & parent = QModelIndex() );
+		virtual bool removeRows ( int row, int count, const QModelIndex & parent = QModelIndex() );
 };
 
 #endif //__INCLUDE_CUSUARIO_MODEL_H
