@@ -51,7 +51,7 @@ bool CSala::save()
 
 		if ( oldSALAID == -1 )
 		{
-			stmt->Prepare ( "insert into SALAS (SALAID, ANDAR, NOME) values (?, ?, ?)" );
+			stmt->Prepare ( "Insert into SALAS (SALAID, ANDAR, NOME) Values (?, ?, ?)" );
 
 			stmt->Set ( 1, SALAID );
 			stmt->Set ( 2, ANDAR );
@@ -61,7 +61,7 @@ bool CSala::save()
 		}
 		else
 		{
-			stmt->Prepare ( "update SALAS set SALAID = ?, ANDAR = ?, NOME = ? where SALAID = ?" );
+			stmt->Prepare ( "Update SALAS Set SALAID = ?, ANDAR = ?, NOME = ? Where SALAID = ?" );
 
 			stmt->Set ( 1, SALAID );
 			stmt->Set ( 2, ANDAR );
@@ -70,21 +70,21 @@ bool CSala::save()
 			stmt->Execute();
 			stmt->Close();
 
-			stmt->Prepare ( "delete from SALAS_AREAS where SALAID = ?" );
+			stmt->Prepare ( "Delete From SALAS_AREAS Where SALAID = ?" );
 			stmt->Set ( 1, oldSALAID );
 			stmt->Execute();
 			stmt->Close();
 		}
 
 
-		stmt->Prepare ( "insert into SALAS_AREAS (SALAID, AREAID) \
-		                select \
-		                ?, \
-		                AREAID \
-		                from \
-		                AREAS \
-		                where \
-		                AREA = ?" );
+		stmt->Prepare ( "Insert into SALAS_AREAS (SALAID, AREAID) \
+							Select \
+								?, \
+								AREAID \
+							From \
+								AREAS \
+							Where \
+								AREA = ?" );
 		stmt->Set ( 1, SALAID );
 		stmt->Set ( 2, AREA.toStdString() );
 		stmt->Execute();
@@ -119,7 +119,7 @@ bool CSala::del()
 
 		if ( oldSALAID != -1 )
 		{
-			stmt->Prepare ( "delete from SALAS where SALAID = ?" );
+			stmt->Prepare ( "Delete From SALAS Where SALAID = ?" );
 
 			stmt->Set ( 1, oldSALAID );
 		}

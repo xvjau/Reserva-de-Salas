@@ -55,11 +55,11 @@ void CModelosItem::onAccept()
 			stmt->Get ( 1, m_ModeloID );
 			stmt->Close();
 
-			stmt->Prepare ( "INSERT INTO MODELOS (NOME, BODY, ITEM, FUNDO, FUNDOALT, MODELOID)\
-			                VALUES (?,?,?,?,?,?)" );
+			stmt->Prepare ( "Insert into MODELOS (NOME, BODY, ITEM, FUNDO, FUNDOALT, MODELOID)\
+			                Values (?,?,?,?,?,?)" );
 		}
 		else
-			stmt->Prepare ( "UPDATE MODELOS SET NOME = ?, BODY = ?, ITEM = ?, FUNDO = ?, FUNDOALT = ? WHERE MODELOID = ?" );
+			stmt->Prepare ( "Update MODELOS Set NOME = ?, BODY = ?, ITEM = ?, FUNDO = ?, FUNDOALT = ? Where MODELOID = ?" );
 
 		stmt->Set ( 1, leModelo->text().toStdString() );
 		stmt->Set ( 2, teBody->toPlainText().toStdString() );

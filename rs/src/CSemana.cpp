@@ -61,15 +61,15 @@ bool CSemana::loadData()
 		m_stmt = StatementFactory ( m_owner->m_db, m_tr );
 
 		m_stmt->Prepare ( "Select \
-		                  RESERVAID, SALAID, DATA, HORAIN, HORAFIM, USUARIOID, \
-		                  USUARIO_NOME, ASSUNTO, DEPTO, NOTAS, SCHEMEID, \
-		                  TIPO, GEN_ID(SEQRESERVAS, 0) \
-		                  From \
-		                  GET_RESERVAS_SEMANA(?, ?, ?) \
-		                  Order By \
-		                  SALAID, \
-		                  DATA, \
-		                  HORAIN" );
+								RESERVAID, SALAID, DATA, HORAIN, HORAFIM, USUARIOID, \
+								USUARIO_NOME, ASSUNTO, DEPTO, NOTAS, SCHEMEID, \
+								TIPO, GEN_ID(SEQRESERVAS, 0) \
+							From \
+								GET_RESERVAS_SEMANA(?, ?, ?) \
+							Order By \
+								SALAID, \
+								DATA, \
+								HORAIN" );
 
 		QDate day;
 		Date pdate = Date ( m_date.year(), m_date.month(), m_date.day() );
@@ -178,17 +178,17 @@ void CSemana::onFBEvent ( int event )
 			case CNotification::FBEUpdate:
 				{
 					m_stmt->Prepare ( "Select \
-					                  RESERVAID, SALAID, DATA, HORAIN, HORAFIM, USUARIOID, \
-					                  USUARIO_NOME, ASSUNTO, DEPTO, NOTAS, SCHEMEID, \
-					                  TIPO, SEQ  \
-					                  From \
-					                  GET_RESERVAS_SEMANA(?, ?, ?) \
-					                  Where \
-					                  SEQ > ?\
-					                  Order By \
-					                  SALAID, \
-					                  DATA, \
-					                  HORAIN" );
+											RESERVAID, SALAID, DATA, HORAIN, HORAFIM, USUARIOID, \
+											USUARIO_NOME, ASSUNTO, DEPTO, NOTAS, SCHEMEID, \
+											TIPO, SEQ  \
+										From \
+											GET_RESERVAS_SEMANA(?, ?, ?) \
+										Where \
+											SEQ > ?\
+										Order By \
+											SALAID, \
+											DATA, \
+											HORAIN" );
 
 					m_stmt->Set ( 1, Date ( m_date.year(), m_date.month(), m_date.day() ) );
 					m_stmt->Set ( 2, Date ( m_date.year(), m_date.month(), m_date.day() + 6 ) );
@@ -260,11 +260,12 @@ void CSemana::onFBEvent ( int event )
 			case CNotification::FBEDelete:
 				{
 					m_stmt->Prepare ( "Select \
-					                  RESERVAID, GEN_ID(SEQRESERVAS, 0) \
-					                  From \
-					                  DEL$RESERVAS \
-					                  Where \
-					                  SEQ > ?" );
+											RESERVAID, \
+											GEN_ID(SEQRESERVAS, 0) \
+										From \
+											DEL$RESERVAS \
+										Where \
+											SEQ > ?" );
 
 					m_stmt->Set ( 1, m_lastUpdate );
 					m_stmt->Execute();

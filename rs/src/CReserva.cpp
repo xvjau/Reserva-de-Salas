@@ -208,11 +208,11 @@ void CReserva::readSemanal()
 		Statement stmt = StatementFactory ( db, tr );
 
 		stmt->Prepare ( "Select \
-		                DATAIN, DATAFIM, SEG, TER, QUA, QUI, SEX, SAB, DOM, REVESA \
-		                From \
-		                RESERVA_SEMANAL \
-		                Where \
-		                RESERVAID = ?" );
+							DATAIN, DATAFIM, SEG, TER, QUA, QUI, SEX, SAB, DOM, REVESA \
+						From \
+							RESERVA_SEMANAL \
+						Where \
+							RESERVAID = ?" );
 		stmt->Set ( 1, RESERVAID );
 		stmt->Execute();
 
@@ -281,11 +281,13 @@ void CReserva::readMensal()
 		Statement stmt = StatementFactory ( db, tr );
 
 		stmt->Prepare ( "Select \
-		                DATAFIM, DIA_S, ORDEM \
-		                From \
-		                RESERVA_MENSAL \
-		                Where \
-		                RESERVAID = ?" );
+							DATAFIM, \
+							DIA_S, \
+							ORDEM \
+						From \
+							RESERVA_MENSAL \
+						Where \
+							RESERVAID = ?" );
 		stmt->Set ( 1, RESERVAID );
 		stmt->Execute();
 
@@ -545,7 +547,7 @@ bool CReserva::del()
 
 		if ( oldRESERVAID != -1 )
 		{
-			stmt->Prepare ( "delete from RESERVAS where RESERVAID = ?" );
+			stmt->Prepare ( "Delete From RESERVAS Where RESERVAID = ?" );
 
 			stmt->Set ( 1, oldRESERVAID );
 		}

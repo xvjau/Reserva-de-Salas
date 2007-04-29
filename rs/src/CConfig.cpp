@@ -172,8 +172,15 @@ void CConfig::loadConfig()
 
 			Statement stmt = StatementFactory ( m_data->m_db, tr );
 
-			stmt->Prepare ( "Select USUARIOID, NOME, STYLE, SCHEMEID, NIVEL \
-			                From USUARIOS Where LOGIN = ?" );
+			stmt->Prepare ( "Select \
+								USUARIOID, \
+								NOME, \
+								STYLE, \
+								SCHEMEID, \
+								NIVEL \
+							From \
+								USUARIOS \
+							Where LOGIN = ?" );
 
 			stmt->Set ( 1, buff );
 			stmt->Execute();
@@ -192,16 +199,16 @@ void CConfig::loadConfig()
 
 				stmt->Close();
 
-				stmt->Prepare
-				( "Select \
-				  SA.SALAID, \
-				  UA.AREAID \
-				  From \
-				  SALAS_AREAS SA \
-				  join USUARIOS_AREAS UA on \
-				  SA.AREAID = UA.AREAID \
-				  Where \
-				  UA.USUARIOID = ?" );
+				stmt->Prepare ( "Select \
+									SA.SALAID, \
+									UA.AREAID \
+								From \
+									SALAS_AREAS SA \
+										join USUARIOS_AREAS UA on \
+											SA.AREAID = UA.AREAID \
+								Where \
+									UA.USUARIOID = ?" );
+
 				stmt->Set ( 1, m_userID );
 				stmt->Execute();
 
@@ -221,7 +228,7 @@ void CConfig::loadConfig()
 			{
 				m_userName = buff;
 
-				m_style = "plastique";
+				m_style = "cleanlooks";
 
 				stmt->Close();
 
@@ -238,12 +245,12 @@ void CConfig::loadConfig()
 					m_userNivel = 0;
 
 				stmt->Execute ( "Select First 1 \
-				                C.SCHEMEID, \
-				                (SELECT COUNT(*) FROM USUARIOS U WHERE U.SCHEMEID = C.SCHEMEID) \
-				                From \
-				                COLOR_SCHEME C \
-				                Order By \
-				                2" );
+									C.SCHEMEID, \
+									(Select Count(*) From USUARIOS U Where U.SCHEMEID = C.SCHEMEID) \
+								From \
+									COLOR_SCHEME C \
+								Order By \
+									2" );
 
 				if ( stmt->Fetch() )
 					stmt->Get ( 1, m_colorScheme );

@@ -235,7 +235,7 @@ bool CSchemasModel::insertRows ( int row, int count, const QModelIndex & parent 
 		rowData->BORDER = 0;
 		rowData->FONT = 0;
 
-		stmt->Prepare ( "INSERT INTO COLOR_SCHEME (SCHEMEID) VALUES (?)" );
+		stmt->Prepare ( "Insert into COLOR_SCHEME (SCHEMEID) Values (?)" );
 		stmt->Set ( 1, rowData->SCHEMEID );
 		stmt->Execute();
 		stmt->Close();

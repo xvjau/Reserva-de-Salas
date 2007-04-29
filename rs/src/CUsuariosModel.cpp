@@ -40,41 +40,41 @@ CUsuariosModel::CUsuariosModel ( CData* _data ) :
 	 * This is done to avoid unnecessary round-trips to the server.
 	 */
 	stmt->Execute ( "Select \
-	                US.USUARIOID, \
-	                US.LOGIN, \
-	                US.NOME, \
-	                US.STYLE, \
-	                US.SCHEMEID, \
-	                US.NIVEL, \
-	                (Select First 1 \
-	                AR.AREA \
-	                From \
-	                AREAS AR \
-	                join USUARIOS_AREAS UA on \
-	                UA.AREAID = AR.AREAID \
-	                Where \
-	                UA.USUARIOID = US.USUARIOID) HAS_AREA, \
-	                (Select \
-	                Count(*) \
-	                From \
-	                AREAS AR \
-	                join USUARIOS_AREAS UA on \
-	                UA.AREAID = AR.AREAID \
-	                Where \
-	                UA.USUARIOID = US.USUARIOID) AREA_COUNT \
-	                From \
-	                USUARIOS US \
-	                Order By \
-	                US.NOME" );
+						US.USUARIOID, \
+						US.LOGIN, \
+						US.NOME, \
+						US.STYLE, \
+						US.SCHEMEID, \
+						US.NIVEL, \
+						(Select First 1 \
+							AR.AREA \
+						From \
+							AREAS AR \
+								join USUARIOS_AREAS UA on \
+									UA.AREAID = AR.AREAID \
+						Where \
+							UA.USUARIOID = US.USUARIOID) HAS_AREA, \
+						(Select \
+							Count(*) \
+						From \
+							AREAS AR \
+								join USUARIOS_AREAS UA on \
+									UA.AREAID = AR.AREAID \
+						Where \
+							UA.USUARIOID = US.USUARIOID) AREA_COUNT \
+					From \
+						USUARIOS US \
+					Order By \
+						US.NOME" );
 
 	stmtArea->Prepare ( "Select \
-	                    AREA \
-	                    From \
-	                    AREAS AR \
-	                    join USUARIOS_AREAS UA on \
-	                    UA.AREAID = AR.AREAID \
-	                    Where \
-	                    UA.USUARIOID = ?" );
+							AREA \
+						From \
+							AREAS AR \
+								join USUARIOS_AREAS UA on \
+									UA.AREAID = AR.AREAID \
+						Where \
+							UA.USUARIOID = ?" );
 
 	std::string		s;
 	QStringList		list;
@@ -328,13 +328,13 @@ bool CUsuariosModel::setData ( const QModelIndex &index, const QVariant &value, 
 					for ( int i = 0; i < list.count(); )
 					{
 						stmt->Prepare ( "Insert into USUARIOS_AREAS (USUARIOID, AREAID) \
-						                Select \
-						                ?, \
-						                AREAID \
-						                From \
-						                AREAS \
-						                Where \
-						                AREA = ?" );
+											Select \
+												?, \
+												AREAID \
+											From \
+												AREAS \
+											Where \
+												AREA = ?" );
 
 						stmt->Set ( 1, row->USUARIOID );
 						stmt->Set ( 2, list[i].toStdString() );
@@ -434,16 +434,16 @@ bool CUsuariosModel::insertRows ( int row, int count, const QModelIndex & parent
 		stmt->Close();
 
 		stmt->Execute ( "Select First 1 \
-		                SCHEMEID, \
-		                COUNT(*) \
-		                From \
-		                USUARIOS \
-		                Where \
-		                Not SCHEMEID is Null \
-		                Group By \
-		                SCHEMEID \
-		                Order By \
-		                COUNT(*) Desc" );
+							SCHEMEID, \
+							COUNT(*) \
+						From \
+							USUARIOS \
+						Where \
+							Not SCHEMEID is Null \
+						Group By \
+							SCHEMEID \
+						Order By \
+							COUNT(*) Desc" );
 
 		if ( stmt->Fetch() )
 			stmt->Get ( 1, rowData->SCHEMEID );
