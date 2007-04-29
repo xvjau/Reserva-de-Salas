@@ -47,6 +47,7 @@ class CUsuarios : public QDialog, public Ui::frUsers
 	private slots:
 		void onAccept();
 		void on_pbRemover_clicked();
+		void on_okButton_clicked();
 };
 
 #endif // __INCLUDE_CUSUARIOS_H

@@ -32,7 +32,7 @@ CUsuarios::CUsuarios( CData* _data, QWidget *_parent ):
 {
 	setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose);
-	
+
 	connect(this, SIGNAL(accepted()), this, SLOT(onAccept()));
 		
 	m_model = new CUsuariosModel( m_data );
@@ -66,9 +66,33 @@ CUsuarios::~CUsuarios()
 		delete m_delegate;
 }
 
+void CUsuarios::on_okButton_clicked()
+{
+	if ( m_model->hasUsersWithoutAreas() )
+	{
+		int ret = QMessageBox::warning(this, tr("Usuários"),
+					tr("Alguns usuários que possuem diretos de reservas<br>não possuem areas.<br><br>Deseja adciona-los à <b>todas</b> áreas?"),
+					QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
+					QMessageBox::Yes);
+
+		switch ( ret )
+		{
+			case QMessageBox::Yes:
+				m_model->addAllAreasToUsersWithoutAreas();
+			case QMessageBox::No:
+				emit accepted();
+			case QMessageBox::Cancel:
+				return;
+		}
+	}
+	else
+		emit accepted();
+}
+
 void CUsuarios::onAccept()
 {
 	m_model->CommitData();
+	close();
 }
 
 void CUsuarios::on_pbRemover_clicked()

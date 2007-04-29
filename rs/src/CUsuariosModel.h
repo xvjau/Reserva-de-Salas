@@ -54,6 +54,9 @@ class CUsuariosModel : public QAbstractTableModel
 		void CommitData() {(*m_tr)->Commit();};
 		CData*	getData() { return m_data; };
 
+		bool hasUsersWithoutAreas();
+		void addAllAreasToUsersWithoutAreas();
+		
 		virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 		virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
 		virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;

@@ -32,8 +32,8 @@ CUsuariosModel::CUsuariosModel( CData* _data ):
 	(*m_tr) = TransactionFactory(_data->m_db, amWrite, ilConcurrency, lrWait);
 	(*m_tr)->Start();
 	
-	Statement stmt = StatementFactory(_data->m_db, *m_tr);
-	Statement stmtArea = StatementFactory(_data->m_db, *m_tr);
+	Statement stmt = StatementFactory( m_data->m_db, *m_tr );
+	Statement stmtArea = StatementFactory( m_data->m_db, *m_tr );
 
 	/*
 	 * This SQL only checks if the user has an area.  If he does, then the 2nd SQL gets all the areas.
@@ -143,6 +143,48 @@ CUsuariosModel::~CUsuariosModel()
 	TROW_USUARIOS::iterator it;
     for (it = m_rows.begin(); it != m_rows.end(); ++it)
 		delete *it;
+}
+
+bool CUsuariosModel::hasUsersWithoutAreas()
+{
+	Statement stmt = StatementFactory( m_data->m_db, *m_tr );
+
+	stmt->Execute("Select First 1 \
+						U.USUARIOID \
+					From \
+						USUARIOS U \
+							left join USUARIOS_AREAS UA on \
+								U.USUARIOID = UA.USUARIOID \
+					Where \
+						U.NIVEL > 0 \
+						and UA.AREAID IS NULL");
+
+	bool result = stmt->Fetch() && ! stmt->IsNull( 1 );
+
+	stmt->Close();
+
+	return result;
+}
+
+void CUsuariosModel::addAllAreasToUsersWithoutAreas()
+{
+	Statement stmt = StatementFactory( m_data->m_db, *m_tr );
+
+	stmt->Execute("Insert into USUARIOS_AREAS (USUARIOID, AREAID) \
+					Select \
+						U.USUARIOID, \
+						A.AREAID \
+					From \
+						USUARIOS U \
+							left join USUARIOS_AREAS UA on \
+								U.USUARIOID = UA.USUARIOID \
+							join AREAS A on \
+								1 = 1 \
+					Where \
+						U.NIVEL > 0 \
+						and UA.AREAID IS NULL");
+	
+	stmt->Close();
 }
 
 int CUsuariosModel::rowCount(const QModelIndex &parent) const
