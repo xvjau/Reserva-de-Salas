@@ -166,7 +166,7 @@ CReserva::CReserva(CReservaList *_owner):
 	vboxLayout->addLayout(hboxLayout);
 	
 	setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
-	setLineWidth(2);
+	setLineWidth(1);
 	setMidLineWidth(1);
 }
 

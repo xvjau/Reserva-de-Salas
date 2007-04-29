@@ -50,16 +50,17 @@ static const int TABLE_ROW_HEIGHT = 30;
 
 CMainWindow::CMainWindow( QWidget * _parent ):
 	QMainWindow( _parent ),
-	m_salaList(0),
-	m_config(0),
-	m_canRefresh(true),
-	m_stylesGroup(this),
-	m_intervalGroup(this),
-	m_initialized(false),
-	m_semana(0),
+	m_salaList( 0 ),
+	m_config( 0 ),
+	m_canRefresh( true ),
+	m_stylesGroup( this ),
+	m_intervalGroup( this ),
+	m_initialized( false ),
+	m_semana( 0 ),
 	m_intervalKind( ikWeekly ),
 	m_dayInterval( 7 ),
-	m_needRefresh(true)
+	m_needRefresh( true ),
+	m_activeReserva( 0 )
 {
 	setupUi( this );
 	
@@ -580,13 +581,19 @@ void CMainWindow::on_btProx_clicked()
 
 void CMainWindow::setActiveReserva(CReserva *_reserva)
 {
+	if ( m_activeReserva )
+		m_activeReserva->setFrameStyle( QFrame::StyledPanel | QFrame::Plain );
+	
 	m_activeReserva = _reserva;
+
+	if ( m_activeReserva )
+		m_activeReserva->setFrameStyle( QFrame::Box | QFrame::Sunken );
 	
-	actionImprimirLista->setEnabled(m_activeReserva);
-	actionImprimirReserva->setEnabled(m_activeReserva);
-	actionCopiar->setEnabled(m_activeReserva);
+	actionImprimirLista->setEnabled( m_activeReserva );
+	actionImprimirReserva->setEnabled( m_activeReserva );
+	actionCopiar->setEnabled( m_activeReserva );
 	
-	switch (m_config->getNivel())
+	switch ( m_config->getNivel() )
 	{
 		case 0:
 		{
@@ -597,19 +604,19 @@ void CMainWindow::setActiveReserva(CReserva *_reserva)
 			bool benabled = false;
 			bool userHasArea = false;
 
-			if (_reserva && (tbReservas->currentColumn() != -1))
+			if ( _reserva && ( tbReservas->currentColumn() != -1 ) )
 			{
-				int isalaid = tbReservas->horizontalHeaderItem(tbReservas->currentColumn())->data(PSALA_COL_ROLE).toInt();
-				userHasArea = (m_config->getUserSalaList()->indexOf(isalaid) != -1);
-				
-				benabled = (_reserva->getUSUARIOID() == m_config->getUsuarioID()) && userHasArea;
-			}
-
-			if (pbRemover)
-				pbRemover->setEnabled(benabled);
+				int isalaid = tbReservas->horizontalHeaderItem ( tbReservas->currentColumn() )->data ( PSALA_COL_ROLE ).toInt();
+				userHasArea = ( m_config->getUserSalaList()->indexOf ( isalaid ) != -1 );
 			
-			actionRemover->setEnabled(benabled);
-			actionAlterar->setEnabled(benabled);
+				benabled = ( _reserva->getUSUARIOID() == m_config->getUsuarioID() ) && userHasArea;
+			}
+			
+			if ( pbRemover )
+				pbRemover->setEnabled ( benabled );
+			
+			actionRemover->setEnabled ( benabled );
+			actionAlterar->setEnabled ( benabled );
 			
 			return;
 		}
@@ -625,19 +632,19 @@ void CMainWindow::setActiveReserva(CReserva *_reserva)
 
 				benabled = userHasArea;
 			}
-
-			if (pbRemover)
-				pbRemover->setEnabled(benabled);
-
-			actionRemover->setEnabled(benabled);
-			actionAlterar->setEnabled(benabled);
+			
+			if ( pbRemover )
+				pbRemover->setEnabled ( benabled );
+			
+			actionRemover->setEnabled ( benabled );
+			actionAlterar->setEnabled ( benabled );
 			return;
 		}
 		default:
 		{
-			pbRemover->setEnabled(_reserva);
-			actionRemover->setEnabled(_reserva);
-			actionAlterar->setEnabled(_reserva);
+			pbRemover->setEnabled( _reserva );
+			actionRemover->setEnabled( _reserva );
+			actionAlterar->setEnabled( _reserva );
 			return;
 		}
 	}
@@ -645,35 +652,35 @@ void CMainWindow::setActiveReserva(CReserva *_reserva)
 
 void CMainWindow::showReservaMenu(const QPoint _pos)
 {
-	m_mnPopupReserva.popup(_pos);
+	m_mnPopupReserva.popup ( _pos );
 }
 
 void CMainWindow::on_actionImprimirLista_triggered()
 {
-	QPrintDialog printDialog(&m_printer, this);
-	if (printDialog.exec() == QDialog::Accepted)
+	QPrintDialog printDialog ( &m_printer, this );
+	if ( printDialog.exec() == QDialog::Accepted )
 	{
-		CSala *sala = m_salaList->m_salas[m_activeReserva->getSALAID()];
-		
-		CModelos *modelos = new CModelos(m_data.m_db, m_activeReserva->getOwner(),
-										sala->getNome(), &m_printer);
-		
-		modelos->setModal(true);
+		CSala *sala = m_salaList->m_salas[m_activeReserva->getSALAID() ];
+
+		CModelos *modelos = new CModelos ( m_data.m_db, m_activeReserva->getOwner(),
+		                                   sala->getNome(), &m_printer );
+
+		modelos->setModal ( true );
 		modelos->show();
 	};
 }
 
 void CMainWindow::on_actionImprimirReserva_triggered()
 {
-	QPrintDialog printDialog(&m_printer, this);
-	if (printDialog.exec() == QDialog::Accepted)
+	QPrintDialog printDialog ( &m_printer, this );
+	if ( printDialog.exec() == QDialog::Accepted )
 	{
-		CSala *sala = m_salaList->m_salas[m_activeReserva->getSALAID()];
-		
-		CModelos *modelos = new CModelos(m_data.m_db, m_activeReserva,
-										sala->getNome(), &m_printer);
-		
-		modelos->setModal(true);
+		CSala *sala = m_salaList->m_salas[ m_activeReserva->getSALAID() ];
+	
+		CModelos *modelos = new CModelos ( m_data.m_db, m_activeReserva,
+											sala->getNome(), &m_printer );
+	
+		modelos->setModal ( true );
 		modelos->show();
 	};
 }
@@ -684,24 +691,24 @@ void CMainWindow::on_actionCopiar_triggered()
 	const char sep = 9;
 	
 	TListaReserva::iterator it;
-
+	
 	CReservaList* reservaList = m_activeReserva->getOwner();
-
-	for (it = reservaList->m_reservas.begin(); it != reservaList->m_reservas.end(); ++it)
+	
+	for ( it = reservaList->m_reservas.begin(); it != reservaList->m_reservas.end(); ++it )
 	{
-		str += (*it)->getHORAIN().toString();
+		str += ( *it )->getHORAIN().toString();
 		str += sep;
-		str += (*it)->getHORAFIM().toString();
+		str += ( *it )->getHORAFIM().toString();
 		str += sep;
-		str += (*it)->getASSUNTO();
+		str += ( *it )->getASSUNTO();
 		str += sep;
-		str += (*it)->getDEPTO();
+		str += ( *it )->getDEPTO();
 		str += sep;
-		str += (*it)->getNOTAS();
+		str += ( *it )->getNOTAS();
 		str += "\n";
 	}
 	
-	QApplication::clipboard()->setText(str);
+	QApplication::clipboard()->setText ( str );
 }
 
 void CMainWindow::on_actionHoje_triggered()
@@ -721,7 +728,7 @@ void CMainWindow::cbAreaChanged(int index)
 {
 	refreshSalas();
 	refreshData( m_activeDate );
-	resizeEvent(0);
+	resizeEvent( 0 );
 
 	updateButtons();
 }
@@ -749,18 +756,18 @@ void CMainWindow::on_actionEnglish_triggered()
 void CMainWindow::changeLocale( const QString &locale )
 {
 	{
-		QSettings settings("RolTram", "RS");
-		settings.beginGroup("Locale");
-		settings.setValue("Locale", locale);
+		QSettings settings ( "RolTram", "RS" );
+		settings.beginGroup ( "Locale" );
+		settings.setValue ( "Locale", locale );
 	}
-
-	QString path = QDir::toNativeSeparators( app()->applicationFilePath() );
-	path = QString("\"") + path + QString("\""); 
-
+	
+	QString path = QDir::toNativeSeparators ( app()->applicationFilePath() );
+	path = QString ( "\"" ) + path + QString ( "\"" );
+	
 	QStringList args = app()->arguments();
 	args.removeFirst();
-
-	QProcess::startDetached( path + QString(' ') + args.join(" "));
+	
+	QProcess::startDetached ( path + QString ( ' ' ) + args.join ( " " ) );
 	app()->closeAllWindows();
 }
 
@@ -783,7 +790,7 @@ void CMainWindow::setDayInterval ( int theValue )
 	m_config->setIntervalKind( m_intervalKind );
 	m_config->setDayInterval( m_dayInterval );
 	
-	refreshData(m_date);
+	refreshData( m_date );
 }
 
 int CMainWindow::getDayInterval() const 
