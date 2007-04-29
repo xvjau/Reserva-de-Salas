@@ -550,10 +550,16 @@ void CMainWindow::refreshSalas()
 
 void CMainWindow::refreshAreas()
 {
-	if (cbArea->count())
+	if ( cbArea->count() )
 		cbArea->clear();
+
+	QStringList* areas = m_data.refreshAreas();
+	bool visible = areas->count() != 1;
 	
-	cbArea->addItems(*m_data.refreshAreas());
+	cbArea->setVisible( visible );
+	lbAreas->setVisible( visible );
+	
+	cbArea->addItems( *areas );
 }
 
 void CMainWindow::on_btAnte_clicked()

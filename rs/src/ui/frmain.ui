@@ -68,7 +68,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="label" >
+       <widget class="QLabel" name="lbAreas" >
         <property name="text" >
          <string>Área</string>
         </property>
@@ -196,11 +196,6 @@
     <property name="title" >
      <string>Configurações</string>
     </property>
-    <widget class="QMenu" name="menuType_Here" >
-     <property name="title" >
-      <string>Type Here</string>
-     </property>
-    </widget>
     <widget class="QMenu" name="menuLingua" >
      <property name="title" >
       <string>Lingua</string>
