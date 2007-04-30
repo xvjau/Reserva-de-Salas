@@ -113,7 +113,7 @@ int main ( int argc, char *argv[] )
 
 	QTranslator translator;
 
-	if ( locale != "pt_BR" )
+	if (( locale != "pt_BR" ) && ( locale != "ptBR" ) && ( locale != "C" ))
 	{
 		QString localeFileName = QString ( "rs_" ) + locale + ".qm";
 		
