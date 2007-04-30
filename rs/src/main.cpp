@@ -119,8 +119,13 @@ int main ( int argc, char *argv[] )
 		
 		QStringList searchPaths;
 		searchPaths << QDir::toNativeSeparators ( app.applicationDirPath() + QDir::separator() )
+#ifdef __unix__
 					<< "../share/" << "/usr/share/rs/" << "/usr/local/share/rs/"
 					<< "/usr/share/" << "/usr/local/share/";
+#else
+					<< "../share/" << "C:/usr/share/rs/" << "C:/usr/local/share/rs/"
+					<< "C:/usr/share/" << "C:/usr/local/share/";
+#endif
 
 		for ( int i = 0; i < searchPaths.count(); ++i )
 		{ 
