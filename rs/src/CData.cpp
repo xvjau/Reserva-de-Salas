@@ -79,7 +79,7 @@ bool CData::connect()
 		if ( ! settings->contains ( "DB" ) )
 		{
 			settings->setValue ( "DB", "RS" );
-			settings->setValue ( "Server", "localhostz" );
+			settings->setValue ( "Server", "localhost" );
 			settings->setValue ( "User", "RS" );
 			settings->setValue ( "Password", "rs" );
 			settings->setValue ( "Characterset", "ISO8859_1" );
