@@ -317,7 +317,7 @@ void CMainWindow::refreshData ( const QDate &_date )
 	if ( m_intervalKind == ikMonthly )
 		lbData->setText ( m_date.toString ( "MMMM" ) );
 	else
-		lbData->setText ( m_date.toString ( "dd/MM/yyyy" ) );
+		lbData->setText ( m_date.toString ( tr( "dd/MM/yyyy" ) ));
 
 	if ( ! m_salaList )
 	{

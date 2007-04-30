@@ -49,17 +49,17 @@
 <context>
     <name>CData</name>
     <message>
-        <location filename="CData.cpp" line="115"/>
+        <location filename="CData.cpp" line="114"/>
         <source>Erro</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="CData.cpp" line="122"/>
+        <location filename="CData.cpp" line="123"/>
         <source>Erro ao conectar-se ao Servidor</source>
         <translation>Error connecting to the Server</translation>
     </message>
     <message>
-        <location filename="CData.cpp" line="124"/>
+        <location filename="CData.cpp" line="125"/>
         <source>&lt;b&gt;Foi impossiv&amp;eacute;l connectar-se ao servidor&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;small&gt;Mensagem do banco:&lt;br&gt;</source>
         <translation>&lt;b&gt;Unable to connect to the server&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;small&gt;Database message:&lt;br&gt;</translation>
     </message>
@@ -67,7 +67,7 @@
 <context>
     <name>CEsquemaDelegate</name>
     <message>
-        <location filename="CEsquemaComboBox.cpp" line="66"/>
+        <location filename="CEsquemaComboBox.cpp" line="48"/>
         <source>Esquema </source>
         <translation>Scheme </translation>
     </message>
@@ -75,73 +75,93 @@
 <context>
     <name>CMainWindow</name>
     <message>
-        <location filename="CMainWindow.cpp" line="313"/>
+        <location filename="CMainWindow.cpp" line="352"/>
         <source>Sala </source>
         <translation>Room </translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="357"/>
+        <location filename="CMainWindow.cpp" line="398"/>
         <source>Erro</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="454"/>
+        <location filename="CMainWindow.cpp" line="514"/>
         <source>Excluir Reserva</source>
         <translation>Delete Reservation</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="456"/>
+        <location filename="CMainWindow.cpp" line="516"/>
         <source>Tem certeza que deseja excluir a reserva </source>
         <translation>Are you sure that you wish to delete the reservation </translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="457"/>
+        <location filename="CMainWindow.cpp" line="517"/>
         <source>&amp;Sim</source>
         <translation>&amp;Yes</translation>
     </message>
     <message>
-        <location filename="CMainWindow.cpp" line="457"/>
+        <location filename="CMainWindow.cpp" line="517"/>
         <source>&amp;N&#xe3;o</source>
         <translation>&amp;No</translation>
+    </message>
+    <message>
+        <location filename="CMainWindow.cpp" line="320"/>
+        <source>dd/MM/yyyy</source>
+        <translation>MM/dd/yyyy</translation>
+    </message>
+    <message>
+        <location filename="CMainWindow.cpp" line="822"/>
+        <source>Intervalo</source>
+        <translation>Period</translation>
+    </message>
+    <message>
+        <location filename="CMainWindow.cpp" line="822"/>
+        <source>Intervalo de dias</source>
+        <translation>Day interval</translation>
     </message>
 </context>
 <context>
     <name>CModelos</name>
     <message>
-        <location filename="CModelos.cpp" line="247"/>
+        <location filename="CModelos.cpp" line="248"/>
         <source>Excluir Reserva</source>
         <translation>Delete Reservation</translation>
     </message>
     <message>
-        <location filename="CModelos.cpp" line="249"/>
+        <location filename="CModelos.cpp" line="250"/>
         <source>Tem certeza que deseja excluir a reserva %1</source>
         <translation>Are you sure that you want to delete %1</translation>
     </message>
     <message>
-        <location filename="CModelos.cpp" line="250"/>
+        <location filename="CModelos.cpp" line="251"/>
         <source>&amp;Sim</source>
         <translation>&amp;Yes</translation>
     </message>
     <message>
-        <location filename="CModelos.cpp" line="250"/>
+        <location filename="CModelos.cpp" line="251"/>
         <source>&amp;N&#xe3;o</source>
         <translation>&amp;No</translation>
     </message>
     <message>
-        <location filename="CModelos.cpp" line="269"/>
+        <location filename="CModelos.cpp" line="270"/>
         <source>Erro</source>
         <translation>Error</translation>
+    </message>
+    <message>
+        <location filename="CModelos.cpp" line="190"/>
+        <source>dddd dd &apos;de&apos; MMMM</source>
+        <translation>dddd, dd&apos;th of&apos; MMMM</translation>
     </message>
 </context>
 <context>
     <name>CModelosItem</name>
     <message>
-        <location filename="CModelosItem.cpp" line="121"/>
+        <location filename="CModelosItem.cpp" line="120"/>
         <source>Erro</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="CModelosItem.cpp" line="111"/>
+        <location filename="CModelosItem.cpp" line="110"/>
         <source>J&#xe1; existe um modelo&lt;br&gt;com esse nome.</source>
         <translation>There is already a model&lt;br&gt; with that name.</translation>
     </message>
@@ -149,12 +169,12 @@
 <context>
     <name>CReserva</name>
     <message>
-        <location filename="CReserva.cpp" line="569"/>
+        <location filename="CReserva.cpp" line="572"/>
         <source>Erro</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="CReserva.cpp" line="580"/>
+        <location filename="CReserva.cpp" line="585"/>
         <source>Resp.: </source>
         <translation>User.:</translation>
     </message>
@@ -175,22 +195,22 @@
 <context>
     <name>CSalas</name>
     <message>
-        <location filename="CSalas.cpp" line="174"/>
+        <location filename="CSalas.cpp" line="173"/>
         <source>Excluir Sala?</source>
         <translation>Delete Room?</translation>
     </message>
     <message>
-        <location filename="CSalas.cpp" line="176"/>
+        <location filename="CSalas.cpp" line="175"/>
         <source>Tem certeza que deseja excluir a sala %1</source>
         <translation>Are you sure that you want to delete room %1</translation>
     </message>
     <message>
-        <location filename="CSalas.cpp" line="177"/>
+        <location filename="CSalas.cpp" line="176"/>
         <source>&amp;Sim</source>
         <translation>&amp;Yes</translation>
     </message>
     <message>
-        <location filename="CSalas.cpp" line="177"/>
+        <location filename="CSalas.cpp" line="176"/>
         <source>&amp;N&#xe3;o</source>
         <translation>&amp;No</translation>
     </message>
@@ -198,12 +218,12 @@
 <context>
     <name>CSalasItem</name>
     <message>
-        <location filename="CSalasItem.cpp" line="79"/>
+        <location filename="CSalasItem.cpp" line="78"/>
         <source>Erro</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="CSalasItem.cpp" line="79"/>
+        <location filename="CSalasItem.cpp" line="78"/>
         <source>Esse n&#xfa;mero de sala j&#xe1; existe!</source>
         <translation>There is already a room with this number!</translation>
     </message>
@@ -267,7 +287,7 @@
 <context>
     <name>CSemana</name>
     <message>
-        <location filename="CSemana.cpp" line="294"/>
+        <location filename="CSemana.cpp" line="297"/>
         <source>Erro</source>
         <translation>Error</translation>
     </message>
@@ -275,22 +295,22 @@
 <context>
     <name>CUsuarioDelegate</name>
     <message>
-        <location filename="CUsuarioDelegate.cpp" line="52"/>
+        <location filename="CUsuarioDelegate.cpp" line="50"/>
         <source>0 - Somente leitura</source>
         <translation>0 - Read-only</translation>
     </message>
     <message>
-        <location filename="CUsuarioDelegate.cpp" line="53"/>
+        <location filename="CUsuarioDelegate.cpp" line="51"/>
         <source>1 - Criar reservas</source>
         <translation>1 - Make reservations</translation>
     </message>
     <message>
-        <location filename="CUsuarioDelegate.cpp" line="54"/>
+        <location filename="CUsuarioDelegate.cpp" line="52"/>
         <source>2 - Criar, Alterar reservas de qualquer usu&#xe1;rio</source>
         <translation>2 - Create, Edit any user&apos;s reservations</translation>
     </message>
     <message>
-        <location filename="CUsuarioDelegate.cpp" line="55"/>
+        <location filename="CUsuarioDelegate.cpp" line="53"/>
         <source>3 - Administrador(a)</source>
         <translation>3 - Administrator</translation>
     </message>
@@ -298,27 +318,27 @@
 <context>
     <name>CUsuarios</name>
     <message>
-        <location filename="CUsuarios.cpp" line="97"/>
+        <location filename="CUsuarios.cpp" line="122"/>
         <source>Excluir Usu&#xe1;rio?</source>
         <translation>Delete User?</translation>
     </message>
     <message>
-        <location filename="CUsuarios.cpp" line="91"/>
+        <location filename="CUsuarios.cpp" line="116"/>
         <source>Tem certeza que deseja excluir o usu&#xe1;rio(a) %1?</source>
         <translation>Are you sure that you want to delete %1?</translation>
     </message>
     <message>
-        <location filename="CUsuarios.cpp" line="100"/>
+        <location filename="CUsuarios.cpp" line="125"/>
         <source>&amp;Sim</source>
         <translation>&amp;Yes</translation>
     </message>
     <message>
-        <location filename="CUsuarios.cpp" line="100"/>
+        <location filename="CUsuarios.cpp" line="125"/>
         <source>&amp;N&#xe3;o</source>
         <translation>&amp;No</translation>
     </message>
     <message>
-        <location filename="CUsuarios.cpp" line="99"/>
+        <location filename="CUsuarios.cpp" line="124"/>
         <source>Isso ir&#xe1; remover tamb&#xe9;m todas as reservas feitas por %1, tem certeza &lt;i&gt;mesmo&lt;/i&gt; que voc&#xea; quer fazer isso?</source>
         <translation>This will also delete all reservations made by %1, are you &lt;i&gt;really&lt;/i&gt; sure that you want to do this?</translation>
     </message>
@@ -327,48 +347,68 @@
         <source> Esquema XX </source>
         <translation> Scheme XX </translation>
     </message>
+    <message>
+        <location filename="CUsuarios.cpp" line="73"/>
+        <source>Usu&#xe1;rios</source>
+        <translation>Users</translation>
+    </message>
+    <message>
+        <location filename="CUsuarios.cpp" line="75"/>
+        <source>Alguns usu&#xe1;rios que possuem diretos de reservas&lt;br&gt;n&#xe3;o possuem areas.&lt;br&gt;&lt;br&gt;Deseja adciona-los &#xe0; &lt;b&gt;todas&lt;/b&gt; &#xe1;reas?</source>
+        <translation>There are users with reservation rights&lt;br&gt;that are not associated to an area.&lt;br&gt;&lt;br&gt;Do you wish to add them to &lt;b&gt;all&lt;/b&gt; areas?</translation>
+    </message>
+    <message>
+        <location filename="CUsuarios.cpp" line="75"/>
+        <source>&lt;br&gt;&lt;br&gt;&lt;small&gt;Um usu&#xe1;rio que n&#xe3;o est&#xe1; alocado &#xe0; nenhuma &#xe1;rea n&#xe3;o poder&#xe1; fazer reservas.</source>
+        <translation>&lt;br&gt;&lt;br&gt;&lt;small&gt;A user that is not associated to any areas won&apos;t be able to make reservations.</translation>
+    </message>
 </context>
 <context>
     <name>CUsuariosModel</name>
     <message>
-        <location filename="CUsuariosModel.cpp" line="220"/>
+        <location filename="CUsuariosModel.cpp" line="280"/>
         <source>Login</source>
         <translation>Login</translation>
     </message>
     <message>
-        <location filename="CUsuariosModel.cpp" line="221"/>
+        <location filename="CUsuariosModel.cpp" line="281"/>
         <source>Nome</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="CUsuariosModel.cpp" line="222"/>
+        <location filename="CUsuariosModel.cpp" line="282"/>
         <source>Estilo</source>
         <translation>Style</translation>
     </message>
     <message>
-        <location filename="CUsuariosModel.cpp" line="223"/>
+        <location filename="CUsuariosModel.cpp" line="283"/>
         <source>Esquema</source>
         <translation>Scheme</translation>
     </message>
     <message>
-        <location filename="CUsuariosModel.cpp" line="224"/>
+        <location filename="CUsuariosModel.cpp" line="284"/>
         <source>N&#xed;vel</source>
         <translation>Level</translation>
     </message>
     <message>
-        <location filename="CUsuariosModel.cpp" line="225"/>
+        <location filename="CUsuariosModel.cpp" line="285"/>
         <source>&#xc1;rea</source>
         <translation>Area</translation>
     </message>
     <message>
-        <location filename="CUsuariosModel.cpp" line="427"/>
+        <location filename="CUsuariosModel.cpp" line="492"/>
         <source>Erro</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="CUsuariosModel.cpp" line="342"/>
+        <location filename="CUsuariosModel.cpp" line="402"/>
         <source>Esse esquema de cores n&#xe3;o existe!</source>
         <translation>This colour scheme does not exsist!</translation>
+    </message>
+    <message>
+        <location filename="CUsuariosModel.cpp" line="258"/>
+        <source>N&#xe3;o h&#xe1; &#xe1;reas associadas &#xe0; este usu&#xe1;rio.</source>
+        <translation>This user is not associated to any area.</translation>
     </message>
 </context>
 <context>
@@ -387,12 +427,12 @@
         <translation>RS</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="232"/>
+        <location filename="ui/frmain.ui" line="248"/>
         <source>Adicionar</source>
         <translation>Add</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="243"/>
+        <location filename="ui/frmain.ui" line="259"/>
         <source>Remover</source>
         <translation>Delete</translation>
     </message>
@@ -407,89 +447,124 @@
         <translation>Date</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="181"/>
+        <location filename="ui/frmain.ui" line="208"/>
         <source>Estilo</source>
         <translation>Style</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="186"/>
+        <location filename="ui/frmain.ui" line="181"/>
         <source>Menu</source>
         <translation>Menu</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="195"/>
+        <location filename="ui/frmain.ui" line="190"/>
         <source>Ajuda</source>
         <translation>Help</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="218"/>
+        <location filename="ui/frmain.ui" line="234"/>
         <source>Salas</source>
         <translation>Rooms</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="251"/>
+        <location filename="ui/frmain.ui" line="267"/>
         <source>Alterar</source>
         <translation>Edit</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="ui/frmain.ui" line="265"/>
+        <location filename="ui/frmain.ui" line="281"/>
         <source>Usuários</source>
         <translation>Users</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="273"/>
+        <location filename="ui/frmain.ui" line="289"/>
         <source>Cores</source>
         <translation>Colours</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="281"/>
+        <location filename="ui/frmain.ui" line="297"/>
         <source>Imprimir Lista</source>
         <translation>Print List</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="289"/>
+        <location filename="ui/frmain.ui" line="305"/>
         <source>Imprimir Reserva</source>
         <translation>Print Reservation</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="297"/>
+        <location filename="ui/frmain.ui" line="313"/>
         <source>Hoje</source>
         <translation>Today</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="305"/>
+        <location filename="ui/frmain.ui" line="321"/>
         <source>Copiar Lista</source>
         <translation>Copy List</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="ui/frmain.ui" line="313"/>
+        <location filename="ui/frmain.ui" line="329"/>
         <source>Áreas</source>
         <translation>Areas</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="318"/>
+        <location filename="ui/frmain.ui" line="337"/>
         <source>Sobre o Reserva de Salas</source>
         <translation>About &quot;Reserva de Salas&quot;</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="323"/>
+        <location filename="ui/frmain.ui" line="345"/>
         <source>Sobre o Qt</source>
         <translation>About Qt</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="202"/>
+        <location filename="ui/frmain.ui" line="201"/>
         <source>Lingua</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="ui/frmain.ui" line="328"/>
+        <location filename="ui/frmain.ui" line="356"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="ui/frmain.ui" line="333"/>
+        <location filename="ui/frmain.ui" line="364"/>
         <source>Português</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="ui/frmain.ui" line="197"/>
+        <source>Configurações</source>
+        <translation>Settings</translation>
+    </message>
+    <message>
+        <location filename="ui/frmain.ui" line="214"/>
+        <source>Intervalo</source>
+        <translation>Period</translation>
+    </message>
+    <message>
+        <location filename="ui/frmain.ui" line="369"/>
+        <source>TESTE</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="ui/frmain.ui" line="374"/>
+        <source>ds</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="ui/frmain.ui" line="385"/>
+        <source>Semanal</source>
+        <translation>Weekly</translation>
+    </message>
+    <message>
+        <location filename="ui/frmain.ui" line="393"/>
+        <source>Mensal</source>
+        <translation>Monthly</translation>
+    </message>
+    <message>
+        <location filename="ui/frmain.ui" line="401"/>
+        <source>Outro...</source>
+        <translation>Other...</translation>
     </message>
 </context>
 <context>

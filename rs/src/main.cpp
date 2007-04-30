@@ -82,7 +82,7 @@ QSettings* getConfigFile()
 			return globalSettings;
 #endif
 		FOUND:
-			globalSettings = new QSettings ( path, QSettings::NativeFormat );
+		globalSettings = new QSettings ( path, QSettings::NativeFormat );
 		}
 	}
 	return globalSettings;
@@ -113,14 +113,29 @@ int main ( int argc, char *argv[] )
 
 	QTranslator translator;
 
+	if ( locale != "pt_BR" )
 	{
-		QString localeFileName = QDir::toNativeSeparators ( app.applicationDirPath() + QDir::separator() );
-		localeFileName += QString ( "rs_" ) + locale + ".qm";
+		QString localeFileName = QString ( "rs_" ) + locale + ".qm";
+		
+		QStringList searchPaths;
+		searchPaths << QDir::toNativeSeparators ( app.applicationDirPath() + QDir::separator() )
+					<< "../share/" << "/usr/share/rs/" << "/usr/local/share/rs/"
+					<< "/usr/share/" << "/usr/local/share/";
 
+		for ( int i = 0; i < searchPaths.count(); ++i )
+		{ 
+			if ( QFileInfo ( searchPaths[i] + localeFileName ).exists() )
+			{
+				localeFileName = searchPaths[i] + localeFileName;
+				goto FOUND;
+			}
+		}
+
+		FOUND:
 		if ( translator.load ( localeFileName ) )
 			app.installTranslator ( &translator );
 		else
-			QMessageBox ( "Erro", "Unable to Load language file: " + localeFileName, QMessageBox::Warning, QMessageBox::Cancel, 0, 0 ).exec();
+			QMessageBox ( "Erro", "Unable to find language file: " + localeFileName, QMessageBox::Warning, QMessageBox::Cancel, 0, 0 ).exec();
 	}
 
 	int exitCode = -1;
