@@ -82,9 +82,23 @@ CONFIG += qt \
 exceptions \
 debug
 TEMPLATE = app
+
 linux-g++{
     LIBS += /opt/firebird/lib/libfbclient.so
     DEFINES += IBPP_LINUX
+
+	languages.path = /usr/local/share/rs
+	for( translate, TRANSLATIONS ) {
+		fileName = $$system( echo $$translate | sed -e s/[.].*/.qm/ )
+
+		languages.files += ../bin/$$fileName
+		# This line just ensures that there is a file there so the Maketargets are built.
+		system($(echo $QMAKE | sed -e s/qamke//)lrelease $$translate -qm ../bin/$$fileName )
+	}
+
+    binary.path = /usr/local/bin
+    binary.files += ../bin/rs
+    INSTALLS += binary languages
 }
 win32{
     DEFINES += IBPP_WINDOWS
