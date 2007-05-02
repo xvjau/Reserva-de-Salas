@@ -72,7 +72,6 @@ SOURCES += CConfig.cpp \
 TRANSLATIONS +=	rs_en.ts \
 		rs_ptBR.ts
 RCC_DIR = $$OBJECTS_DIR
-DEPENDPATH = .
 MOC_DIR = ../obj
 UI_DIR = ../obj
 OBJECTS_DIR = ../obj
@@ -80,21 +79,22 @@ TARGET = rs
 DESTDIR = ../bin
 CONFIG += qt \
 exceptions \
-debug
+debug \
+warn_on
 TEMPLATE = app
 
 linux-g++{
     LIBS += /opt/firebird/lib/libfbclient.so
     DEFINES += IBPP_LINUX
 
-	languages.path = /usr/local/share/rs
-	for( translate, TRANSLATIONS ) {
-		fileName = $$system( echo $$translate | sed -e s/[.].*/.qm/ )
+    languages.path = /usr/local/share/rs
+    for( translate, TRANSLATIONS ){
+        fileName = $$system( echo $$translate | sed -e s/[.].*/.qm/ )
 
-		languages.files += ../bin/$$fileName
-		# This line just ensures that there is a file there so the Maketargets are built.
-		system($(echo $QMAKE | sed -e s/qamke//)lrelease $$translate -qm ../bin/$$fileName )
-	}
+        languages.files += ../bin/$$fileName
+        # This line just ensures that there is a file there so the Maketargets are built.
+        system($(echo $QMAKE | sed -e s/qamke//)lrelease $$translate -qm ../bin/$$fileName )
+    }
 
     binary.path = /usr/local/bin
     binary.files += ../bin/rs
