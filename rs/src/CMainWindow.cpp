@@ -518,6 +518,7 @@ void CMainWindow::on_actionRemover_triggered()
 					QString(), 1, 0 ) )
 		{
 			m_activeReserva->del();
+			m_activeReserva = 0;
 			setActiveReserva ( 0 );
 		}
 }
