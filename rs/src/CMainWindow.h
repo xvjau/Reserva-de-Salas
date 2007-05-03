@@ -117,8 +117,10 @@ class CMainWindow: public QMainWindow, public Ui::MainWindow
 		void refreshSalas();
 		void refreshAreas();
 		void refreshData ( const QDate &_date );
+		void needRefresh();
 
 		void setActiveReserva ( CReserva *_reserva );
+		void checkActiveReservaDeleted ( CReserva *_reserva );
 		void setActiveDate ( QDate _date ) {m_activeDate = _date;};
 		void setActiveSalaID ( int _salaID ) {m_activeSalaID = _salaID;};
 

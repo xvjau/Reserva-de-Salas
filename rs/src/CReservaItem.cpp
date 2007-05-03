@@ -133,9 +133,15 @@ CReservaItem::CReservaItem ( CReserva *_reserva,
 		deDataTermino->setDate ( QDate::currentDate().addMonths ( 6 ) );
 	}
 
+	if ( m_reserva->getRESERVAID() > 0 )
+	{
+		cbRecorrente->setEnabled ( false );
+		cbTipoRecorrencia->setEnabled ( false );
+	}
+	
 	/*
-	 * TODO: Add ReservaMesal support to Database.
-	 */
+	* TODO: Add ReservaMesal support to Database.
+	*/
 	cbTipoRecorrencia->setVisible ( false );
 
 	onValidate();
@@ -220,12 +226,16 @@ void CReservaItem::ok()
 
 	try
 	{
+		
 		if ( m_reserva->save() )
 		{
 			if ( m_reserva->getTIPO() == 'W' )
 				m_form->refreshData ( m_form->getDate() );
 			else
-				m_form->checkRowHeight ( m_reserva->getOwner()->getPosition().x(), m_reserva->getOwner()->getPosition().y() );
+			{
+				m_form->checkRowHeight ( m_reserva->getOwner()->getPosition().x(),
+										 m_reserva->getOwner()->getSALAID() );
+			}
 		}
 
 		emit accepted();

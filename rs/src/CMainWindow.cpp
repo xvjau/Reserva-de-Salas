@@ -232,11 +232,14 @@ void CMainWindow::checkRowHeight ( int _row, int _salaID )
 
 	CReservaList* reservaList = m_semana->getReservaList ( _row+1, _salaID );
 
-	for ( it = reservaList->m_reservas.begin(); it != reservaList->m_reservas.end(); ++it )
-		iHeight += ( *it )->getHeight();
+	if ( reservaList )
+	{
+		for ( it = reservaList->m_reservas.begin(); it != reservaList->m_reservas.end(); ++it )
+			iHeight += ( *it )->getHeight();
 
-	if ( iHeight > tbReservas->rowHeight ( _row ) )
-		tbReservas->setRowHeight ( _row, iHeight );
+		if ( iHeight > tbReservas->rowHeight ( _row ) )
+			tbReservas->setRowHeight ( _row, iHeight );
+	}
 }
 
 void CMainWindow::resizeEvent ( QResizeEvent * event )
@@ -282,6 +285,11 @@ void CMainWindow::clearData()
 		delete m_semana;
 		m_semana = 0;
 	}
+}
+
+void CMainWindow::needRefresh()
+{
+	refreshData( m_activeDate );
 }
 
 void CMainWindow::refreshData ( const QDate &_date )
@@ -650,6 +658,12 @@ void CMainWindow::setActiveReserva ( CReserva *_reserva )
 			return;
 		}
 	}
+}
+
+void CMainWindow::checkActiveReservaDeleted ( CReserva *_reserva )
+{
+	if ( m_activeReserva == _reserva )
+		setActiveReserva( 0 );
 }
 
 void CMainWindow::showReservaMenu ( const QPoint _pos )

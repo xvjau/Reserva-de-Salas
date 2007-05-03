@@ -149,6 +149,9 @@ class CReserva: public QFrame
 		QPalette*	m_colorScheme;
 		CReservaList* 	getOwner() {return m_owner;};
 		int		getHeight() {return m_height;};
+
+	signals:
+		void needRefresh();
 };
 
 #endif

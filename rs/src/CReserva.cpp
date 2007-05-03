@@ -78,6 +78,9 @@ CReserva::CReserva ( CReservaList *_owner ) :
 		m_readMensal ( false ),
 		m_parent ( 0 )
 {
+	if ( ! connect( this, SIGNAL( needRefresh() ), m_owner->m_owner->m_parent, SLOT( needRefresh() )))
+		throw -1;
+	
 	if ( ! g_disabledPalette )
 	{
 		g_disabledPalette = new QPalette();
@@ -173,7 +176,8 @@ CReserva::CReserva ( CReservaList *_owner ) :
 CReserva::~CReserva()
 {
 	m_deleting = true;
-
+	m_owner->m_owner->m_parent->checkActiveReservaDeleted( this );
+	
 	if ( m_parent )
 	{
 		m_parent->m_children.removeAll ( this );
@@ -497,39 +501,44 @@ bool CReserva::save()
 
 void CReserva::relocate()
 {
-	QDate intervalStart = m_owner->m_owner->m_date;
-	int dayInterval = m_owner->m_owner->m_parent->getDayInterval();
+	if ( TIPO == 'S' )
+	{
+		QDate intervalStart = m_owner->m_owner->m_date;
+		int dayInterval = m_owner->m_owner->m_parent->getDayInterval();
 
-	if ( ( DATA < intervalStart ) || ( DATA >= intervalStart.addDays ( dayInterval + 1 ) ) )
-	{
-		m_owner->m_reservas.removeAll ( this );
-		delete this;
-		return;
-	}
-	else
-	{
-		if ( ( DATA.daysTo ( m_owner->m_date ) ) || ( oldSALAID != SALAID ) )
+		if ( ( DATA < intervalStart ) || ( DATA >= intervalStart.addDays ( dayInterval + 1 ) ) )
 		{
 			m_owner->m_reservas.removeAll ( this );
-
-			int idow = intervalStart.daysTo ( DATA ) + 1;
-
-			CReservaList *reservaList = m_owner->m_owner->getReservaList ( idow, SALAID );
-
-			if ( reservaList )
+			delete this;
+			return;
+		}
+		else
+		{
+			if ( ( DATA.daysTo ( m_owner->m_date ) ) || ( oldSALAID != SALAID ) )
 			{
-				reservaList->insertReserva ( this );
-				m_owner = reservaList;
+				m_owner->m_reservas.removeAll ( this );
 
-				oldSALAID = SALAID;
-			}
-			else
-			{
-				delete this;
-				return;
+				int idow = intervalStart.daysTo ( DATA ) + 1;
+
+				CReservaList *reservaList = m_owner->m_owner->getReservaList ( idow, SALAID );
+
+				if ( reservaList )
+				{
+					reservaList->insertReserva ( this );
+					m_owner = reservaList;
+
+					oldSALAID = SALAID;
+				}
+				else
+				{
+					delete this;
+					return;
+				}
 			}
 		}
 	}
+	else
+		emit needRefresh();
 
 	m_relocate = false;
 }
