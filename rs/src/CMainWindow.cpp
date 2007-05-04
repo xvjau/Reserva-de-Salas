@@ -79,7 +79,7 @@ CMainWindow::CMainWindow ( QWidget * _parent ) :
 	m_mnPopupReserva.addAction ( actionImprimirLista );
 	m_mnPopupReserva.addAction ( actionCopiar );
 
-	m_mnPopupReserva.addAction ( actionImprimirReserva );
+	//m_mnPopupReserva.addAction ( actionImprimirReserva );
 
 	m_mnPopupHoje.addAction ( actionHoje );
 }
