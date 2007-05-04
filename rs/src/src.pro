@@ -79,7 +79,7 @@ TARGET = rs
 DESTDIR = ../bin
 CONFIG += qt \
 exceptions \
-debug \
+release \
 warn_on
 TEMPLATE = app
 
@@ -113,4 +113,6 @@ gui
 INCLUDEPATH += ../ibpp \
 .
 LIBS += ../obj/libibpp.a
+
+TARGETDEPS += ../obj/libibpp.a
 
