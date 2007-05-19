@@ -186,7 +186,8 @@ catch (PDOException $e)
 
 	for( $i = 0; $i < $dayInterval; ++$i )
 	{
-		$rowDate = date( 'Y-m-d', $startDate + ( $i * $SECONDS_IN_DAY ));
+		$rowRawDate = $startDate + ( $i * $SECONDS_IN_DAY );
+		$rowDate = date( 'Y-m-d', $rowRawDate );
 		
 		echo "\t<tr>\n";
 
@@ -222,8 +223,19 @@ catch (PDOException $e)
 						$text .= '<br><i>(' . $reserva['DEPTO'] . ')</i>';
 					}
 
-					$background = ColorToRGB( $reserva['BACKGROUND'] );
-					$font = ColorToRGB( $reserva['FONT'] );
+					$secs = ( substr( $reserva['HORAIN'], 0, 2 ) * 60 * 60 ) +
+						( substr( $reserva['HORAIN'], 3, 2 ) * 60 );
+
+					if (( $rowRawDate + $secs ) < time() )
+					{
+						$background = '225,225,225';
+						$font = '0,0,0';
+					}
+					else
+					{
+						$background = ColorToRGB( $reserva['BACKGROUND'] );
+						$font = ColorToRGB( $reserva['FONT'] );
+					}
 
 					echo '<table style="text-align: left; width: 100%; background-color: rgb(' . $background . ');" border="0" cellpadding="0" cellspacing="1"><tr><td style=" width: 10%;"><b>';
 
