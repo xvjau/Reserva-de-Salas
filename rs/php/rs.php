@@ -1,9 +1,10 @@
 <?php
 
 /* Firebird connection info */
-$dbName = 'localhost:rs';
-$user = 'rs';
-$pass = 'rs';
+define('DBNAME', 'localhost:rs');
+define('USER', 'rs');
+define('PASS', 'rs');
+define('CHARSET', 'ISO8859_1');
 
 $SECONDS_IN_DAY = 86400;
 
@@ -16,150 +17,193 @@ function ColorToRGB( $_str )
 	return "$red, $green, $blue";
 }
 
-try
+function getDataset( $sql, $params = array() )
 {
-	if ( $dbh = new PDO('firebird:dbname=' . $dbName, $user, $pass) )
+	static $dbh;
+
+	// Test for interbase support
+	if ( strlen( IBASE_DEFAULT ))
 	{
-		/* Search Parameters */
-		if ( isset( $_GET['start'] ))
-			$startDate = strtotime( $_GET['start'] );
-		else
-			$startDate = strtotime( "last Monday" );
-
-		//echo "startDate = $startDate\n";
-
-		if ( isset( $_GET['end'] ))
+		if ( ! isset( $dbh ) )
 		{
-			$endDate = strtotime( $_GET['end'] );
-			$dayInterval = ( $endDate - $startDate ) / $SECONDS_IN_DAY;
-		}
-		else
-		{
-			$endDate = $startDate + ( $SECONDS_IN_DAY * 6 );
-			$dayInterval = 7;
+			if ( $dbh = ibase_connect( DBNAME, USER, PASS, CHARSET ))
+				echo "<!-- Connected -->\n";
+			else
+			{
+				die("Unable to connect to server.");
+			}
 		}
 
-		$stmt =  $dbh->prepare( '
-					Select
-						CAST(\' \' AS VARCHAR(10)) AREAID,
-						CAST(\' \' AS VARCHAR(80)) AREA,
-						NULL "COUNT"
-					From
-						RDB$DATABASE
-					Union
-					Select AREAID, AREA, "COUNT" From
-					(
-					Select 
-						CAST(SA.AREAID AS VARCHAR(10)) AREAID,
-						CAST(A.AREA AS VARCHAR(80)) AREA,
-						count(*) "COUNT"
-					From 
-						RESERVAS R join SALAS_AREAS SA on
-							R.SALAID = SA.SALAID
-						join AREAS A on
-							SA.AREAID = A.AREAID
-					Group by
-						SA.AREAID,
-						A.AREA
-					Order By
-						3
-					)' );
-		$stmt->execute();
-		$areas = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		echo "<!--\nSQL:\n$sql\n";
 
-		if ( isset( $_GET['area'] ) )
-			$areaID = $_GET['area'];
-		else
-			$areaID = $areas[1]['AREAID'];
+		$stmt = ibase_prepare( $dbh, $sql );
 
-		$stmt = null;
-
-		$stmt =  $dbh->prepare( 'Select Distinct
-						CAST(SL.SALAID AS VARCHAR(10)) SALAID, 
-						CAST(SL.ANDAR AS VARCHAR(10)) ANDAR, 
-						CAST(SL.NOME AS VARCHAR(80)) NOME, 
-						(Select First 1 
-							AR.AREA 
-						From 
-							AREAS AR 
-								Join SALAS_AREAS SA on 
-									SA.AREAID = AR.AREAID 
-						Where 
-							SA.SALAID = SL.SALAID) AREA 
-					From 
-						SALAS SL 
-							Join SALAS_AREAS SA on 
-								SA.SALAID = SL.SALAID 
-					Where 
-						(? = -1) OR 
-						(SA.AREAID = ?) 
-					Order By 
-						SL.ANDAR, SL.SALAID' );
-
-		$bind = $areaID;
-		$stmt->bindParam( 1, $bind );
-		$stmt->bindParam( 2, $bind );
-
-		$stmt->execute();
-		$salas = $stmt->fetchAll( PDO::FETCH_ASSOC );
-
-		$stmt = null;
-
-		$stmt = $dbh->prepare('Select 
-						RESERVAID, SALAID,
-						CAST(DATA AS VARCHAR(10)) DATA,
-						CAST(HORAIN AS VARCHAR(15)) HORAIN,
-						CAST(HORAFIM AS VARCHAR(15)) HORAFIM,
-						USUARIOID, USUARIO_NOME, ASSUNTO, DEPTO, NOTAS, 
-						TIPO, CS.BACKGROUND, CS.FONT
-					From 
-						GET_RESERVAS_SEMANA(?, ?, ?) GR Left Join 
-							COLOR_SCHEME CS on 
-								GR.SCHEMEID = CS.SCHEMEID
-					Order By 
-						SALAID, 
-						DATA, 
-						HORAIN');
-	
-		$bind = $areaID;
-		$stmt->bindParam( 1, date( 'm/d/Y', $startDate));
-		$stmt->bindParam( 2, date( 'm/d/Y', $endDate));
-		$stmt->bindParam( 3, $bind );
-	
-		$stmt->execute();
-	
-		$reservas = $stmt->fetchAll();
-
-		$dbh = null;
-
-		$grid = array();
-
-		// Reindex the array so it is sorted by SALAID and then DATA
-		foreach( $reservas as $reserva )
+		$s = '';
+		foreach( $params as $key => $value )
 		{
-			$SALAID = $reserva['SALAID'];
-			$DATA = $reserva['DATA'];
-			$grid[$SALAID][$DATA][] = $reserva;
+			echo "\nParam($key) = $value ";
+			$s .= '$params[\'' . $key . '\'],';
 		}
-		$reservas = null;
+		
+		$s = rtrim( $s, ',' );
+
+		if ( strlen( $s )) 
+			$s =  '$rows=ibase_execute($stmt,' . $s . ');';
+		else
+			$s =  '$rows=ibase_execute($stmt);';
+
+		eval( $s );
+
+		$result = array();
+
+		while ( $row = ibase_fetch_assoc( $rows ) )
+			$result[] = $row;
+
+		echo "\nResult:\n";
+		print_r( $result );
+		echo "\n-->\n";
+
+		return $result;
 	}
-	else
+	else // try PDO - this is *NOT* the preferred way since there are some glitches. i.e. forst row fetched always comes nulled
 	{
-		die("Unable to connect to server.");
+		try
+		{
+			if ( ! isset( $dbh ) )
+			{
+				if ( $dbh = new PDO('firebird:dbname=' . DBNAME, USER, PASS ))
+					echo "<!-- Connected -->\n";
+				else
+				{
+					die("Unable to connect to server.");
+				}
+			}
+	
+			$stmt =  $dbh->prepare( $sql );
+	
+			echo "<!--\nSQL =\n $sql \n";
+	
+			$i = 0;
+			foreach( $params as $param )
+			{
+				++$i;
+				echo  "Param($i) = $param\n";
+				$stmt->bindParam( $i, $param );
+			}
+	
+			$stmt->execute();
+	
+			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+	
+			$stmt = null;
+			
+			echo "Result = "; print_r( $result ); echo "\n-->\n";
+	
+			return $result;
+		}
+		catch ( PDOException $e ) 
+		{
+			print "Error!: " . $e->getMessage() . "<br/>";
+			die();
+		}
 	}
 }
-catch (PDOException $e) 
+
+/* Search Parameters */
+if ( isset( $_GET['start'] ))
+	$startDate = strtotime( $_GET['start'] );
+else
+	$startDate = strtotime( "last Monday" );
+
+if ( isset( $_GET['end'] ))
 {
-	print "Error!: " . $e->getMessage() . "<br/>";
-	die();
+	$endDate = strtotime( $_GET['end'] );
+	$dayInterval = ( $endDate - $startDate ) / $SECONDS_IN_DAY;
 }
-?>  
+else
+{
+	$endDate = $startDate + ( $SECONDS_IN_DAY * 6 );
+	$dayInterval = 7;
+}
+
+$areas = getDataset('Select 
+			CAST(SA.AREAID AS VARCHAR(10)) AREAID,
+			CAST(A.AREA AS VARCHAR(80)) AREA,
+			count(*) "COUNT"
+		From 
+			RESERVAS R join SALAS_AREAS SA on
+				R.SALAID = SA.SALAID
+			join AREAS A on
+				SA.AREAID = A.AREAID
+		Group by
+			SA.AREAID,
+			A.AREA
+		Order By
+			3' );
+
+if ( isset( $_GET['area'] ) )
+	$areaID = $_GET['area'];
+else
+	$areaID = $areas[1]['AREAID'];
+
+$salas = getDataset('Select Distinct
+				CAST(SL.SALAID AS VARCHAR(10)) SALAID, 
+				CAST(SL.ANDAR AS VARCHAR(10)) ANDAR, 
+				CAST(SL.NOME AS VARCHAR(80)) NOME, 
+				(Select First 1 
+					AR.AREA 
+				From 
+					AREAS AR 
+						Join SALAS_AREAS SA on 
+							SA.AREAID = AR.AREAID 
+				Where 
+					SA.SALAID = SL.SALAID) AREA 
+			From 
+				SALAS SL 
+					Join SALAS_AREAS SA on 
+						SA.SALAID = SL.SALAID 
+			Where 
+				(? = -1) OR 
+				(SA.AREAID = ?) 
+			Order By 
+				SL.ANDAR, SL.SALAID' , array( $areaID, $areaID ));
+
+
+$reservas = getDataset('Select 
+				RESERVAID, SALAID,
+				CAST(DATA AS VARCHAR(10)) DATA,
+				CAST(HORAIN AS VARCHAR(15)) HORAIN,
+				CAST(HORAFIM AS VARCHAR(15)) HORAFIM,
+				USUARIOID, USUARIO_NOME, ASSUNTO, DEPTO, NOTAS, 
+				TIPO, CS.BACKGROUND, CS.FONT
+			From 
+				GET_RESERVAS_SEMANA(?, ?, ?) GR Left Join 
+					COLOR_SCHEME CS on 
+						GR.SCHEMEID = CS.SCHEMEID
+			Order By 
+				SALAID, 
+				DATA, 
+				HORAIN', array( date( 'm/d/Y', $startDate), date( 'm/d/Y', $endDate), $areaID ));
+
+$grid = array();
+
+// Reindex the array so it is sorted by SALAID and then DATA
+foreach( $reservas as $reserva )
+{
+	$SALAID = $reserva['SALAID'];
+	$DATA = $reserva['DATA'];
+	$grid[$SALAID][$DATA][] = $reserva;
+}
+$reservas = null;
+
+?>
+
 <html>
 <body>
 
 <table style="text-align: left; width: 100%;" border="0" cellpadding="1" cellspacing="1">
 	<tr>
-		<td style="text-align: left; width: 100%;">
+		<td style="text-align: left; vertical-align: middle; width: 100%;">
 			<form name="areaForm">
 			<select onchange="location = '<? echo $_SERVER['SCRIPT_NAME']; ?>?start=<?
 					echo date( 'Y-m-d', $startDate );
@@ -274,17 +318,17 @@ catch (PDOException $e)
 						$font = ColorToRGB( $reserva['FONT'] );
 					}
 
-					echo '<table style="text-align: left; width: 100%; background-color: rgb(' . $background . ');" border="0" cellpadding="0" cellspacing="1"><tr><td style=" width: 10%;"><b>';
+					echo '<table style="text-align: left; width: 100%; background-color: rgb(' . $background . ');" border="0" cellpadding="0" cellspacing="1"><tr><td style=" width: 10%;"><span style="color: rgb(' . $font . '); font-weight: bold;">';
 
 					echo substr( $reserva['HORAIN'], 0, 5 );
 
-					echo '</b></td><td colspan="1" rowspan="2" style="text-align: center;"><span style="color: rgb(' . $font . ');">';
+					echo '</span></td><td colspan="1" rowspan="2" style="text-align: center;"><span style="color: rgb(' . $font . ');">';
 					echo $text;
-					echo '</td></tr><tr><td><b>';
+					echo '</td></tr><tr><td><span style="color: rgb(' . $font . '); font-weight: bold;">';
 
 					echo substr( $reserva['HORAFIM'], 0, 5 );
 
-					echo '</b></td></tr></table>';
+					echo '</span></td></tr></table>';
 
 					echo "\t\t\t\t</td></tr>\n";
 				}
