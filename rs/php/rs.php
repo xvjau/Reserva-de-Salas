@@ -34,14 +34,11 @@ function getDataset( $sql, $params = array() )
 			}
 		}
 
-		echo "<!--\nSQL:\n$sql\n";
-
 		$stmt = ibase_prepare( $dbh, $sql );
 
 		$s = '';
 		foreach( $params as $key => $value )
 		{
-			echo "\nParam($key) = $value ";
 			$s .= '$params[\'' . $key . '\'],';
 		}
 		
@@ -58,10 +55,6 @@ function getDataset( $sql, $params = array() )
 
 		while ( $row = ibase_fetch_assoc( $rows ) )
 			$result[] = $row;
-
-		echo "\nResult:\n";
-		print_r( $result );
-		echo "\n-->\n";
 
 		return $result;
 	}
@@ -81,13 +74,10 @@ function getDataset( $sql, $params = array() )
 	
 			$stmt =  $dbh->prepare( $sql );
 	
-			echo "<!--\nSQL =\n $sql \n";
-	
 			$i = 0;
 			foreach( $params as $param )
 			{
 				++$i;
-				echo  "Param($i) = $param\n";
 				$stmt->bindParam( $i, $param );
 			}
 	
@@ -96,9 +86,7 @@ function getDataset( $sql, $params = array() )
 			$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
 	
 			$stmt = null;
-			
-			echo "Result = "; print_r( $result ); echo "\n-->\n";
-	
+				
 			return $result;
 		}
 		catch ( PDOException $e ) 
