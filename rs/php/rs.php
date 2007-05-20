@@ -39,27 +39,40 @@ try
 			$dayInterval = 7;
 		}
 
+		$stmt =  $dbh->prepare( '
+					Select
+						CAST(\' \' AS VARCHAR(10)) AREAID,
+						CAST(\' \' AS VARCHAR(80)) AREA,
+						NULL "COUNT"
+					From
+						RDB$DATABASE
+					Union
+					Select AREAID, AREA, "COUNT" From
+					(
+					Select 
+						CAST(SA.AREAID AS VARCHAR(10)) AREAID,
+						CAST(A.AREA AS VARCHAR(80)) AREA,
+						count(*) "COUNT"
+					From 
+						RESERVAS R join SALAS_AREAS SA on
+							R.SALAID = SA.SALAID
+						join AREAS A on
+							SA.AREAID = A.AREAID
+					Group by
+						SA.AREAID,
+						A.AREA
+					Order By
+						3
+					)' );
+		$stmt->execute();
+		$areas = $stmt->fetchAll( PDO::FETCH_ASSOC );
+
 		if ( isset( $_GET['area'] ) )
 			$areaID = $_GET['area'];
 		else
-		{
-			$stmt =  $dbh->prepare( 'Select 
-							CAST(SA.AREAID AS VARCHAR(10)) AREAID,
-							count(*)
-						From 
-							RESERVAS R join SALAS_AREAS SA on
-								R.SALAID = SA.SALAID
-						Group by
-							SA.AREAID
-						Order by
-							count(*) desc' );
-			$stmt->execute();
-			$row = $stmt->fetchAll( PDO::FETCH_ASSOC );
+			$areaID = $areas[1]['AREAID'];
 
-			$areaID = $row[0]['AREAID'];
-
-			$stmt = null;
-		}
+		$stmt = null;
 
 		$stmt =  $dbh->prepare( 'Select Distinct
 						CAST(SL.SALAID AS VARCHAR(10)) SALAID, 
@@ -144,28 +157,52 @@ catch (PDOException $e)
 <html>
 <body>
 
-<div style="text-align: right;">
-	<big>
-		<span style="font-weight: bold;">
+<table style="text-align: left; width: 100%;" border="0" cellpadding="1" cellspacing="1">
+	<tr>
+		<td style="text-align: left; width: 100%;">
+			<form name="areaForm">
+			<select onchange="location = '<? echo $_SERVER['SCRIPT_NAME']; ?>?start=<?
+					echo date( 'Y-m-d', $startDate );
+					?>&area=' + window.document.areaForm.Area.options[selectedIndex].value;" name="Area">
+				<?
+					foreach( $areas as $area )
+					{
+						if ( $area['AREAID'] == $areaID )
+							$selected = 'selected';
+						else
+							$selected = '';
+
+						echo '<option value="' . $area['AREAID'] . "\" $selected>" . $area['AREA'] . "</option>\n";
+					}
+				?>
+			</select>
+			</form>
+		</td>
+		<td style="text-align: center; vertical-align: middle;">
+			<big>
 			<? echo '<a href="' . 
 				$_SERVER['SCRIPT_NAME'] . "?area=$areaID&start=" .
 					date( 'Y-m-d', $startDate - ( $SECONDS_IN_DAY * 7 )) .
-					'"><small>&lt;&lt;</small></a>' ?>
-
-			<big>
-				<? echo date( 'd/m/Y', $startDate); ?>
+					'"><small><span style="font-weight: bold;">&lt;&lt;</span></small></a>' ?>
 			</big>
-
+		</td>
+		<td style="text-align: right;">
+			<big><big><span style="font-weight: bold;">
+				<? echo date( 'd/m/Y', $startDate); ?>
+			</span></big></big>
+		</td>
+		<td style="text-align: center; vertical-align: middle;">
+			<big>
 			<? echo '<a href="' . 
 				$_SERVER['SCRIPT_NAME'] . "?area=$areaID&start=" .
 					date( 'Y-m-d', $startDate + ( $SECONDS_IN_DAY * 7 )) .
-					'"><small>&gt;&gt;</small></a>' ?>
-		</span>
-	</big>
-<br>
-<br>
-</div>
+					'"><small><span style="font-weight: bold;">&gt;&gt;<span></small></a>' ?>
+			</big>
+		</td>
+	</tr>
+</table>
 
+<br>
 
 <table style="text-align: left; width: 100%; height: 90%;" border="1" cellpadding="0" cellspacing="0">
 <?php
