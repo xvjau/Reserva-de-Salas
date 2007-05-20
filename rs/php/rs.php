@@ -139,12 +139,12 @@ $areas = getDataset('Select
 			SA.AREAID,
 			A.AREA
 		Order By
-			3' );
+			3 desc' );
 
 if ( isset( $_GET['area'] ) )
 	$areaID = $_GET['area'];
 else
-	$areaID = $areas[1]['AREAID'];
+	$areaID = $areas[0]['AREAID'];
 
 $salas = getDataset('Select Distinct
 				CAST(SL.SALAID AS VARCHAR(10)) SALAID, 
