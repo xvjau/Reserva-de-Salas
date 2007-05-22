@@ -1,0 +1,18 @@
+#
+#
+#  C++ Portable Types Library (PTypes)
+#  Version 2.1.0  Released 15-May-2007
+#
+#  Copyright (C) 2001-2007 Hovik Melikyan
+#
+#  http://www.melikyan.com/ptypes/
+#
+#
+#
+# Makefile for MacOS X (Darwin), called from ../Makefile
+#
+
+CXX = c++
+
+include Makefile.common
+
