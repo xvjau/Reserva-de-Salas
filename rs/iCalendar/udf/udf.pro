@@ -1,7 +1,6 @@
 TEMPLATE = lib
 
 CONFIG += warn_on \
-qt \
 debug \
 dll
 SOURCES += udf.cpp
@@ -18,16 +17,15 @@ linux-g++{
 }
 TARGET = icalendar
 
-QT += core \
-network
-
-INCLUDEPATH += ../ptypes/include/
-
 INSTALLS += target
 
 target.path = /opt/firebird/UDF
 
+CONFIG -= qt
+INCLUDEPATH += ../ptypes/include/
+
 LIBS += -L../ptypes/lib/ \
+-lfbclient \
 -lesmtp \
 -lib_util \
--lptypesn
+-lptypes

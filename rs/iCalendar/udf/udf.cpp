@@ -62,10 +62,12 @@
 #include <libesmtp.h>
 #include <auth-client.h>
 
+#define MT
+
 #ifdef MT
 	#define STATIC_MT 
-	#define RWLOCK_READ scoperead( m_rwlock )
-	#define RWLOCK_WRITE scopewrite( m_rwlock )
+	#define RWLOCK_READ scoperead __readlock( m_rwlock )
+	#define RWLOCK_WRITE scopewrite __writelock( m_rwlock )
 #else
 	#define STATIC_MT static
 	#define RWLOCK_READ 
@@ -89,7 +91,7 @@ class smtpConfig_c
 			m_host = value; 
 		}
 		
-		string host() const
+		string host()
 		{
 			RWLOCK_READ;
 			return m_host;
@@ -100,12 +102,12 @@ class smtpConfig_c
 
 static smtpConfig_c smtpConfig;
 
-datetime IsctstoDateTime( ISC_TIMESTAMP * ts )
+datetime IsctstoDateTime( const ISC_TIMESTAMP * ts )
 {
 	STATIC_MT tm time;
 	isc_decode_timestamp( ts, &time );
 	
-	return encodedate( time.tm_year + 1900, time.tm_mon, time.tm_mday )
+	return encodedate( time.tm_year + 1900, time.tm_mon + 1, time.tm_mday )
 			+ encodetime( time.tm_hour, time.tm_min, time.tm_sec );
 }
 
@@ -176,7 +178,7 @@ string intToString( int value, int digits = 0 )
 	return result;
 }
 
-string isoDate( datetime dt )
+string isoDate( const datetime dt )
 {
 	STATIC_MT int year, month, day, hours, mins, secs, msecs;
 	
@@ -194,8 +196,8 @@ string isoDate( datetime dt )
 string BlobToString( BLOBCALLBACK blob )
 {
 	STATIC_MT string result;
-#ifdef MT
-	result.clear();
+#ifndef MT
+	clear( result );
 #endif
 	
 	if ( blob && blob->blob_handle )
@@ -244,9 +246,8 @@ void set_stmp( )
 {
 }
 
-extern char * icalendar( char * uid, char * from, char * to, char * subject, BLOBCALLBACK description, 
-		char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, 
-		int * opr )
+extern int icalendar( char * uid, char * from, char * to, char * subject, BLOBCALLBACK description, 
+						 char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
 {
 	string method, status;
 
@@ -263,7 +264,8 @@ extern char * icalendar( char * uid, char * from, char * to, char * subject, BLO
 			status = "CANCELLED";
 			break;
 
-		default: return stringToChar( "Illegal opr code" ); // Shouldn't happen!
+		//default: return stringToChar( "Illegal opr code" ); // Shouldn't happen!
+		default: return -1; // Shouldn't happen!
 	}
 
 	datetime dtStart = IsctstoDateTime( tsStart ),
@@ -313,7 +315,8 @@ extern char * icalendar( char * uid, char * from, char * to, char * subject, BLO
 	file.put( result );
 	file.put( "\n\n" );
 	
-	return stringToChar( result );
+	//return stringToChar( result );
+	return 0;
 }
 
 } // extern "C"

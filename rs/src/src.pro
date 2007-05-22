@@ -79,8 +79,8 @@ TARGET = rs
 DESTDIR = ../bin
 CONFIG += qt \
 exceptions \
-release \
-warn_on
+warn_on \
+debug
 TEMPLATE = app
 
 linux-g++{

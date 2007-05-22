@@ -5,6 +5,7 @@
 TEMPLATE = subdirs
 
 # Directories
-SUBDIRS += ibpp src
+SUBDIRS += ibpp src \
+iCalendar
 CONFIG += warn_on
 

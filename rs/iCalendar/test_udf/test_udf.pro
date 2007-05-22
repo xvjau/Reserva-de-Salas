@@ -6,5 +6,5 @@ SOURCES += teste_udf.cpp
 
 INCLUDEPATH += ../udf \
 ../ptypes/include/
-LIBS += /home/gianni/Projetos/rs/iCalendar/ptypes/lib/libptypes.a
-
+LIBS += -L/opt/firebird/UDF \
+-licalendar
