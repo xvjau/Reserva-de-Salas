@@ -48,26 +48,26 @@ bool CSalaList::loadList()
 
 		stmt->Prepare
 		( "Select Distinct\
-		  SL.SALAID, \
-		  SL.ANDAR, \
-		  SL.NOME, \
-		  (Select First 1 \
-		  AR.AREA \
+		  	SL.SALAID, \
+		  	SL.ANDAR, \
+		  	SL.NOME, \
+		  	(Select First 1 \
+		  		AR.AREA \
+		  	From \
+		  		AREAS AR \
+		  			Join SALAS_AREAS SA on \
+		  				SA.AREAID = AR.AREAID \
+		  	Where \
+		  		SA.SALAID = SL.SALAID) AREA \
 		  From \
-		  AREAS AR \
-		  Join SALAS_AREAS SA on \
-		  SA.AREAID = AR.AREAID \
+		  	SALAS SL \
+		  		Join SALAS_AREAS SA on \
+		  			SA.SALAID = SL.SALAID \
 		  Where \
-		  SA.SALAID = SL.SALAID) AREA \
-		  From \
-		  SALAS SL \
-		  Join SALAS_AREAS SA on \
-		  SA.SALAID = SL.SALAID \
-		  Where \
-		  (? = -1) OR \
-		  (SA.AREAID = ?) \
+		  	(? = -1) OR \
+		  	(SA.AREAID = ?) \
 		  Order By \
-		  SL.ANDAR, SL.SALAID" );
+		  	SL.ANDAR, SL.SALAID" );
 
 		stmt->Set ( 1, m_areaId );
 		stmt->Set ( 2, m_areaId );
