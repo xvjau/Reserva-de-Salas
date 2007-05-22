@@ -109,12 +109,21 @@ datetime IsctstoDateTime( ISC_TIMESTAMP * ts )
 			+ encodetime( time.tm_hour, time.tm_min, time.tm_sec );
 }
 
-char * stringToChar( const string s )
+char * stringToChar( string s )
 {
 	STATIC_MT char *result, *p;
 	STATIC_MT const char *q;
+	static const int MAX_LENGTH = 256;
 
-	result = static_cast<char*>( ib_util_malloc( length( s ) + 1 ));
+#ifdef MT
+	result = static_cast<char*>( ib_util_malloc( MAX_LENGTH ));
+#else
+	static char buffer[ MAX_LENGTH ];
+	result = buffer;
+#endif
+	
+	if ( length( s ) > MAX_LENGTH )
+		setlength( s, MAX_LENGTH );
 	
 	p = result;
 	q = s;

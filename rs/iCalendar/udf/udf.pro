@@ -23,6 +23,10 @@ network
 
 INCLUDEPATH += ../ptypes/include/
 
+INSTALLS += target
+
+target.path = /opt/firebird/UDF
+
 LIBS += -L../ptypes/lib/ \
 -lesmtp \
 -lib_util \
