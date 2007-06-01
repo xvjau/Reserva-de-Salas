@@ -76,7 +76,8 @@ CReserva::CReserva ( CReservaList *_owner ) :
 		m_deleting ( false ),
 		m_readSemanal ( false ),
 		m_readMensal ( false ),
-		m_parent ( 0 )
+		m_parent ( 0 ),
+		m_selected( false )
 {
 	if ( ! connect( this, SIGNAL( needRefresh() ), m_owner->m_owner->m_parent, SLOT( needRefresh() )))
 		throw -1;
@@ -674,3 +675,25 @@ void CReserva::paintEvent ( QPaintEvent * event )
 
 	QFrame::paintEvent ( event );
 }
+
+void CReserva::setSelected( bool _value )
+{
+	m_selected = _value;
+	
+	// This doesn't look good when its activated... maybe something simmilar later?
+	/*
+	QFont font = lblTitulo->font();
+	font.setBold( m_selected );
+	lblTitulo->setFont( font );
+	*/
+	
+	if ( m_selected )
+	{
+		setFrameStyle ( QFrame::Box | QFrame::Sunken );
+	}
+	else
+	{
+		setFrameStyle ( QFrame::StyledPanel | QFrame::Plain );
+	}
+}
+

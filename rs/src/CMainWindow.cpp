@@ -592,12 +592,16 @@ void CMainWindow::on_btProx_clicked()
 void CMainWindow::setActiveReserva ( CReserva *_reserva )
 {
 	if ( m_activeReserva )
-		m_activeReserva->setFrameStyle ( QFrame::StyledPanel | QFrame::Plain );
+	{
+		m_activeReserva->setSelected( false );
+	}
 
 	m_activeReserva = _reserva;
 
 	if ( m_activeReserva )
-		m_activeReserva->setFrameStyle ( QFrame::Box | QFrame::Sunken );
+	{
+		m_activeReserva->setSelected( true );
+	}
 
 	actionImprimirLista->setEnabled ( m_activeReserva );
 	actionImprimirReserva->setEnabled ( m_activeReserva );

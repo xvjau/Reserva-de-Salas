@@ -73,6 +73,8 @@ class CReserva: public QFrame
 		QString	NOTAS;
 		char	TIPO;
 
+		bool	m_selected;
+		
 		// Semanal
 		QDate	DATAIN;
 		QDate	DATAFIM;
@@ -110,6 +112,9 @@ class CReserva: public QFrame
 		void addChild ( CReserva* _reserva ) {m_children.append ( _reserva ); _reserva->m_parent = this;}
 		CReserva* getParent() {return m_parent;}
 
+		void setSelected( bool _value );
+		bool getSelected() { return m_selected; };
+		
 		int		getoldRESERVAID() {return oldRESERVAID;};
 		int		getRESERVAID() {return RESERVAID;};
 		void	setRESERVAID ( int _value ) { RESERVAID = _value;};
