@@ -49,206 +49,16 @@
    END:VCALENDAR
 */
 
-#include <ptypes.h>
-#include <pstreams.h>
-#include <ptime.h>
-
-#include <ibase.h>
-#include <ib_util.h>
-
-#include <stdlib.h>
-#include <time.h>
-
-#include <libesmtp.h>
-#include <auth-client.h>
-
-#define MT
-
-#ifdef MT
-	#define STATIC_MT 
-	#define RWLOCK_READ scoperead __readlock( m_rwlock )
-	#define RWLOCK_WRITE scopewrite __writelock( m_rwlock )
-#else
-	#define STATIC_MT static
-	#define RWLOCK_READ 
-	#define RWLOCK_WRITE 
-#endif
-
-USING_PTYPES;
-
-class smtpConfig_c 
-{
-	private:
-#ifdef MT
-		rwlock		m_rwlock;
-#endif
-		string		m_host;
-		
-	public:
-		void setHost( string value )
-		{
-			RWLOCK_WRITE;
-			m_host = value; 
-		}
-		
-		string host()
-		{
-			RWLOCK_READ;
-			return m_host;
-		}
-		
-		
-};
-
-static smtpConfig_c smtpConfig;
-
-datetime IsctstoDateTime( const ISC_TIMESTAMP * ts )
-{
-	STATIC_MT tm time;
-	isc_decode_timestamp( ts, &time );
-	
-	return encodedate( time.tm_year + 1900, time.tm_mon + 1, time.tm_mday )
-			+ encodetime( time.tm_hour, time.tm_min, time.tm_sec );
-}
-
-char * stringToChar( string s )
-{
-	STATIC_MT char *result, *p;
-	STATIC_MT const char *q;
-	static const int MAX_LENGTH = 256;
-
-#ifdef MT
-	result = static_cast<char*>( ib_util_malloc( MAX_LENGTH ));
-#else
-	static char buffer[ MAX_LENGTH ];
-	result = buffer;
-#endif
-	
-	if ( length( s ) > MAX_LENGTH )
-		setlength( s, MAX_LENGTH );
-	
-	p = result;
-	q = s;
-	
-	while ( *q )
-		*p++ = *q++;
-
-	// Copy the terminating 0
-	*p = *q;
-	
-	return result;
-}
-
-string strReplace( string str, string frm, string to )
-{
-	return str;
-}
-
-string intToString( int value, int digits = 0 )
-{
-	static const int len = 48;
-	STATIC_MT char buffer[len];
-	
-	STATIC_MT char * p = buffer + len - 1;
-	*p-- = 0;
-	
-	if ( digits > ( len - 1))
-		digits = len - 1;
-	
-	if ( value )
-	{
-		while ( value && ( p != ( buffer - 1 )))
-		{
-			*p-- = '0' + ( value - (( value / 10 ) * 10));
-			value /= 10;
-			digits--;
-		}
-	}
-	else
-	{
-		*p-- = '0';
-		digits--;
-	}
-	
-	while ( digits-- )
-		*p-- = '0';
-	
-	string result = ++p;
-	
-	return result;
-}
-
-string isoDate( const datetime dt )
-{
-	STATIC_MT int year, month, day, hours, mins, secs, msecs;
-	
-	decodedate( dt, year, month, day );
-	decodetime( dt, hours, mins, secs, msecs );
-
-	string result;
-	
-	result = intToString( year, 4 ) + intToString( month, 2 ) + intToString( day, 2 )
-			+ 'T' + intToString( hours, 2 ) + intToString( mins, 2 ) + intToString( secs, 2 );
-	
-	return result;
-}
-
-string BlobToString( BLOBCALLBACK blob )
-{
-	STATIC_MT string result;
-#ifndef MT
-	clear( result );
-#endif
-	
-	if ( blob && blob->blob_handle )
-	{
-		int len = blob->blob_max_segment + 1L;
-		ISC_UCHAR * buffer = static_cast<ISC_UCHAR*>( malloc( len ) );
-		
-		ISC_USHORT readLength = 0;
-
-		while ( (*blob->blob_get_segment) ( blob->blob_handle, buffer, len, &readLength ) )
-		{
-			buffer[ readLength ] = 0;
-			
-			// I know, the double cast looks ugly; but it works!
-			result += static_cast<char*>( static_cast<void*>( buffer ));
-		}
-
-		delete buffer;
-	}
-
-	return result;
-}
-
-string sendMail( string data )
-{
-	smtp_session_t session;
-	smtp_message_t message;
-	smtp_recipient_t recipient;
-	auth_context_t authctx;
-	
-	auth_client_init ();
-	session = smtp_create_session ();
-	message = smtp_add_message (session);
-	
-	
-	smtp_starttls_enable (session, Starttls_ENABLED);
-	smtp_starttls_enable (session, Starttls_REQUIRED);
-	
-	smtp_set_server( session, smtpConfig.host() );
-}
+#include "udf.h"
+#include "smtp_config.h"
+#include "smtp.h"
 
 extern "C" 
 {
-	
-void set_stmp( )
+		
+extern char * icalendar( char * uid, char * to, char * subject, BLOBCALLBACK description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
 {
-}
-
-extern int icalendar( char * uid, char * from, char * to, char * subject, BLOBCALLBACK description, 
-						 char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
-{
+	static const string contentType = "text/calendar; method=REQUEST; charset=US-ASCII";
 	string method, status;
 
 	switch ( *opr )
@@ -264,8 +74,7 @@ extern int icalendar( char * uid, char * from, char * to, char * subject, BLOBCA
 			status = "CANCELLED";
 			break;
 
-		//default: return stringToChar( "Illegal opr code" ); // Shouldn't happen!
-		default: return -1; // Shouldn't happen!
+		default: return stringToChar( "Illegal opr code" ); // Shouldn't happen!
 	}
 
 	datetime dtStart = IsctstoDateTime( tsStart ),
@@ -279,18 +88,13 @@ extern int icalendar( char * uid, char * from, char * to, char * subject, BLOBCA
 
 	string str;
 
-	str = string( "From: " ) + from + '\n' +
-		"To: "  + to + '\n' +
-		"Subject: "  + subject + '\n' +
-		"Mime-Version: 1.0\n"  +
-		"Content-Type:text/calendar; method="  + method + "; charset=US-ASCII\n"  +
-		"Content-Transfer-Encoding: 7bit\n\n"  + 
-		
-		"BEGIN:VCALENDAR\n"  +
+	SMTP_Config * config = SMTP_Config::config();
+	
+	str = string( "BEGIN:VCALENDAR\n" ) + 
 		"METHOD:"  + method + '\n' +
 		"VERSION:2.0\n"  +
 		"BEGIN:VEVENT\n"  +
-		"ORGANIZER:mailto:"  + from + '\n' +
+		"ORGANIZER:mailto:" + config->from() + '\n' +
 		"ATTENDEE;RSVP=FALSE\n"  +
 		"DTSTAMP:"  + isoDate( now() )  + '\n' +
 		"DTSTART:"  + isoDate( dtStart ) + '\n' +
@@ -303,20 +107,10 @@ extern int icalendar( char * uid, char * from, char * to, char * subject, BLOBCA
 		"END:VEVENT\n"  +
 		"END:VCALENDAR\n";
 
-	outfile file("/tmp/ical.txt");
-	file.open( );
-
-	file.put( str );
-	file.put( "\n" );
-
-	//string result = sendMail( str );
-	string result = "Nope!";
-			
-	file.put( result );
-	file.put( "\n\n" );
+	string result = sendMail( to, subject, contentType, str );
 	
-	//return stringToChar( result );
-	return 0;
+	return stringToChar( result );
+	//return stringToChar( str );
 }
 
 } // extern "C"

@@ -2,14 +2,17 @@ TEMPLATE = lib
 
 CONFIG += warn_on \
 debug \
-dll
-SOURCES += udf.cpp
-
+dll \
+MT
+SOURCES += udf.cpp \
+utils.cpp \
+smtp_config.cpp \
+smtp.cpp
 DESTDIR = ../lib
 
 OBJECTS_DIR = ./obj
 
-linux-g++{
+linux-g++ {
     INCLUDEPATH += /usr/include/ \
 			/opt/firebird/include
 
@@ -21,11 +24,36 @@ INSTALLS += target
 
 target.path = /opt/firebird/UDF
 
-CONFIG -= qt
+CONFIG -= qt \
+ release
+
+HEADERS += utils.h \
+smtp_config.h \
+udf.h \
+smtp.h
+
+MT = 1
+
+
+contains( MT,1 ){
+    DEFINES += MT
+    target.path = /opt/firebird/UDF
+
+    LIBS += -lptypes
+
+    OBJECTS_DIR = ./obj
+
+}
+!contains( MT,1 ){    target.path = /opt/firebird/UDF
+
+    LIBS += -lptypesn
+
+    OBJECTS_DIR = ./obj
+
+}
 INCLUDEPATH += ../ptypes/include/
 
 LIBS += -L../ptypes/lib/ \
 -lfbclient \
 -lesmtp \
--lib_util \
--lptypes
+-lib_util
