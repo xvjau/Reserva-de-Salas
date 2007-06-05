@@ -53,6 +53,10 @@
 #include "smtp_config.h"
 #include "smtp.h"
 
+#ifdef MT
+#include "mailqueue.h"
+#endif
+
 extern "C" 
 {
 		
@@ -107,10 +111,20 @@ extern char * icalendar( char * uid, char * to, char * subject, BLOBCALLBACK des
 		"END:VEVENT\n"  +
 		"END:VCALENDAR\n";
 
-	string result = sendMail( to, subject, contentType, str );
+	string result;
+#ifdef MT
+	// This is an sync method to send mails
+	int ret = enqueueMail( to, subject, contentType, str );
+	return stringToChar( intToString( ret ));
+#else
+	/* Send mail in current thread:  this will make Firebird, and consequently RS (the client) hang for a few seconds/min 
+	 depending on the connection / mail server /etc.
+	*/
+	result = sendMail( to, subject, contentType, str );
+#endif
 	
 	return stringToChar( result );
-	//return stringToChar( str );
+	
 }
 
 } // extern "C"

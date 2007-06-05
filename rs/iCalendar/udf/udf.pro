@@ -7,7 +7,8 @@ MT
 SOURCES += udf.cpp \
 utils.cpp \
 smtp_config.cpp \
-smtp.cpp
+smtp.cpp \
+ mailqueue.cpp
 DESTDIR = ../lib
 
 OBJECTS_DIR = ./obj
@@ -30,7 +31,8 @@ CONFIG -= qt \
 HEADERS += utils.h \
 smtp_config.h \
 udf.h \
-smtp.h
+smtp.h \
+ mailqueue.h
 
 MT = 1
 
