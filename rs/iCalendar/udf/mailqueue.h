@@ -24,6 +24,6 @@
 
 #include "udf.h"
 
-int enqueueMail( string to, string subject, string content_type, string messageBody );
+int enqueueMail( string to, string subject, string messageBody, string eventType, string eventText );
 
 #endif

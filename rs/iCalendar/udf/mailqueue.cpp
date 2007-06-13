@@ -34,8 +34,9 @@ struct mailMessage: public message
 		
 		string to;
 		string subject;
-		string content_type;
 		string body;
+		string eventType;
+		string eventText;
 };
 
 class mailThread;
@@ -106,7 +107,24 @@ class mailThread: public thread
 							
 						case msgMail:
 						{
-							sendMail ( message->to, message->subject, message->content_type, message->body );
+							string result = sendMail ( message->to, message->subject, message->body, message->eventType, message->eventText );
+							
+							logfile f("/tmp/rs.log");
+
+							f.set_bufsize(1024);             // the default value in this version is 8192
+
+							try 
+							{
+								f.open();
+								f.put( isoDate( now() ) + ": " + result + "\n");
+								f.close();
+							}
+							catch (estream* e) 
+							{
+								perr.putf("File error: %s\n", e->get_message());
+								delete e;
+							}
+							
 							break;
 						}
 					}
@@ -117,14 +135,15 @@ class mailThread: public thread
 		}
 };
 
-int enqueueMail( string to, string subject, string content_type, string messageBody )
+int enqueueMail( string to, string subject, string messageBody, string eventType, string eventText )
 {
 	mailMessage * message = new mailMessage( msgMail );
 	
 	message->to				= to;
 	message->subject		= subject;
-	message->content_type 	= content_type;
 	message->body			= messageBody;
+	message->eventType 		= eventType;
+	message->eventText 		= eventText;
 	
 	mailQueue.post( message );
 	
