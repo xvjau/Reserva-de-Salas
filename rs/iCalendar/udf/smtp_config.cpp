@@ -67,7 +67,8 @@ SMTP_Config * SMTP_Config::config()
 	return smtpConfig;
 }
 
-SMTP_Config::SMTP_Config()
+SMTP_Config::SMTP_Config():
+		m_port( 25 )
 {
 }
 

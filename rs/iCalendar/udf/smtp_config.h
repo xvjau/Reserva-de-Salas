@@ -38,6 +38,7 @@ class SMTP_Config
 		rwlock		m_rwlock;
 #endif
 		string		m_host;
+		int			m_port;
 		string		m_from;
 		bool		m_auth;
 		bool		m_tls;
@@ -58,6 +59,18 @@ class SMTP_Config
 		{
 			RWLOCK_READ;
 			return m_host;
+		}
+		
+		void setPort ( int theValue )
+		{
+			RWLOCK_WRITE;
+			m_port = theValue;
+		}
+	
+		int port()
+		{
+			RWLOCK_READ;
+			return m_port;
 		}
 		
 		void setFrom( string value )
