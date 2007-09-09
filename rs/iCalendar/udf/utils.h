@@ -23,17 +23,9 @@
 #define __INCLUDE_UTILS_H
 
 #include "udf.h"
+#include "globals.h"
 
-datetime IsctstoDateTime( const ISC_TIMESTAMP * ts );
-
-char * stringToChar( string s );
-
-string strReplace( string str, string frm, string to );
-
-string intToString( int value, int digits = 0 );
-
-string isoDate( const datetime dt );
-
-string BlobToString( BLOBCALLBACK blob );
+tm IsctstoDateTime( const ISC_TIMESTAMP * ts );
+std::string BlobToString( BLOBCALLBACK blob );
 
 #endif //__INCLUDE_UTILS_H

@@ -9,83 +9,68 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include <iostream>
+
 #include <ibase.h>
+#include <time.h>
+#include <iostream>
+#include <string>
 
-#include <ptypes.h>
-USING_PTYPES;
-
+extern "C" 
+{
 #ifdef MT
-#define STATIC_MT 
-#define RWLOCK_READ scoperead( m_rwlock )
-#define RWLOCK_WRITE scopewrite( m_rwlock )
-#else
-#define STATIC_MT static
-#define RWLOCK_READ 
-#define RWLOCK_WRITE 
+	extern bool getDone();
 #endif
-
-/*
-extern "C" {
-extern char * icalendar( char * uid, char * from, char * to, char * subject, BLOBCALLBACK description, 
-						 char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, 
-						 int * opr );
-}
-*/
-
-string intToString( int value, int digits = 0 )
-{
-	static const int len = 48;
-	STATIC_MT char buffer[len];
 	
-	STATIC_MT char * p = buffer + len - 1;
-	*p-- = 0;
-	
-	if ( digits > ( len - 1))
-		digits = len - 1;
-	
-	if ( value )
-	{
-		while ( value && ( p != ( buffer - 1 )))
-		{
-			*p-- = '0' + ( value - (( value / 10 ) * 10));
-			value /= 10;
-			digits--;
-		}
-	}
-	else
-	{
-		*p-- = '0';
-		digits--;
-	}
-	
-	while ( digits-- )
-		*p-- = '0';
-	
-	string result = ++p;
-	
-	return result;
-}
-
-
-int main( )
-{
-	/* char uid[] = "9999",
-		from[] = "from@domain.com",
-		to[] = "to@domain.com",
-		subject[] = "subject -- sub",
-		location[] = "the location";
-		 
-	BLOBCALLBACK description = 0;
+	extern char * icalendar( char * uid, char * to, char * subject, BLOBCALLBACK description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr );
 		
-	ISC_TIMESTAMP tsStart, tsEnd;
+	extern int set_smtp_host( char * value );
+	extern int set_smtp_from( char * value );
 	
-	int opr = 1;
+	extern int set_smtp_auth( int * value );
+	extern int set_smtp_tls( int * value );
 	
-	icalendar( uid, from, to, subject, description, location, &tsStart, &tsEnd, &opr ); */
+	extern int set_smtp_user_name( char * value );
+	extern int set_smtp_password( char * value );
+};
+
+int main()
+{
+	set_smtp_host( "smtp.gmail.com" );
+	set_smtp_from( "nasus.maximos@gmail.com" );
 	
-	string s = intToString( 12345, 8 );
+	int i = 1;
 	
-	const char * p = s;
-	std::cout << p << std::endl;
+	set_smtp_auth( &i );
+	set_smtp_tls( &i );
+	
+	set_smtp_user_name( "nasus.maximos@gmail.com" );	
+	set_smtp_password( "L0shNODFl" );
+	
+	tm timeStart, timeEnd;
+	
+	timeStart.tm_year = 107;
+	timeStart.tm_mon = 8;
+	timeStart.tm_mday = 1;
+	
+	timeStart.tm_hour = 10;
+	timeStart.tm_min = 0;
+	timeStart.tm_sec = 0;
+	
+	timeEnd = timeStart;
+	timeEnd.tm_hour++;
+	
+	ISC_TIMESTAMP tsStart;
+	ISC_TIMESTAMP tsEnd;
+	
+	isc_encode_timestamp( &timeStart, &tsStart );
+	isc_encode_timestamp( &timeEnd, &tsEnd );
+	
+	int opr = 0;
+	
+	icalendar( "123-teste@xvjau.no-ip.org", "gianni.rossi@gmail.com", "Teste Reserva", 0, "Sala", &tsStart, &tsEnd, &opr );
+#ifdef MT
+	while ( ! getDone() ) 
+		sleep ( 1 );
+#endif
+	return 0;
 }

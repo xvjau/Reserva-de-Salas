@@ -4,7 +4,11 @@ CONFIG += warn_on \
 debug
 SOURCES += teste_udf.cpp
 
+CONFIG -= release
+
+DESTDIR = .
+
 INCLUDEPATH += ../udf \
-../ptypes/include/
-LIBS += -L/opt/firebird/UDF \
+/opt/firebird/include
+LIBS += -L../lib \
 -licalendar

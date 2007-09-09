@@ -2,8 +2,7 @@ TEMPLATE = lib
 
 CONFIG += warn_on \
 debug \
-dll \
-MT
+dll
 SOURCES += udf.cpp \
 utils.cpp \
 mailqueue.cpp \
@@ -38,32 +37,11 @@ mailqueue.h \
  smtpconfig.h \
  smtpsend.h
 
-
-
-contains( MT,1 ){
-    DEFINES += MT
-    target.path = /opt/firebird/UDF
-
-    LIBS += -lptypes
-
-    OBJECTS_DIR = ./obj
-
-}
-!contains( MT,1 ){    target.path = /opt/firebird/UDF
-
-    LIBS += -lptypesn
-
-    OBJECTS_DIR = ./obj
-
-}
-
 INCLUDEPATH += /opt/firebird/include \
-../include/ \
-../ptypes/include/
+../include/
 LIBS += -L../lib/ \
--L../ptypes/lib/ \
--lgnutls \
 -lgsasl \
+-lgnutls \
 -lvmime \
 -lib_util \
 -lfbclient

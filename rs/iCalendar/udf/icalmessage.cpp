@@ -26,23 +26,7 @@ ICalMessage::ICalMessage()
 ICalMessage::~ICalMessage()
 {}
 
-String strReplace(String str, String from, String to)
-{
-	int len = length(from), i = pos(from, str);
-	
-#warning FIXME  Very ugly and inefficient way of replacing strings
-	while (i != -1)
-	{
-		del(str, i, len);
-		ins(str, to, i);
-		
-		i = pos(from, str);
-	}
-	
-	return str;
-}
-
-String intToString( int value, int digits )
+std::string intToString( int value, int digits )
 {
 	static const int len = 48;
 	STATIC_MT char buffer[len];
@@ -72,31 +56,50 @@ String intToString( int value, int digits )
 	while (( --digits >= 0 ) && ( p != buffer ))
 		*p-- = '0';
 	
-	String result = ++p;
+	std::string result = ++p;
 	
 	return result;
 }
 
-
-String isoDate( const datetime dt )
+std::string isoDate( const tm dt )
 {
-	STATIC_MT int year, month, day, hours, mins, secs, msecs;
-	
-	decodedate( dt, year, month, day );
-	decodetime( dt, hours, mins, secs, msecs );
-
-	String result;
-	
-#warning FIXME Should return time in Zulu-time
-	result = intToString( year, 4 ) + intToString( month, 2 ) + intToString( day, 2 )
-			+ 'T' + intToString( hours, 2 ) + intToString( mins, 2 ) + intToString( secs, 2 );
+	std::string result = intToString( dt.tm_year + 1900, 4 ) + 
+			intToString( dt.tm_mon + 1, 2 ) + 
+			intToString( dt.tm_mday, 2 ) 
+			+ 'T' + 
+			intToString( dt.tm_hour, 2 ) + 
+			intToString( dt.tm_min, 2 ) + 
+			intToString( dt.tm_sec, 2 );
 	
 	return result;
+}
+
+std::string isoDate( const time_t dt )
+{
+	tm time;
+	gmtime_r(&dt, &time);	
+	return isoDate( time );
+}
+
+std::string strReplace(std::string str, std::string from, std::string to)
+{
+// 	int len = length(from), i = pos(from, str);
+// 	
+// #warning FIXME  Very ugly and inefficient way of replacing strings
+// 	while (i != -1)
+// 	{
+// 		del(str, i, len);
+// 		ins(str, to, i);
+// 		
+// 		i = pos(from, str);
+// 	}
+	
+	return str;
 }
 
 vmime::ref <vmime::message> ICalMessage::getMessageBody() const
 {
-	String method, status;
+	std::string method, status;
 
 	switch ( m_operation )
 	{
@@ -111,23 +114,23 @@ vmime::ref <vmime::message> ICalMessage::getMessageBody() const
 			status = "CANCELLED";
 			break;
 
-		default: throw String( "Illegal opr code" ); // Shouldn't happen!
+		default: throw std::string( "Illegal opr code" ); // Shouldn't happen!
 	}
 
-	String message = m_messageBody;
+	std::string message = m_messageBody;
 	message = strReplace( message, "\x0D\x0A", "\\n\n  " );
 	message = strReplace( message, "\x0A", "\\n\n  " );
 	message = strReplace( message, "\x0D", "\\n\n  " );
 
-	String strEvent, strBody;
+	std::string strEvent, strBody;
 
-	strEvent = String ( "BEGIN:VCALENDAR\n" ) +
+	strEvent = std::string ( "BEGIN:VCALENDAR\n" ) +
 				"METHOD:"  + method + '\n' +
 				"VERSION:2.0\n"  +
 				"BEGIN:VEVENT\n"  +
 				"ORGANIZER:mailto:" + m_recipient + '\n' +
 				"ATTENDEE;RSVP=FALSE\n"  +
-				"DTSTAMP:"  + isoDate ( now() )  + '\n' +
+				"DTSTAMP:"  + isoDate ( time(0) )  + '\n' +
 				"DTSTART:"  + isoDate ( m_startTime ) + '\n' +
 				"DTEND:"  + isoDate ( m_endTime )  + '\n' +
 				"SUMMARY:"  + m_subject + '\n' +
@@ -138,7 +141,7 @@ vmime::ref <vmime::message> ICalMessage::getMessageBody() const
 				"END:VEVENT\n"  +
 				"END:VCALENDAR\n";
 
-	strBody = String ( "You have been invited to a meeting:\n" ) +
+	strBody = std::string ( "You have been invited to a meeting:\n" ) +
 					"Location: " + m_location + '\n' +
 					"Date/Time: " + isoDate ( m_startTime ) + '\n' +
 					"Subject: " + m_subject + '\n' +
@@ -149,24 +152,24 @@ vmime::ref <vmime::message> ICalMessage::getMessageBody() const
 		vmime::messageBuilder	messageBuilder;
 		
 		vmime::addressList destAddresses;
-		destAddresses.appendAddress(vmime::create <vmime::mailbox>(static_cast<const char*>(m_recipient)));
+		destAddresses.appendAddress(vmime::create <vmime::mailbox>(m_recipient.c_str()));
 		
 		vmime::text txtSubject;
-		txtSubject.createFromString(static_cast<const char*>(m_subject), g_charset);
+		txtSubject.createFromString(m_subject.c_str(), g_charset);
 		
 		// Fill in some header fields and message body
-		messageBuilder.setExpeditor(vmime::mailbox(static_cast<const char*>(m_sender)));
+		messageBuilder.setExpeditor(vmime::mailbox(m_sender.c_str()));
 		messageBuilder.setRecipients(destAddresses);
-		messageBuilder.setSubject(vmime::text(static_cast<const char*>(m_subject)));
+		messageBuilder.setSubject(vmime::text(m_subject.c_str()));
 
 		messageBuilder.getTextPart()->setCharset(vmime::charsets::UTF_8);
-		messageBuilder.getTextPart()->setText(vmime::create <vmime::stringContentHandler>(static_cast<const char*>(strBody)));
+		messageBuilder.getTextPart()->setText(vmime::create <vmime::stringContentHandler>(strBody.c_str()));
 		
-		String strType = "text/calendar; method=" + method + "; charset=utf-8";
+		std::string strType = "text/calendar; method=" + method + "; charset=utf-8";
 		
-		vmime::mediaType mtype = vmime::mediaType(static_cast<const char*>(strType));
+		vmime::mediaType mtype = vmime::mediaType(strType.c_str());
 		
-		vmime::ref <vmime::stringContentHandler> icalattach = vmime::create <vmime::stringContentHandler>(static_cast<const char*>(strEvent));
+		vmime::ref <vmime::stringContentHandler> icalattach = vmime::create <vmime::stringContentHandler>(strEvent.c_str());
 				
 		vmime::ref <vmime::defaultAttachment> attach = 
 				vmime::create <vmime::defaultAttachment>(icalattach,

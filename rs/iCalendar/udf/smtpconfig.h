@@ -34,18 +34,18 @@ class SMTPConfig
 		virtual ~SMTPConfig();	
 
 	private:
-		String	m_host;
+		std::string	m_host;
 		int		m_port;
-		String	m_userName;
-		String	m_password;
+		std::string	m_userName;
+		std::string	m_password;
 		
 	public:
-		void setHost ( const String& theValue )
+		void setHost ( const std::string& theValue )
 		{
 			m_host = theValue;
 		}
 	
-		String host() const
+		std::string host() const
 		{
 			return m_host;
 		}
@@ -60,22 +60,22 @@ class SMTPConfig
 			return m_port;
 		}
 	
-		void setUserName ( const String& theValue )
+		void setUserName ( const std::string& theValue )
 		{
 			m_userName = theValue;
 		}
 		
-		String userName() const
+		std::string userName() const
 		{
 			return m_userName;
 		}
 	
-		void setPassword ( const String& theValue )
+		void setPassword ( const std::string& theValue )
 		{
 			m_password = theValue;
 		}
 
-		String password() const
+		std::string password() const
 		{
 			return m_password;
 		}

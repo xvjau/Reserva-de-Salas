@@ -50,90 +50,72 @@
 */
 
 #include "udf.h"
-#include "smtp_config.h"
-#include "smtp.h"
+#include "smtpconfig.h"
+#include "smtpsend.h"
+#include "icalmessage.h"
 
 #ifdef MT
 #include "mailqueue.h"
 #endif
 
+SMTPConfig	g_config;
+std::string	g_from;
+
 extern "C" 
 {
 
-extern char * icalendar_intern( char * uid, char * to, char * subject, string& description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
+int set_smtp_host( char * value )
 {
-	static const string contentType = "text/calendar; method=REQUEST; charset=US-ASCII";
-	string method, status;
-
-	switch ( *opr )
-	{
-		case 0: // Insert
-		case 1: // Update 
-			method = "PUBLISH";
-			status = "CONFIRMED";
-			break;
-
-		case 2: // Delete
-			method = "CANCEL";
-			status = "CANCELLED";
-			break;
-
-		default: return stringToChar( "Illegal opr code" ); // Shouldn't happen!
-	}
-
-	datetime dtStart = IsctstoDateTime( tsStart ),
-		dtEnd = IsctstoDateTime( tsEnd );
-	
-	description = strReplace( description, "\x0D\x0A", "\\n\n  " );
-	description = strReplace( description, "\x0A", "\\n\n  " );
-	description = strReplace( description, "\x0D", "\\n\n  " );
-
-	string strEvent, strBody;
-
-	SMTP_Config * config = SMTP_Config::config();
-	
-	strEvent = string( "BEGIN:VCALENDAR\n" ) + 
-		"METHOD:"  + method + '\n' +
-		"VERSION:2.0\n"  +
-		"BEGIN:VEVENT\n"  +
-		"ORGANIZER:mailto:" + config->from() + '\n' +
-		"ATTENDEE;RSVP=FALSE\n"  +
-		"DTSTAMP:"  + isoDate( now() )  + '\n' +
-		"DTSTART:"  + isoDate( dtStart ) + '\n' +
-		"DTEND:"  + isoDate( dtEnd )  + '\n' +
-		"SUMMARY:"  + subject + '\n' +
-		"DESCRIPTION:"  + description + '\n' +
-		"LOCATION:" + location + '\n' +
-		"UID: <"  + uid + "> \n" +
-		"STATUS:"  + status + '\n' +
-		"END:VEVENT\n"  +
-		"END:VCALENDAR\n";
-
-	strBody = string( "You have been invited to a meeting:\n" ) +
-			"Location: " + location + '\n' +
-			"Date/Time: " + isoDate( dtStart ) + '\n' +
-			"Subject: " + subject + '\n' +
-			'\n' + description;
-	
-	string result;
-#ifdef MT
-	// This is an sync method to send mails
-	int ret = enqueueMail( to, subject, strBody, contentType, strEvent );
-	return stringToChar( intToString( ret ));
-#else
-	/* Send mail in current thread:  this will make Firebird, and consequently RS (the client) hang for a few seconds/min 
-	 depending on the connection / mail server /etc.
-	*/
-	result = sendMail( to, subject, strBody, contentType, strEvent );
-#endif
-	
-	return stringToChar( result );
+	g_config.setHost( value );
+	return 1;
 }
 
-extern char * icalendar( char * uid, char * to, char * subject, BLOBCALLBACK description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
+int set_smtp_from( char * value )
 {
-	string descr = BlobToString( description );
-	return icalendar_intern(uid, to, subject, descr, location, tsStart, tsEnd, opr );
+	g_from = value;
+	return 1;
+}
+
+int set_smtp_auth( int * value )
+{
+	return 0;
+}
+
+int set_smtp_tls( int * value )
+{
+	return 0;
+}
+
+int set_smtp_user_name( char * value )
+{
+	g_config.setUserName( value );
+	return 1;
+}
+
+int set_smtp_password( char * value )
+{
+	g_config.setPassword( value );
+	return 1;
+}
+	
+char * icalendar( char * uid, char * to, char * subject, BLOBCALLBACK description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
+{
+	SMTPSend	sender(&g_config);
+	ICalMessage	message;
+	
+	std::string messageBody = BlobToString(description);
+	
+	message.setRecipient( to );
+	message.setSubject( subject );
+	message.setUid( uid );
+	message.setStartTime( IsctstoDateTime(tsStart) );
+	message.setEndTime( IsctstoDateTime(tsEnd) );
+	message.setLocation( location );
+	message.setOperation( static_cast<ICalMessage::Operations>(*opr) );
+	message.setMessageBody(	messageBody );
+	message.setSender( g_from );
+	
+	sender.send( message );
 }
 
 } // extern "C"

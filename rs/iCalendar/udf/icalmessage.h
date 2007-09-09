@@ -41,66 +41,66 @@ class ICalMessage
 		} Operations;
 		
 	private:
-		datetime	m_startTime;
-		datetime	m_endTime;
-		String		m_subject;
-		String		m_messageBody;
-		String		m_sender;
-		String		m_recipient;
-		String		m_location;
-		String		m_uid;
+		tm				m_startTime;
+		tm				m_endTime;
+		std::string		m_subject;
+		std::string		m_messageBody;
+		std::string		m_sender;
+		std::string		m_recipient;
+		std::string		m_location;
+		std::string		m_uid;
 		Operations	m_operation;
 	
 	protected:
 		vmime::ref <vmime::message> getMessageBody() const;
 		
 	public:
-		void setStartTime ( const datetime& theValue )
+		void setStartTime ( const tm& theValue )
 		{
 			m_startTime = theValue;
 		}
 	
-		datetime startTime() const
+		tm startTime() const
 		{
 			return m_startTime;
 		}
 
-		void setEndTime ( const datetime& theValue )
+		void setEndTime ( const tm& theValue )
 		{
 			m_endTime = theValue;
 		}
 		
-		datetime endTime() const
+		tm endTime() const
 		{
 			return m_endTime;
 		}
 	
-		void setSubject ( const String& theValue )
+		void setSubject ( const std::string& theValue )
 		{
 			m_subject = theValue;
 		}
 		
-		String subject() const
+		std::string subject() const
 		{
 			return m_subject;
 		}
 	
-		void setSender ( const String& theValue )
+		void setSender ( const std::string& theValue )
 		{
 			m_sender = theValue;
 		}
 	
-		String sender() const
+		std::string sender() const
 		{
 			return m_sender;
 		}
 	
-		void setRecipient ( const String& theValue )
+		void setRecipient ( const std::string& theValue )
 		{
 			m_recipient = theValue;
 		}
 		
-		String recipient() const
+		std::string recipient() const
 		{
 			return m_recipient;
 		}
@@ -115,32 +115,32 @@ class ICalMessage
 			return m_operation;
 		}
 
-		void setMessageBody ( const String& theValue )
+		void setMessageBody ( const std::string& theValue )
 		{
 			m_messageBody = theValue;
 		}
 
-		String messageBody() const
+		std::string messageBody() const
 		{
 			return m_messageBody;
 		}
 
-		void setLocation ( const String& theValue )
+		void setLocation ( const std::string& theValue )
 		{
 			m_location = theValue;
 		}
 		
-		String location() const
+		std::string location() const
 		{
 			return m_location;
 		}
 
-		void setUid ( const String& theValue )
+		void setUid ( const std::string& theValue )
 		{
 			m_uid = theValue;
 		}
 			
-		String uid() const
+		std::string uid() const
 		{
 			return m_uid;
 		}

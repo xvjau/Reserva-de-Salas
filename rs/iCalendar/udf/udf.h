@@ -22,10 +22,6 @@
 #ifndef __INCLUDE_UDF_H
 #define __INCLUDE_UDF_H
 
-#include <ptypes.h>
-#include <pstreams.h>
-#include <ptime.h>
-
 #include <ibase.h>
 #include <ib_util.h>
 
@@ -41,8 +37,6 @@
 	#define RWLOCK_READ 
 	#define RWLOCK_WRITE 
 #endif
-
-USING_PTYPES;
 
 #include "utils.h"
 

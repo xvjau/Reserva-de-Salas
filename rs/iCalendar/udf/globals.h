@@ -20,11 +20,6 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include <ptypes.h>
-#include <pstreams.h>
-#include <ptime.h>
-
-typedef pt::string String;
 
 #ifdef MT
 #define STATIC_MT 
@@ -35,8 +30,6 @@ typedef pt::string String;
 #define RWLOCK_READ 
 #define RWLOCK_WRITE 
 #endif
-
-USING_PTYPES;
 
 #include <vmime/vmime.hpp>
 #include <iostream>

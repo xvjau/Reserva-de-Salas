@@ -71,14 +71,12 @@ class interactiveAuthenticator : public vmime::security::sasl::defaultSASLAuthen
 
 		const vmime::string getUsername() const
 		{
-			std::cout << "Send user name:" << static_cast<const char*>(m_config->userName()) << std::endl;
-			return static_cast<const char*>(m_config->userName());
+			return m_config->userName().c_str();
 		}
 
 		const vmime::string getPassword() const
 		{
-			std::cout << "Password: ***" << std::endl;
-			return static_cast<const char*>(m_config->password());
+			return m_config->password().c_str();
 		}
 };
 
@@ -96,9 +94,9 @@ void SMTPSend::send(const ICalMessage & message)
 	{
 		vmime::ref <vmime::message> msg = message.getMessageBody();
 		
-		String str;
+		std::string str;
 		str = "smtps://" + m_config->host();
-		vmime::utility::url url(static_cast<const char*>(str));
+		vmime::utility::url url(str.c_str());
 		
 		vmime::ref <vmime::net::session> session = vmime::create <vmime::net::session>();
 		
@@ -111,8 +109,8 @@ void SMTPSend::send(const ICalMessage & message)
 		vmime::ref <vmime::net::transport> transport = session->getTransport(url);
 		
 		transport->setProperty("connection.tls", true);
-		transport->setProperty("auth.username", static_cast<const char*>(m_config->userName()));
-		transport->setProperty("auth.password", static_cast<const char*>(m_config->password()));
+		transport->setProperty("auth.username", m_config->userName().c_str());
+		transport->setProperty("auth.password", m_config->password().c_str());
 		
 		transport->setCertificateVerifier(vmime::create <certificateVerifier>());
 		

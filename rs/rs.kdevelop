@@ -98,7 +98,7 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>iCalendar/udf</activedir>
+      <activedir>iCalendar/test_udf</activedir>
     </general>
     <run>
       <directoryradio>custom</directoryradio>
@@ -107,7 +107,9 @@
       <programargs/>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
-      <envvars/>
+      <envvars>
+        <envvar value="/opt/firebird/lib:/home/gianni/Projetos/rs/iCalendar/lib" name="LD_LIBRARY_PATH" />
+      </envvars>
       <globaldebugarguments/>
       <globalcwd>/home/gianni/Projetos/rs</globalcwd>
       <useglobalprogram>true</useglobalprogram>
@@ -170,6 +172,8 @@
       <usePermanentCaching>true</usePermanentCaching>
       <alwaysIncludeNamespaces>false</alwaysIncludeNamespaces>
       <includePaths>.;</includePaths>
+      <parseMissingHeadersExperimental>false</parseMissingHeadersExperimental>
+      <resolveIncludePathsUsingMakeExperimental>false</resolveIncludePathsUsingMakeExperimental>
     </codecompletion>
     <qt>
       <used>true</used>
@@ -187,7 +191,7 @@
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>
       <inlineGet>true</inlineGet>
-      <inlineSet>false</inlineSet>
+      <inlineSet>true</inlineSet>
     </creategettersetter>
     <splitheadersource>
       <enabled>false</enabled>
