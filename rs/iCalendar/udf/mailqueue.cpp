@@ -18,6 +18,7 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 	02111-1307, USA.
  */
+#ifdef MT
  
 #include "mailqueue.h"
 #include "smtp.h"
@@ -108,7 +109,7 @@ class mailThread: public thread
 						case msgMail:
 						{
 							string result = sendMail ( message->to, message->subject, message->body, message->eventType, message->eventText );
-							
+#ifdef SMTP_LOGFILE
 							logfile f("/tmp/rs.log");
 
 							f.set_bufsize(1024);             // the default value in this version is 8192
@@ -124,7 +125,7 @@ class mailThread: public thread
 								perr.putf("File error: %s\n", e->get_message());
 								delete e;
 							}
-							
+#endif
 							break;
 						}
 					}
@@ -149,3 +150,4 @@ int enqueueMail( string to, string subject, string messageBody, string eventType
 	
 	mailThread::checkThreads();
 }
+#endif // MT

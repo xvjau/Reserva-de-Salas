@@ -6,9 +6,11 @@ dll \
 MT
 SOURCES += udf.cpp \
 utils.cpp \
-smtp_config.cpp \
-smtp.cpp \
- mailqueue.cpp
+mailqueue.cpp \
+ globals.cpp \
+ icalmessage.cpp \
+ smtpconfig.cpp \
+ smtpsend.cpp
 DESTDIR = ../lib
 
 OBJECTS_DIR = ./obj
@@ -29,12 +31,13 @@ CONFIG -= qt \
  release
 
 HEADERS += utils.h \
-smtp_config.h \
 udf.h \
-smtp.h \
- mailqueue.h
+mailqueue.h \
+ globals.h \
+ icalmessage.h \
+ smtpconfig.h \
+ smtpsend.h
 
-MT = 1
 
 
 contains( MT,1 ){
@@ -53,9 +56,14 @@ contains( MT,1 ){
     OBJECTS_DIR = ./obj
 
 }
-INCLUDEPATH += ../ptypes/include/
 
-LIBS += -L../ptypes/lib/ \
--lfbclient \
--lesmtp \
--lib_util
+INCLUDEPATH += /opt/firebird/include \
+../include/ \
+../ptypes/include/
+LIBS += -L../lib/ \
+-L../ptypes/lib/ \
+-lgnutls \
+-lgsasl \
+-lvmime \
+-lib_util \
+-lfbclient

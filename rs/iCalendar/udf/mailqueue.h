@@ -22,8 +22,12 @@
 #ifndef MAILQUEUE_H
 #define MAILQUEUE_H
 
+#ifdef MT
+
 #include "udf.h"
 
 int enqueueMail( string to, string subject, string messageBody, string eventType, string eventText );
+
+#endif // MT
 
 #endif

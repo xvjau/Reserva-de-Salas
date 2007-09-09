@@ -59,8 +59,8 @@
 
 extern "C" 
 {
-		
-extern char * icalendar( char * uid, char * to, char * subject, BLOBCALLBACK description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
+
+extern char * icalendar_intern( char * uid, char * to, char * subject, string& description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
 {
 	static const string contentType = "text/calendar; method=REQUEST; charset=US-ASCII";
 	string method, status;
@@ -84,17 +84,15 @@ extern char * icalendar( char * uid, char * to, char * subject, BLOBCALLBACK des
 	datetime dtStart = IsctstoDateTime( tsStart ),
 		dtEnd = IsctstoDateTime( tsEnd );
 	
-	string descr = BlobToString( description );
+	description = strReplace( description, "\x0D\x0A", "\\n\n  " );
+	description = strReplace( description, "\x0A", "\\n\n  " );
+	description = strReplace( description, "\x0D", "\\n\n  " );
 
-	descr = strReplace( descr, "\x0D\x0A", "\\n\n  " );
-	descr = strReplace( descr, "\x0A", "\\n\n  " );
-	descr = strReplace( descr, "\x0D", "\\n\n  " );
-
-	string str;
+	string strEvent, strBody;
 
 	SMTP_Config * config = SMTP_Config::config();
 	
-	str = string( "BEGIN:VCALENDAR\n" ) + 
+	strEvent = string( "BEGIN:VCALENDAR\n" ) + 
 		"METHOD:"  + method + '\n' +
 		"VERSION:2.0\n"  +
 		"BEGIN:VEVENT\n"  +
@@ -104,27 +102,38 @@ extern char * icalendar( char * uid, char * to, char * subject, BLOBCALLBACK des
 		"DTSTART:"  + isoDate( dtStart ) + '\n' +
 		"DTEND:"  + isoDate( dtEnd )  + '\n' +
 		"SUMMARY:"  + subject + '\n' +
-		"DESCRIPTION:"  + descr + '\n' +
+		"DESCRIPTION:"  + description + '\n' +
 		"LOCATION:" + location + '\n' +
-		"UID:"  + uid + '\n' +
+		"UID: <"  + uid + "> \n" +
 		"STATUS:"  + status + '\n' +
 		"END:VEVENT\n"  +
 		"END:VCALENDAR\n";
 
+	strBody = string( "You have been invited to a meeting:\n" ) +
+			"Location: " + location + '\n' +
+			"Date/Time: " + isoDate( dtStart ) + '\n' +
+			"Subject: " + subject + '\n' +
+			'\n' + description;
+	
 	string result;
 #ifdef MT
 	// This is an sync method to send mails
-	int ret = enqueueMail( to, subject, contentType, str );
+	int ret = enqueueMail( to, subject, strBody, contentType, strEvent );
 	return stringToChar( intToString( ret ));
 #else
 	/* Send mail in current thread:  this will make Firebird, and consequently RS (the client) hang for a few seconds/min 
 	 depending on the connection / mail server /etc.
 	*/
-	result = sendMail( to, subject, contentType, str );
+	result = sendMail( to, subject, strBody, contentType, strEvent );
 #endif
 	
 	return stringToChar( result );
-	
+}
+
+extern char * icalendar( char * uid, char * to, char * subject, BLOBCALLBACK description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
+{
+	string descr = BlobToString( description );
+	return icalendar_intern(uid, to, subject, descr, location, tsStart, tsEnd, opr );
 }
 
 } // extern "C"
