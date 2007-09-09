@@ -188,6 +188,9 @@ void CSalas::on_btExcluir_clicked()
 
 void CSalas::on_tbSalas_currentCellChanged ( int currentRow, int currentColumn, int previousRow, int previousColumn )
 {
+	Q_UNUSED( previousRow );
+	Q_UNUSED( previousColumn );
+	
 	if ( currentRow >= 0 && currentColumn >= 0 )
 	{
 		btAlterar->setEnabled ( true );

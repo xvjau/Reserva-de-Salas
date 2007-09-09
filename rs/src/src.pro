@@ -83,7 +83,7 @@ warn_on \
 debug
 TEMPLATE = app
 
-linux-g++{
+linux-g++ {
     LIBS += /opt/firebird/lib/libfbclient.so
     DEFINES += IBPP_LINUX
 
@@ -100,11 +100,11 @@ linux-g++{
     binary.files += ../bin/rs
     INSTALLS += binary languages
 }
-win32{
+win32 {
     DEFINES += IBPP_WINDOWS
     RC_FILE = ./res/rs.rc
 }
-xwin32-g++{
+xwin32-g++ {
     DEFINES += IBPP_WINDOWS
     RC_FILE = ./res/rs.rc
 }

@@ -118,6 +118,8 @@ void CReservaList::insertReserva ( CReserva* _reserva )
 
 void CReservaList::mouseDoubleClickEvent ( QMouseEvent * event )
 {
+	Q_UNUSED( event );
+	
 	switch ( CConfig::getConfig()->getNivel() )
 	{
 		case 0: return;

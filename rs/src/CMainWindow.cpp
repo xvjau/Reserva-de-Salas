@@ -244,6 +244,8 @@ void CMainWindow::checkRowHeight ( int _row, int _salaID )
 
 void CMainWindow::resizeEvent ( QResizeEvent * event )
 {
+	Q_UNUSED( event );
+	
 	int iWidth = tbReservas->verticalHeader()->width();
 
 	if ( tbReservas->verticalScrollBar() )
@@ -266,6 +268,7 @@ void CMainWindow::resizeEvent ( QResizeEvent * event )
 
 void CMainWindow::showEvent ( QShowEvent * event )
 {
+	Q_UNUSED( event );
 	resizeEvent ( 0 );
 }
 
@@ -746,6 +749,8 @@ void CMainWindow::on_actionAreas_triggered()
 
 void CMainWindow::cbAreaChanged ( int index )
 {
+	Q_UNUSED( index );
+	
 	refreshSalas();
 	refreshData ( m_activeDate );
 	resizeEvent ( 0 );

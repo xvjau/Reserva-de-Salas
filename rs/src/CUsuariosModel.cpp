@@ -189,11 +189,13 @@ void CUsuariosModel::addAllAreasToUsersWithoutAreas()
 
 int CUsuariosModel::rowCount ( const QModelIndex &parent ) const
 {
+	Q_UNUSED( parent );
 	return m_rows.size();
 }
 
 int CUsuariosModel::columnCount ( const QModelIndex &parent ) const
 {
+	Q_UNUSED( parent );
 	return 6;
 }
 
@@ -411,6 +413,7 @@ bool CUsuariosModel::setData ( const QModelIndex &index, const QVariant &value, 
 
 Qt::ItemFlags CUsuariosModel::flags ( const QModelIndex & index ) const
 {
+	Q_UNUSED( index );
 	return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
 }
 

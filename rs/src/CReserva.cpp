@@ -621,6 +621,8 @@ void CReserva::refreshData()
 
 void CReserva::mouseDoubleClickEvent ( QMouseEvent * event )
 {
+	Q_UNUSED( event );
+	
 	switch ( CConfig::getConfig()->getNivel() )
 	{
 		case 0: return;

@@ -318,10 +318,12 @@ void CReservaItem::updateRecorrencia()
 
 void CReservaItem::on_cbRecorrente_stateChanged ( int state )
 {
+	Q_UNUSED( state );
 	updateRecorrencia();
 }
 
 void CReservaItem::on_cbTipoRecorrencia_currentIndexChanged ( int index )
 {
+	Q_UNUSED( index );
 	updateRecorrencia();
 }

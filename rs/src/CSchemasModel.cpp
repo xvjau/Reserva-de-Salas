@@ -60,11 +60,13 @@ CSchemasModel::~CSchemasModel()
 
 int CSchemasModel::rowCount ( const QModelIndex &parent ) const
 {
+	Q_UNUSED( parent );
 	return m_rows.size();
 }
 
 int CSchemasModel::columnCount ( const QModelIndex &parent ) const
 {
+	Q_UNUSED( parent );
 	return 4;
 }
 
@@ -208,6 +210,7 @@ bool CSchemasModel::setData ( const QModelIndex &index, const QVariant &value, i
 
 Qt::ItemFlags CSchemasModel::flags ( const QModelIndex & index ) const
 {
+	Q_UNUSED( index );
 	return Qt::ItemIsEnabled;
 }
 

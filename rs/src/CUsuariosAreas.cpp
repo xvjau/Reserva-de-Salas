@@ -130,10 +130,12 @@ void CUsuariosAreas::on_tbRemoveAll_clicked()
 
 void CUsuariosAreas::on_lsAreas_doubleClicked ( const QModelIndex & index )
 {
+	Q_UNUSED( index );
 	on_tbAdd_clicked();
 }
 
 void CUsuariosAreas::on_lsUserAreas_doubleClicked ( const QModelIndex & index )
 {
+	Q_UNUSED( index );
 	on_tbRemove_clicked();
 }

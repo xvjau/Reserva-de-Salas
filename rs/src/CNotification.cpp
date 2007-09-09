@@ -39,6 +39,8 @@ CNotification::CNotification ( QObject * _parent ) :
 void CNotification::ibppEventHandler ( IBPP::Events _events,
                                        const std::string& _eventName, int _count )
 {
+	Q_UNUSED( _events );
+	Q_UNUSED( _count );
 #ifdef __ASYNC_EVENTS
 	{ //  <-Scope delimiter for MutexLocker
 		QMutexLocker locker ( &m_mutex );

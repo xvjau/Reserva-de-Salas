@@ -62,11 +62,13 @@ CAreasModel::~CAreasModel()
 
 int CAreasModel::rowCount ( const QModelIndex &parent ) const
 {
+	Q_UNUSED( parent );
 	return m_rows.size();
 }
 
 int CAreasModel::columnCount ( const QModelIndex &parent ) const
 {
+	Q_UNUSED( parent );
 	return 1;
 }
 
@@ -161,6 +163,7 @@ bool CAreasModel::setData ( const QModelIndex &index, const QVariant &value, int
 
 Qt::ItemFlags CAreasModel::flags ( const QModelIndex & index ) const
 {
+	Q_UNUSED( index );
 	return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
 }
 
