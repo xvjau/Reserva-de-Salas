@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!-- This file has been automatically generated from SConstruct -->
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.10"
+	Name="vmime"
+	ProjectGUID="{B2B47E11-DB57-49E1-8895-F03BDF78A221}"
+	RootNamespace="vmime"
+	Keyword="Win32Proj">
+	<Platforms>
+		<Platform Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="Debug"
+			IntermediateDirectory="Debug"
+			ConfigurationType="4"
+			CharacterSet="2">
+			<Tool Name="VCCLCompilerTool"
+			      Optimization="0"
+			      AdditionalIncludeDirectories="."
+			      PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+			      MinimalRebuild="TRUE"
+			      BasicRuntimeChecks="3"
+			      RuntimeLibrary="5"
+			      RuntimeTypeInfo="TRUE"
+			      UsePrecompiledHeader="0"
+			      WarningLevel="3"
+			      Detect64BitPortabilityProblems="TRUE"
+			      DebugInformationFormat="4"
+			      DisableSpecificWarnings="4101;4244;4250;4267;4355"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCLibrarianTool"
+			      AdditionalDependencies="iconv.lib ws2_32.lib"
+			      OutputFile="$(OutDir)/vmime.lib"/>
+			<Tool Name="VCMIDLTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<Tool Name="VCPreBuildEventTool"
+			      CommandLine="copy $(InputDir)config.hpp.msvc $(InputDir)vmime\config.hpp"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCManagedWrapperGeneratorTool"/>
+			<Tool Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="Release"
+			IntermediateDirectory="Release"
+			ConfigurationType="4"
+			CharacterSet="2">
+			<Tool Name="VCCLCompilerTool"
+			      AdditionalIncludeDirectories="."
+			      PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+			      RuntimeLibrary="4"
+			      RuntimeTypeInfo="TRUE"
+			      UsePrecompiledHeader="0"
+			      WarningLevel="3"
+			      Detect64BitPortabilityProblems="TRUE"
+			      DebugInformationFormat="3"
+			      DisableSpecificWarnings="4101;4244;4250;4267;4355"/>
+			<Tool Name="VCCustomBuildTool"/>
+			<Tool Name="VCLibrarianTool"
+			      AdditionalDependencies="iconv.lib ws2_32.lib"
+			      OutputFile="$(OutDir)/vmime.lib"/>
+			<Tool Name="VCMIDLTool"/>
+			<Tool Name="VCPostBuildEventTool"/>
+			<Tool Name="VCPreBuildEventTool"
+			      CommandLine="copy $(InputDir)config.hpp.msvc $(InputDir)vmime\config.hpp"/>
+			<Tool Name="VCPreLinkEventTool"/>
+			<Tool Name="VCResourceCompilerTool"/>
+			<Tool Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool Name="VCXMLDataGeneratorTool"/>
+			<Tool Name="VCManagedWrapperGeneratorTool"/>
+			<Tool Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+
+	<Files>
+		<Filter Name="Source Files"
+		        Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+		        UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+<Filter Name="src">
+<File RelativePath=".\src\address.cpp"/>
+<File RelativePath=".\src\addressList.cpp"/>
+<File RelativePath=".\src\attachmentHelper.cpp"/>
+<File RelativePath=".\src\base.cpp"/>
+<File RelativePath=".\src\body.cpp"/>
+<File RelativePath=".\src\bodyPart.cpp"/>
+<File RelativePath=".\src\bodyPartAttachment.cpp"/>
+<File RelativePath=".\src\charset.cpp"/>
+<File RelativePath=".\src\charsetConverter.cpp"/>
+<File RelativePath=".\src\component.cpp"/>
+<File RelativePath=".\src\constants.cpp"/>
+<File RelativePath=".\src\contentDisposition.cpp"/>
+<File RelativePath=".\src\contentDispositionField.cpp"/>
+<File RelativePath=".\src\contentHandler.cpp"/>
+<File RelativePath=".\src\contentTypeField.cpp"/>
+<File RelativePath=".\src\dateTime.cpp"/>
+<File RelativePath=".\src\defaultAttachment.cpp"/>
+<File RelativePath=".\src\disposition.cpp"/>
+<File RelativePath=".\src\emptyContentHandler.cpp"/>
+<File RelativePath=".\src\encoder.cpp"/>
+<File RelativePath=".\src\encoder7bit.cpp"/>
+<File RelativePath=".\src\encoder8bit.cpp"/>
+<File RelativePath=".\src\encoderB64.cpp"/>
+<File RelativePath=".\src\encoderBinary.cpp"/>
+<File RelativePath=".\src\encoderDefault.cpp"/>
+<File RelativePath=".\src\encoderFactory.cpp"/>
+<File RelativePath=".\src\encoderQP.cpp"/>
+<File RelativePath=".\src\encoderUUE.cpp"/>
+<File RelativePath=".\src\encoding.cpp"/>
+<File RelativePath=".\src\exception.cpp"/>
+<File RelativePath=".\src\fileAttachment.cpp"/>
+<File RelativePath=".\src\generatedMessageAttachment.cpp"/>
+<File RelativePath=".\src\header.cpp"/>
+<File RelativePath=".\src\headerField.cpp"/>
+<File RelativePath=".\src\headerFieldFactory.cpp"/>
+<File RelativePath=".\src\htmlTextPart.cpp"/>
+<File RelativePath=".\src\mailbox.cpp"/>
+<File RelativePath=".\src\mailboxField.cpp"/>
+<File RelativePath=".\src\mailboxGroup.cpp"/>
+<File RelativePath=".\src\mailboxList.cpp"/>
+<Filter Name="mdn">
+<File RelativePath=".\src\mdn\MDNHelper.cpp"/>
+<File RelativePath=".\src\mdn\MDNInfos.cpp"/>
+<File RelativePath=".\src\mdn\receivedMDNInfos.cpp"/>
+<File RelativePath=".\src\mdn\sendableMDNInfos.cpp"/>
+</Filter>
+<File RelativePath=".\src\mediaType.cpp"/>
+<File RelativePath=".\src\message.cpp"/>
+<File RelativePath=".\src\messageBuilder.cpp"/>
+<File RelativePath=".\src\messageId.cpp"/>
+<File RelativePath=".\src\messageIdSequence.cpp"/>
+<File RelativePath=".\src\messageParser.cpp"/>
+<Filter Name="misc">
+<File RelativePath=".\src\misc\importanceHelper.cpp"/>
+</Filter>
+<Filter Name="net">
+<File RelativePath=".\src\net\builtinServices.inl"/>
+<File RelativePath=".\src\net\defaultConnectionInfos.cpp"/>
+<File RelativePath=".\src\net\events.cpp"/>
+<File RelativePath=".\src\net\folder.cpp"/>
+<Filter Name="imap">
+<File RelativePath=".\src\net\imap\IMAPConnection.cpp"/>
+<File RelativePath=".\src\net\imap\IMAPFolder.cpp"/>
+<File RelativePath=".\src\net\imap\IMAPMessage.cpp"/>
+<File RelativePath=".\src\net\imap\IMAPSStore.cpp"/>
+<File RelativePath=".\src\net\imap\IMAPServiceInfos.cpp"/>
+<File RelativePath=".\src\net\imap\IMAPStore.cpp"/>
+<File RelativePath=".\src\net\imap\IMAPTag.cpp"/>
+<File RelativePath=".\src\net\imap\IMAPUtils.cpp"/>
+</Filter>
+<Filter Name="maildir">
+<File RelativePath=".\src\net\maildir\maildirFolder.cpp"/>
+<File RelativePath=".\src\net\maildir\maildirMessage.cpp"/>
+<File RelativePath=".\src\net\maildir\maildirServiceInfos.cpp"/>
+<File RelativePath=".\src\net\maildir\maildirStore.cpp"/>
+<File RelativePath=".\src\net\maildir\maildirUtils.cpp"/>
+</Filter>
+<File RelativePath=".\src\net\message.cpp">
+	<FileConfiguration Name="Debug|Win32">
+		<Tool Name="VCCLCompilerTool" ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+	</FileConfiguration>
+	<FileConfiguration Name="Release|Win32">
+		<Tool Name="VCCLCompilerTool" ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+	</FileConfiguration>
+</File><Filter Name="pop3">
+<File RelativePath=".\src\net\pop3\POP3Folder.cpp"/>
+<File RelativePath=".\src\net\pop3\POP3Message.cpp"/>
+<File RelativePath=".\src\net\pop3\POP3SStore.cpp"/>
+<File RelativePath=".\src\net\pop3\POP3ServiceInfos.cpp"/>
+<File RelativePath=".\src\net\pop3\POP3Store.cpp"/>
+<File RelativePath=".\src\net\pop3\POP3Utils.cpp"/>
+</Filter>
+<Filter Name="sendmail">
+<File RelativePath=".\src\net\sendmail\sendmailServiceInfos.cpp"/>
+<File RelativePath=".\src\net\sendmail\sendmailTransport.cpp"/>
+</Filter>
+<File RelativePath=".\src\net\service.cpp"/>
+<File RelativePath=".\src\net\serviceFactory.cpp"/>
+<File RelativePath=".\src\net\serviceInfos.cpp"/>
+<File RelativePath=".\src\net\serviceRegistration.inl"/>
+<File RelativePath=".\src\net\session.cpp"/>
+<Filter Name="smtp">
+<File RelativePath=".\src\net\smtp\SMTPResponse.cpp"/>
+<File RelativePath=".\src\net\smtp\SMTPSTransport.cpp"/>
+<File RelativePath=".\src\net\smtp\SMTPServiceInfos.cpp"/>
+<File RelativePath=".\src\net\smtp\SMTPTransport.cpp"/>
+</Filter>
+<Filter Name="tls">
+<File RelativePath=".\src\net\tls\TLSSecuredConnectionInfos.cpp"/>
+<File RelativePath=".\src\net\tls\TLSSession.cpp"/>
+<File RelativePath=".\src\net\tls\TLSSocket.cpp"/>
+</Filter>
+<File RelativePath=".\src\net\transport.cpp"/>
+</Filter>
+<File RelativePath=".\src\object.cpp"/>
+<File RelativePath=".\src\options.cpp"/>
+<File RelativePath=".\src\parameter.cpp"/>
+<File RelativePath=".\src\parameterizedHeaderField.cpp"/>
+<File RelativePath=".\src\parsedMessageAttachment.cpp"/>
+<File RelativePath=".\src\path.cpp"/>
+<File RelativePath=".\src\plainTextPart.cpp"/>
+<File RelativePath=".\src\platform.cpp"/>
+<Filter Name="platforms">
+<Filter Name="windows">
+<File RelativePath=".\src\platforms\windows\windowsFile.cpp"/>
+<File RelativePath=".\src\platforms\windows\windowsHandler.cpp"/>
+<File RelativePath=".\src\platforms\windows\windowsSocket.cpp"/>
+</Filter>
+</Filter>
+<File RelativePath=".\src\propertySet.cpp"/>
+<File RelativePath=".\src\relay.cpp"/>
+<Filter Name="security">
+<Filter Name="cert">
+<File RelativePath=".\src\security\cert\X509Certificate.cpp"/>
+<File RelativePath=".\src\security\cert\certificateChain.cpp"/>
+<File RelativePath=".\src\security\cert\defaultCertificateVerifier.cpp"/>
+</Filter>
+<File RelativePath=".\src\security\defaultAuthenticator.cpp"/>
+<Filter Name="digest">
+<Filter Name="md5">
+<File RelativePath=".\src\security\digest\md5\md5MessageDigest.cpp"/>
+</Filter>
+<File RelativePath=".\src\security\digest\messageDigest.cpp"/>
+<File RelativePath=".\src\security\digest\messageDigestFactory.cpp"/>
+<Filter Name="sha1">
+<File RelativePath=".\src\security\digest\sha1\sha1MessageDigest.cpp"/>
+</Filter>
+<File RelativePath=".\src\security\sasl\SASLContext.cpp"/>
+<File RelativePath=".\src\security\sasl\SASLMechanismFactory.cpp"/>
+<File RelativePath=".\src\security\sasl\SASLSession.cpp"/>
+<File RelativePath=".\src\security\sasl\SASLSocket.cpp"/>
+<File RelativePath=".\src\security\sasl\builtinSASLMechanism.cpp"/>
+<File RelativePath=".\src\security\sasl\defaultSASLAuthenticator.cpp"/>
+</Filter>
+</Filter>
+<File RelativePath=".\src\streamContentHandler.cpp"/>
+<File RelativePath=".\src\stringContentHandler.cpp"/>
+<File RelativePath=".\src\text.cpp"/>
+<File RelativePath=".\src\textPartFactory.cpp"/>
+<Filter Name="utility">
+<File RelativePath=".\src\utility\datetimeUtils.cpp"/>
+<File RelativePath=".\src\utility\filteredStream.cpp"/>
+<File RelativePath=".\src\utility\path.cpp">
+	<FileConfiguration Name="Debug|Win32">
+		<Tool Name="VCCLCompilerTool" ObjectFile="$(IntDir)/$(InputName)2.obj"/>
+	</FileConfiguration>
+	<FileConfiguration Name="Release|Win32">
+		<Tool Name="VCCLCompilerTool" ObjectFile="$(IntDir)/$(InputName)2.obj"/>
+	</FileConfiguration>
+</File><File RelativePath=".\src\utility\progressListener.cpp"/>
+<File RelativePath=".\src\utility\random.cpp"/>
+<File RelativePath=".\src\utility\smartPtr.cpp"/>
+<File RelativePath=".\src\utility\stream.cpp"/>
+<File RelativePath=".\src\utility\stringProxy.cpp"/>
+<File RelativePath=".\src\utility\stringUtils.cpp"/>
+<File RelativePath=".\src\utility\url.cpp"/>
+<File RelativePath=".\src\utility\urlUtils.cpp"/>
+</Filter>
+<File RelativePath=".\src\word.cpp"/>
+<File RelativePath=".\src\wordEncoder.cpp"/>
+</Filter>
+<Filter Name="vmime">
+<File RelativePath=".\vmime\address.hpp"/>
+<File RelativePath=".\vmime\addressList.hpp"/>
+<File RelativePath=".\vmime\attachment.hpp"/>
+<File RelativePath=".\vmime\attachmentHelper.hpp"/>
+<File RelativePath=".\vmime\base.hpp"/>
+<File RelativePath=".\vmime\body.hpp"/>
+<File RelativePath=".\vmime\bodyPart.hpp"/>
+<File RelativePath=".\vmime\bodyPartAttachment.hpp"/>
+<File RelativePath=".\vmime\charset.hpp"/>
+<File RelativePath=".\vmime\charsetConverter.hpp"/>
+<File RelativePath=".\vmime\component.hpp"/>
+<File RelativePath=".\vmime\constants.hpp"/>
+<File RelativePath=".\vmime\contentDisposition.hpp"/>
+<File RelativePath=".\vmime\contentDispositionField.hpp"/>
+<File RelativePath=".\vmime\contentHandler.hpp"/>
+<File RelativePath=".\vmime\contentTypeField.hpp"/>
+<File RelativePath=".\vmime\dateTime.hpp"/>
+<File RelativePath=".\vmime\defaultAttachment.hpp"/>
+<File RelativePath=".\vmime\disposition.hpp"/>
+<File RelativePath=".\vmime\emptyContentHandler.hpp"/>
+<File RelativePath=".\vmime\encoder.hpp"/>
+<File RelativePath=".\vmime\encoder7bit.hpp"/>
+<File RelativePath=".\vmime\encoder8bit.hpp"/>
+<File RelativePath=".\vmime\encoderB64.hpp"/>
+<File RelativePath=".\vmime\encoderBinary.hpp"/>
+<File RelativePath=".\vmime\encoderDefault.hpp"/>
+<File RelativePath=".\vmime\encoderFactory.hpp"/>
+<File RelativePath=".\vmime\encoderQP.hpp"/>
+<File RelativePath=".\vmime\encoderUUE.hpp"/>
+<File RelativePath=".\vmime\encoding.hpp"/>
+<File RelativePath=".\vmime\exception.hpp"/>
+<File RelativePath=".\vmime\fileAttachment.hpp"/>
+<File RelativePath=".\vmime\generatedMessageAttachment.hpp"/>
+<File RelativePath=".\vmime\header.hpp"/>
+<File RelativePath=".\vmime\headerField.hpp"/>
+<File RelativePath=".\vmime\headerFieldFactory.hpp"/>
+<File RelativePath=".\vmime\headerFieldValue.hpp"/>
+<File RelativePath=".\vmime\htmlTextPart.hpp"/>
+<File RelativePath=".\vmime\mailbox.hpp"/>
+<File RelativePath=".\vmime\mailboxField.hpp"/>
+<File RelativePath=".\vmime\mailboxGroup.hpp"/>
+<File RelativePath=".\vmime\mailboxList.hpp"/>
+<Filter Name="mdn">
+<File RelativePath=".\vmime\mdn\MDNHelper.hpp"/>
+<File RelativePath=".\vmime\mdn\MDNInfos.hpp"/>
+<File RelativePath=".\vmime\mdn\receivedMDNInfos.hpp"/>
+<File RelativePath=".\vmime\mdn\sendableMDNInfos.hpp"/>
+</Filter>
+<File RelativePath=".\vmime\mediaType.hpp"/>
+<File RelativePath=".\vmime\message.hpp"/>
+<File RelativePath=".\vmime\messageAttachment.hpp"/>
+<File RelativePath=".\vmime\messageBuilder.hpp"/>
+<File RelativePath=".\vmime\messageId.hpp"/>
+<File RelativePath=".\vmime\messageIdSequence.hpp"/>
+<File RelativePath=".\vmime\messageParser.hpp"/>
+<Filter Name="misc">
+<File RelativePath=".\vmime\misc\importanceHelper.hpp"/>
+</Filter>
+<Filter Name="net">
+<File RelativePath=".\vmime\net\connectionInfos.hpp"/>
+<File RelativePath=".\vmime\net\defaultConnectionInfos.hpp"/>
+<File RelativePath=".\vmime\net\events.hpp"/>
+<File RelativePath=".\vmime\net\folder.hpp"/>
+<Filter Name="imap">
+<File RelativePath=".\vmime\net\imap\IMAPConnection.hpp"/>
+<File RelativePath=".\vmime\net\imap\IMAPFolder.hpp"/>
+<File RelativePath=".\vmime\net\imap\IMAPMessage.hpp"/>
+<File RelativePath=".\vmime\net\imap\IMAPParser.hpp"/>
+<File RelativePath=".\vmime\net\imap\IMAPSStore.hpp"/>
+<File RelativePath=".\vmime\net\imap\IMAPServiceInfos.hpp"/>
+<File RelativePath=".\vmime\net\imap\IMAPStore.hpp"/>
+<File RelativePath=".\vmime\net\imap\IMAPTag.hpp"/>
+<File RelativePath=".\vmime\net\imap\IMAPUtils.hpp"/>
+</Filter>
+<Filter Name="maildir">
+<File RelativePath=".\vmime\net\maildir\maildirFolder.hpp"/>
+<File RelativePath=".\vmime\net\maildir\maildirMessage.hpp"/>
+<File RelativePath=".\vmime\net\maildir\maildirServiceInfos.hpp"/>
+<File RelativePath=".\vmime\net\maildir\maildirStore.hpp"/>
+<File RelativePath=".\vmime\net\maildir\maildirUtils.hpp"/>
+</Filter>
+<File RelativePath=".\vmime\net\message.hpp">
+	<FileConfiguration Name="Debug|Win32">
+		<Tool Name="VCCLCompilerTool" ObjectFile="$(IntDir)/$(InputName)3.obj"/>
+	</FileConfiguration>
+	<FileConfiguration Name="Release|Win32">
+		<Tool Name="VCCLCompilerTool" ObjectFile="$(IntDir)/$(InputName)3.obj"/>
+	</FileConfiguration>
+</File><Filter Name="pop3">
+<File RelativePath=".\vmime\net\pop3\POP3Folder.hpp"/>
+<File RelativePath=".\vmime\net\pop3\POP3Message.hpp"/>
+<File RelativePath=".\vmime\net\pop3\POP3SStore.hpp"/>
+<File RelativePath=".\vmime\net\pop3\POP3ServiceInfos.hpp"/>
+<File RelativePath=".\vmime\net\pop3\POP3Store.hpp"/>
+<File RelativePath=".\vmime\net\pop3\POP3Utils.hpp"/>
+</Filter>
+<File RelativePath=".\vmime\net\securedConnectionInfos.hpp"/>
+<Filter Name="sendmail">
+<File RelativePath=".\vmime\net\sendmail\sendmailServiceInfos.hpp"/>
+<File RelativePath=".\vmime\net\sendmail\sendmailTransport.hpp"/>
+</Filter>
+<File RelativePath=".\vmime\net\service.hpp"/>
+<File RelativePath=".\vmime\net\serviceFactory.hpp"/>
+<File RelativePath=".\vmime\net\serviceInfos.hpp"/>
+<File RelativePath=".\vmime\net\session.hpp"/>
+<Filter Name="smtp">
+<File RelativePath=".\vmime\net\smtp\SMTPResponse.hpp"/>
+<File RelativePath=".\vmime\net\smtp\SMTPSTransport.hpp"/>
+<File RelativePath=".\vmime\net\smtp\SMTPServiceInfos.hpp"/>
+<File RelativePath=".\vmime\net\smtp\SMTPTransport.hpp"/>
+</Filter>
+<File RelativePath=".\vmime\net\socket.hpp"/>
+<File RelativePath=".\vmime\net\store.hpp"/>
+<File RelativePath=".\vmime\net\timeoutHandler.hpp"/>
+<Filter Name="tls">
+<File RelativePath=".\vmime\net\tls\TLSSecuredConnectionInfos.hpp"/>
+<File RelativePath=".\vmime\net\tls\TLSSession.hpp"/>
+<File RelativePath=".\vmime\net\tls\TLSSocket.hpp"/>
+</Filter>
+<File RelativePath=".\vmime\net\transport.hpp"/>
+</Filter>
+<File RelativePath=".\vmime\object.hpp"/>
+<File RelativePath=".\vmime\options.hpp"/>
+<File RelativePath=".\vmime\parameter.hpp"/>
+<File RelativePath=".\vmime\parameterizedHeaderField.hpp"/>
+<File RelativePath=".\vmime\parsedMessageAttachment.hpp"/>
+<File RelativePath=".\vmime\parserHelpers.hpp"/>
+<File RelativePath=".\vmime\path.hpp"/>
+<File RelativePath=".\vmime\plainTextPart.hpp"/>
+<File RelativePath=".\vmime\platform.hpp"/>
+<Filter Name="platforms">
+<Filter Name="windows">
+<File RelativePath=".\vmime\platforms\windows\windowsFile.hpp"/>
+<File RelativePath=".\vmime\platforms\windows\windowsHandler.hpp"/>
+<File RelativePath=".\vmime\platforms\windows\windowsSocket.hpp"/>
+</Filter>
+</Filter>
+<File RelativePath=".\vmime\propertySet.hpp"/>
+<File RelativePath=".\vmime\relay.hpp"/>
+<Filter Name="security">
+<File RelativePath=".\vmime\security\authenticator.hpp"/>
+<Filter Name="cert">
+<File RelativePath=".\vmime\security\cert\X509Certificate.hpp"/>
+<File RelativePath=".\vmime\security\cert\certificate.hpp"/>
+<File RelativePath=".\vmime\security\cert\certificateChain.hpp"/>
+<File RelativePath=".\vmime\security\cert\certificateVerifier.hpp"/>
+<File RelativePath=".\vmime\security\cert\defaultCertificateVerifier.hpp"/>
+</Filter>
+<File RelativePath=".\vmime\security\defaultAuthenticator.hpp"/>
+<Filter Name="digest">
+<Filter Name="md5">
+<File RelativePath=".\vmime\security\digest\md5\md5MessageDigest.hpp"/>
+</Filter>
+<File RelativePath=".\vmime\security\digest\messageDigest.hpp"/>
+<File RelativePath=".\vmime\security\digest\messageDigestFactory.hpp"/>
+<Filter Name="sha1">
+<File RelativePath=".\vmime\security\digest\sha1\sha1MessageDigest.hpp"/>
+</Filter>
+<File RelativePath=".\vmime\security\sasl\SASLAuthenticator.hpp"/>
+<File RelativePath=".\vmime\security\sasl\SASLContext.hpp"/>
+<File RelativePath=".\vmime\security\sasl\SASLMechanism.hpp"/>
+<File RelativePath=".\vmime\security\sasl\SASLMechanismFactory.hpp"/>
+<File RelativePath=".\vmime\security\sasl\SASLSession.hpp"/>
+<File RelativePath=".\vmime\security\sasl\SASLSocket.hpp"/>
+<File RelativePath=".\vmime\security\sasl\builtinSASLMechanism.hpp"/>
+<File RelativePath=".\vmime\security\sasl\defaultSASLAuthenticator.hpp"/>
+</Filter>
+</Filter>
+<File RelativePath=".\vmime\streamContentHandler.hpp"/>
+<File RelativePath=".\vmime\stringContentHandler.hpp"/>
+<File RelativePath=".\vmime\text.hpp"/>
+<File RelativePath=".\vmime\textPart.hpp"/>
+<File RelativePath=".\vmime\textPartFactory.hpp"/>
+<File RelativePath=".\vmime\types.hpp"/>
+<Filter Name="utility">
+<File RelativePath=".\vmime\utility\childProcess.hpp"/>
+<File RelativePath=".\vmime\utility\datetimeUtils.hpp"/>
+<File RelativePath=".\vmime\utility\file.hpp"/>
+<File RelativePath=".\vmime\utility\filteredStream.hpp"/>
+<File RelativePath=".\vmime\utility\path.hpp">
+	<FileConfiguration Name="Debug|Win32">
+		<Tool Name="VCCLCompilerTool" ObjectFile="$(IntDir)/$(InputName)4.obj"/>
+	</FileConfiguration>
+	<FileConfiguration Name="Release|Win32">
+		<Tool Name="VCCLCompilerTool" ObjectFile="$(IntDir)/$(InputName)4.obj"/>
+	</FileConfiguration>
+</File><File RelativePath=".\vmime\utility\progressListener.hpp"/>
+<File RelativePath=".\vmime\utility\random.hpp"/>
+<File RelativePath=".\vmime\utility\smartPtr.hpp"/>
+<File RelativePath=".\vmime\utility\stream.hpp"/>
+<File RelativePath=".\vmime\utility\stringProxy.hpp"/>
+<File RelativePath=".\vmime\utility\stringUtils.hpp"/>
+<File RelativePath=".\vmime\utility\url.hpp"/>
+<File RelativePath=".\vmime\utility\urlUtils.hpp"/>
+</Filter>
+<File RelativePath=".\vmime\vmime.hpp"/>
+<File RelativePath=".\vmime\word.hpp"/>
+<File RelativePath=".\vmime\wordEncoder.hpp"/>
+</Filter>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
