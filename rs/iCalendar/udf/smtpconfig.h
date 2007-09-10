@@ -35,9 +35,11 @@ class SMTPConfig
 
 	private:
 		std::string	m_host;
-		int		m_port;
+		int			m_port;
 		std::string	m_userName;
 		std::string	m_password;
+		bool		m_smtpAuth;
+		bool		m_smtpSSL;
 		
 	public:
 		void setHost ( const std::string& theValue )
@@ -78,6 +80,26 @@ class SMTPConfig
 		std::string password() const
 		{
 			return m_password;
+		}
+
+		void setSmtpAuth ( bool theValue )
+		{
+			m_smtpAuth = theValue;
+		}
+		
+		bool smtpAuth() const
+		{
+			return m_smtpAuth;
+		}
+	
+		void setSmtpSSL ( bool theValue )
+		{
+			m_smtpSSL = theValue;
+		}
+		
+		bool smtpSSL() const
+		{
+			return m_smtpSSL;
 		}
 };
 

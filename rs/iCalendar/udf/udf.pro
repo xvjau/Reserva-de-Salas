@@ -2,7 +2,8 @@ TEMPLATE = lib
 
 CONFIG += warn_on \
 dll \
- build_all
+ build_all \
+ debug
 SOURCES += udf.cpp \
 utils.cpp \
 mailqueue.cpp \
@@ -28,7 +29,8 @@ target.path = /opt/firebird/UDF
 
 CONFIG -= qt \
  stl \
- thread
+ thread \
+ release
 
 HEADERS += utils.h \
 udf.h \
@@ -37,6 +39,8 @@ mailqueue.h \
  icalmessage.h \
  smtpconfig.h \
  smtpsend.h
+
+DEFINES += DEBUG
 
 INCLUDEPATH += /opt/firebird/include \
 ../include/

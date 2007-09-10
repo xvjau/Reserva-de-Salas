@@ -33,7 +33,16 @@
 
 #include <vmime/vmime.hpp>
 
+#ifdef DEBUG
+#include <iostream>
+#include <fstream>
+
+extern std::ofstream logFile;
+
 std::ostream& operator<<(std::ostream& os, const vmime::exception& e);
+#endif
+
+
 extern vmime::charset g_charset;
-				 
+
 #endif // GLOBALS_H

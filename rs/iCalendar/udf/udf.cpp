@@ -53,6 +53,7 @@
 #include "smtpconfig.h"
 #include "smtpsend.h"
 #include "icalmessage.h"
+#include "globals.h"
 
 #ifdef MT
 #include "mailqueue.h"
@@ -61,47 +62,78 @@
 SMTPConfig	g_config;
 std::string	g_from;
 
+#ifdef DEBUG
+std::ofstream logFile("/tmp/firebird_icalendar.log", std::ios_base::app);
+#endif
+
 extern "C" 
 {
 
 extern int set_smtp_host( char * value )
 {
+	#ifdef DEBUG
+	logFile << "\nSMTP Host: " << value << std::endl;
+	#endif
 	g_config.setHost( value );
 	return 1;
 }
 
 extern int set_smtp_from( char * value )
 {
+	#ifdef DEBUG
+	logFile << "SMTP From: " << value << std::endl;
+	#endif
 	g_from = value;
 	return 1;
 }
 
 extern int set_smtp_auth( int * value )
 {
-	(void)value;
-	return 0;
+	#ifdef DEBUG
+	logFile << "SMTP Auth: " << ( *value !=0 ? "TRUE" : "FALSE" ) << std::endl;
+	#endif
+	g_config.setSmtpAuth( *value != 0 );
+	return 1;
 }
 
 extern int set_smtp_tls( int * value )
 {
-	(void)value;
-	return 0;
+	#ifdef DEBUG
+	logFile << "SMTP TLS: " << ( *value !=0 ? "TRUE" : "FALSE" ) << std::endl;
+	#endif
+	g_config.setSmtpSSL( *value != 0 );
+	return 1;
 }
 
 extern int set_smtp_user_name( char * value )
 {
+	#ifdef DEBUG
+	logFile << "SMTP User Name: " << value << std::endl;
+	#endif
 	g_config.setUserName( value );
 	return 1;
 }
 
 extern int set_smtp_password( char * value )
 {
+	#ifdef DEBUG
+	logFile << "SMTP Password: " << value << "\n" << std::endl;
+	#endif
 	g_config.setPassword( value );
 	return 1;
 }
 	
 extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
 {
+	#ifdef DEBUG
+	logFile << "\n ************* Invite ************* ";
+	logFile << "\nTo: " << to;
+	logFile << "\nFrom: " << g_from;
+	logFile << "\nSubject: " << subject;
+	logFile << "\nLocation: " << location;
+	logFile << "\nuid: " << uid << "\n" << std::endl;
+	#endif
+	
 	SMTPSend	sender(&g_config);
 	ICalMessage	message;
 	

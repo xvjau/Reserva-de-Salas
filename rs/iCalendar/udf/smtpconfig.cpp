@@ -19,8 +19,12 @@
  ***************************************************************************/
 #include "smtpconfig.h"
 
-SMTPConfig::SMTPConfig()
-{}
+SMTPConfig::SMTPConfig():
+		m_port( 25 ),
+		m_smtpAuth( false ),
+		m_smtpSSL( false )
+{
+}
 
 
 SMTPConfig::~SMTPConfig()

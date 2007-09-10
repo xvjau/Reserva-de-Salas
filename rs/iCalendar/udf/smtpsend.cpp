@@ -78,22 +78,32 @@ void SMTPSend::send(const ICalMessage & message)
 		vmime::ref <vmime::message> msg = message.getMessageBody();
 		
 		std::string str;
-		str = "smtp://" + m_config->host();
+		str = ( m_config->smtpSSL() ? "smtps://" : "smtp://" ) + m_config->host();
 		vmime::utility::url url(str.c_str());
 		
 		vmime::ref <vmime::net::session> session = vmime::create <vmime::net::session>();
 		
-		//session->getProperties().setProperty("options.sasl", true);
-		session->getProperties().setProperty("transport.smtp.options.need-authentication", true);
-		session->getProperties().setProperty("transport.smtps.options.need-authentication", true);
+		if ( m_config->smtpSSL() )
+			session->getProperties().setProperty("options.sasl", true);
+		
+		if ( m_config->smtpAuth() )
+		{
+			session->getProperties().setProperty("transport.smtp.options.need-authentication", true);
+			session->getProperties().setProperty("transport.smtps.options.need-authentication", true);
+		}
 		
 		//vmime::ref <vmime::net::transport> transport = session->getTransport(url, vmime::create <interactiveAuthenticator>(m_config));
 		
 		vmime::ref <vmime::net::transport> transport = session->getTransport(url);
 		
-		//transport->setProperty("connection.tls", true);
-		transport->setProperty("auth.username", m_config->userName().c_str());
-		transport->setProperty("auth.password", m_config->password().c_str());
+		if ( m_config->smtpSSL() )
+			transport->setProperty("connection.tls", true);
+		
+		if ( m_config->smtpAuth() )
+		{
+			transport->setProperty("auth.username", m_config->userName().c_str());
+			transport->setProperty("auth.password", m_config->password().c_str());
+		}
 		
 		transport->setCertificateVerifier(vmime::create <certificateVerifier>());
 		
@@ -103,9 +113,13 @@ void SMTPSend::send(const ICalMessage & message)
 	}
 	catch (vmime::exception& e)
 	{
-// 		std::cerr << std::endl;
-// 		std::cerr << e << std::endl;
-		throw;
+#ifdef DEBUG
+		std::ofstream logFile;
+		logFile.open("/var/log/firebird/firebird_icalendar.log", std::ios_base::app);
+		
+		logFile << std::endl;
+		logFile << e << std::endl;
+#endif
 	}
 	catch (std::exception& e)
 	{
