@@ -1,8 +1,8 @@
 TEMPLATE = lib
 
 CONFIG += warn_on \
-debug \
-dll
+dll \
+ build_all
 SOURCES += udf.cpp \
 utils.cpp \
 mailqueue.cpp \
@@ -27,7 +27,8 @@ INSTALLS += target
 target.path = /opt/firebird/UDF
 
 CONFIG -= qt \
- release
+ stl \
+ thread
 
 HEADERS += utils.h \
 udf.h \
@@ -43,5 +44,4 @@ LIBS += -L../lib/ \
 -lgsasl \
 -lgnutls \
 -lvmime \
--lib_util \
 -lfbclient

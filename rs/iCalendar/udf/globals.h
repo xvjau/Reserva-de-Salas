@@ -32,7 +32,6 @@
 #endif
 
 #include <vmime/vmime.hpp>
-#include <iostream>
 
 std::ostream& operator<<(std::ostream& os, const vmime::exception& e);
 extern vmime::charset g_charset;

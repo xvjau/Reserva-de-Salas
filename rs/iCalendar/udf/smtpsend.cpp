@@ -25,9 +25,6 @@ class certificateVerifier : public vmime::security::cert::defaultCertificateVeri
 		void verify(vmime::ref <vmime::security::cert::certificateChain> chain)
 		{
 			(void)chain;
-			
-			std::cout << std::endl;
-			std::cout << "Server sent a certificate." << std::endl;
 			return;
 		}
 };
@@ -47,25 +44,11 @@ class interactiveAuthenticator : public vmime::security::sasl::defaultSASLAuthen
 		(const std::vector <vmime::ref <vmime::security::sasl::SASLMechanism> >& available,
 			vmime::ref <vmime::security::sasl::SASLMechanism> suggested) const
 		{
-			std::cout << std::endl << "Available SASL mechanisms:" << std::endl;
-
-			for (unsigned int i = 0 ; i < available.size() ; ++i)
-			{
-				std::cout << "  " << available[i]->getName();
-
-				if (suggested && available[i]->getName() == suggested->getName())
-					std::cout << "(suggested)";
-			}
-
-			std::cout << std::endl << std::endl;
-
 			return defaultSASLAuthenticator::getAcceptableMechanisms(available, suggested);
 		}
 
 		void setSASLMechanism(vmime::ref <vmime::security::sasl::SASLMechanism> mech)
 		{
-			std::cout << "Trying '" << mech->getName() << "' authentication mechanism" << std::endl;
-
 			defaultSASLAuthenticator::setSASLMechanism(mech);
 		}
 
@@ -95,12 +78,12 @@ void SMTPSend::send(const ICalMessage & message)
 		vmime::ref <vmime::message> msg = message.getMessageBody();
 		
 		std::string str;
-		str = "smtps://" + m_config->host();
+		str = "smtp://" + m_config->host();
 		vmime::utility::url url(str.c_str());
 		
 		vmime::ref <vmime::net::session> session = vmime::create <vmime::net::session>();
 		
-		session->getProperties().setProperty("options.sasl", true);
+		//session->getProperties().setProperty("options.sasl", true);
 		session->getProperties().setProperty("transport.smtp.options.need-authentication", true);
 		session->getProperties().setProperty("transport.smtps.options.need-authentication", true);
 		
@@ -108,7 +91,7 @@ void SMTPSend::send(const ICalMessage & message)
 		
 		vmime::ref <vmime::net::transport> transport = session->getTransport(url);
 		
-		transport->setProperty("connection.tls", true);
+		//transport->setProperty("connection.tls", true);
 		transport->setProperty("auth.username", m_config->userName().c_str());
 		transport->setProperty("auth.password", m_config->password().c_str());
 		
@@ -120,14 +103,14 @@ void SMTPSend::send(const ICalMessage & message)
 	}
 	catch (vmime::exception& e)
 	{
-		std::cerr << std::endl;
-		std::cerr << e << std::endl;
+// 		std::cerr << std::endl;
+// 		std::cerr << e << std::endl;
 		throw;
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << std::endl;
-		std::cerr << "std::exception: " << e.what() << std::endl;
+/*		std::cerr << std::endl;
+		std::cerr << "std::exception: " << e.what() << std::endl;*/
 		throw;
 	}
 	

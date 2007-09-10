@@ -173,17 +173,12 @@ vmime::ref <vmime::message> ICalMessage::getMessageBody() const
 
 		// Raw text generation
 		vmime::string dataToSend = msg->generate();
-
-		std::cout << "Generated message:" << std::endl;
-		std::cout << "==================" << std::endl;
-		std::cout << std::endl;
-		std::cout << dataToSend << std::endl;
 		
 		return msg;
 	}
 	catch (vmime::exception& e)
 	{
-		std::cerr << e;         // VMime exception
+		//std::cerr << e;         // VMime exception
 	}
 	
 	return 0;

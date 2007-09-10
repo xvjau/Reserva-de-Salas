@@ -64,41 +64,43 @@ std::string	g_from;
 extern "C" 
 {
 
-int set_smtp_host( char * value )
+extern int set_smtp_host( char * value )
 {
 	g_config.setHost( value );
 	return 1;
 }
 
-int set_smtp_from( char * value )
+extern int set_smtp_from( char * value )
 {
 	g_from = value;
 	return 1;
 }
 
-int set_smtp_auth( int * value )
+extern int set_smtp_auth( int * value )
 {
+	(void)value;
 	return 0;
 }
 
-int set_smtp_tls( int * value )
+extern int set_smtp_tls( int * value )
 {
+	(void)value;
 	return 0;
 }
 
-int set_smtp_user_name( char * value )
+extern int set_smtp_user_name( char * value )
 {
 	g_config.setUserName( value );
 	return 1;
 }
 
-int set_smtp_password( char * value )
+extern int set_smtp_password( char * value )
 {
 	g_config.setPassword( value );
 	return 1;
 }
 	
-char * icalendar( char * uid, char * to, char * subject, BLOBCALLBACK description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
+extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
 {
 	SMTPSend	sender(&g_config);
 	ICalMessage	message;
@@ -116,6 +118,7 @@ char * icalendar( char * uid, char * to, char * subject, BLOBCALLBACK descriptio
 	message.setSender( g_from );
 	
 	sender.send( message );
+	return 0;
 }
 
 } // extern "C"
