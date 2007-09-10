@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "icalmessage.h"
+#include <boost/algorithm/string/replace.hpp>
 
 ICalMessage::ICalMessage()
 {}
@@ -81,22 +82,6 @@ std::string isoDate( const time_t dt )
 	return isoDate( time );
 }
 
-std::string strReplace(std::string str, std::string from, std::string to)
-{
-// 	int len = length(from), i = pos(from, str);
-// 	
-// #warning FIXME  Very ugly and inefficient way of replacing strings
-// 	while (i != -1)
-// 	{
-// 		del(str, i, len);
-// 		ins(str, to, i);
-// 		
-// 		i = pos(from, str);
-// 	}
-	
-	return str;
-}
-
 vmime::ref <vmime::message> ICalMessage::getMessageBody() const
 {
 	std::string method, status;
@@ -118,9 +103,13 @@ vmime::ref <vmime::message> ICalMessage::getMessageBody() const
 	}
 
 	std::string message = m_messageBody;
-	message = strReplace( message, "\x0D\x0A", "\\n\n  " );
-	message = strReplace( message, "\x0A", "\\n\n  " );
-	message = strReplace( message, "\x0D", "\\n\n  " );
+	{
+		using namespace boost::algorithm;
+		
+		replace_all( message, "\x0D\x0A", "\\n\n  " );
+		replace_all( message, "\x0A", "\\n\n  " );
+		replace_all( message, "\x0D", "\\n\n  " );
+	}
 
 	std::string strEvent, strBody;
 
