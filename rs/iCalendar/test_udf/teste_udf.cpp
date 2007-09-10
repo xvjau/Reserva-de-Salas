@@ -35,16 +35,16 @@ extern "C"
 
 int main()
 {
-	set_smtp_host( "smtp.gmail.com" );
-	set_smtp_from( "nasus.maximos@gmail.com" );
+	set_smtp_host( "smtp.mindsearch.com.br" );
+	set_smtp_from( "rs@mindsearch.com.br" );
 	
 	int i = 1;
 	
 	set_smtp_auth( &i );
 	set_smtp_tls( &i );
 	
-	set_smtp_user_name( "nasus.maximos@gmail.com" );	
-	set_smtp_password( "L0shNODFl" );
+	set_smtp_user_name( "rs@mindsearch.com.br" );	
+	set_smtp_password( "rsudf00" );
 	
 	tm timeStart, timeEnd;
 	
