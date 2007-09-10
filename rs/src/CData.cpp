@@ -37,9 +37,9 @@
 
 CData::CData ( QObject * _parent ) :
 		QObject ( _parent ),
+		m_connected ( false ),
 		m_areas ( 0 ),
 		m_db ( 0 ),
-		m_connected ( false ),
 		m_notify ( 0 ),
 		m_areasId ( 0 ),
 		m_event ( 0 )

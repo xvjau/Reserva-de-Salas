@@ -26,8 +26,8 @@
 CModelosItem::CModelosItem ( Database _db, CModelos *_owner ) :
 		QDialog ( _owner ),
 		m_ModeloID ( -1 ),
-		m_owner ( _owner ),
-		m_db ( _db )
+		m_db ( _db ),
+		m_owner ( _owner )
 {
 	setupUi ( this );
 	setAttribute ( Qt::WA_DeleteOnClose );

@@ -38,8 +38,8 @@ CModelos::CModelos ( Database _db, CReservaList *_lista, const QString _sala, QP
 		QDialog ( _lista ),
 		m_lista ( _lista ),
 		m_sala ( _sala ),
-		m_printer ( _printer ),
 		m_db ( _db ),
+		m_printer ( _printer ),
 		m_reserva ( 0 )
 {
 	init();
