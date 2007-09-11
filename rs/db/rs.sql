@@ -12,9 +12,15 @@ RETURNS CSTRING(1)
 ENTRY_POINT 'IB_UDF_ascii_char'
 MODULE_NAME 'ib_udf';
 
+DECLARE EXTERNAL FUNCTION DO_ANYTHING
+Integer, Integer
+RETURNS Integer BY VALUE 
+ENTRY_POINT 'do_something'
+MODULE_NAME 'testudf';
+
 DECLARE EXTERNAL FUNCTION ICALENDAR
 CSTRING(1024), CSTRING(1024), CSTRING(1024), blob, CSTRING(1024), Timestamp, Timestamp, Integer
-RETURNS CSTRING(1024)
+RETURNS Integer BY VALUE 
 ENTRY_POINT 'icalendar'
 MODULE_NAME 'icalendar';
 
@@ -344,15 +350,6 @@ AS
     DECLARE VARIABLE ASSUNTO VARCHAR( 255 );
     DECLARE VARIABLE DEPTO VARCHAR( 80 );
 BEGIN 
-    EXECUTE PROCEDURE READ_SMTP_CONFIG;
-
-    IF ( INSERTING ) THEN
-        OPR = 0;
-    ELSE IF ( UPDATING ) THEN
-        OPR = 1;
-    ELSE
-        OPR = 2;
-
     IF ( DELETING ) THEN
     BEGIN
         RESERVAID = OLD.RESERVAID;
@@ -384,24 +381,6 @@ BEGIN
         :DESCR;
 
     SELECT
-        "VALUE"
-    FROM
-        RS$CONFIG
-    WHERE
-        PARAM = 'CN'
-    INTO
-        :UID;
-
-    SELECT
-        NOME
-    FROM
-        SALAS
-    WHERE
-        SALAID = :SALAID
-    INTO
-        :LOCATION;
-
-    SELECT
         EMAIL
     FROM
         USUARIOS
@@ -410,15 +389,44 @@ BEGIN
     INTO
         :EMAIL_TO;
 
-    UID = UID || '-RS-' || :RESERVAID;
-    SUBJ = ASSUNTO;
+    IF ( NOT :EMAIL_TO IS NULL ) THEN
+    BEGIN
+        EXECUTE PROCEDURE READ_SMTP_CONFIG;
 
-    IF ( NOT DEPTO IS NULL ) THEN
-        SUBJ = SUBJ || ' (' || DEPTO || ')';
+        IF ( INSERTING ) THEN
+            OPR = 0;
+        ELSE IF ( UPDATING ) THEN
+            OPR = 1;
+        ELSE
+            OPR = 2;
 
+        SELECT
+            "VALUE"
+        FROM
+            RS$CONFIG
+        WHERE
+            PARAM = 'CN'
+        INTO
+            :UID;
 
-    ICALENDAR( :UID, :EMAIL_TO, :SUBJ, :DESCR, :LOCATION,
-                :START_TIME, :END_TIME, :OPR);
+        SELECT
+            NOME
+        FROM
+            SALAS
+        WHERE
+            SALAID = :SALAID
+        INTO
+            :LOCATION;
+
+        UID = UID || '-RS-' || :RESERVAID;
+        SUBJ = ASSUNTO;
+
+        IF ( NOT DEPTO IS NULL ) THEN
+            SUBJ = SUBJ || ' (' || DEPTO || ')';
+
+        ICALENDAR( :UID, :EMAIL_TO, :SUBJ, :DESCR, :LOCATION,
+            :START_TIME, :END_TIME, :OPR);    
+    END
 END^
 SET TERM ; ^
 SET TERM ^ ;
@@ -1088,6 +1096,9 @@ GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE
 
 GRANT INSERT
  ON DBG TO PROCEDURE MESG;
+
+GRANT INSERT
+ ON DBG TO TRIGGER SEND_ICAL_SIMPLES;
 
 GRANT DELETE, INSERT, REFERENCES, SELECT, UPDATE
  ON DBG TO  SYSDBA WITH GRANT OPTION;
