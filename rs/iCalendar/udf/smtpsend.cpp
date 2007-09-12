@@ -71,11 +71,11 @@ SMTPSend::SMTPSend ( const SMTPConfig *config ) :
 SMTPSend::~SMTPSend()
 {}
 
-void SMTPSend::send(const ICalMessage & message)
+void SMTPSend::send(const ICalMessage *message)
 {
 	try
 	{
-		vmime::ref <vmime::message> msg = message.getMessageBody();
+		vmime::ref <vmime::message> msg = message->getMessageBody();
 		
 		std::string str;
 		str = ( m_config->smtpSSL() ? "smtps://" : "smtp://" ) + m_config->host();

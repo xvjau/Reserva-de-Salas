@@ -37,7 +37,7 @@ class SMTPSend
 		const SMTPConfig	*m_config;
 	
 	public:
-		void send( const ICalMessage &message );
+		void send( const ICalMessage *message );
 };
 
 #endif

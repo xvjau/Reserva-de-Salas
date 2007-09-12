@@ -25,8 +25,10 @@
 #ifdef MT
 
 #include "udf.h"
+#include "icalmessage.h"
+#include "smtpconfig.h"
 
-int enqueueMail( string to, string subject, string messageBody, string eventType, string eventText );
+void enqueueMail( ICalMessage *message );
 
 #endif // MT
 

@@ -98,12 +98,12 @@
   </kdevfilecreate>
   <kdevtrollproject>
     <general>
-      <activedir>iCalendar/test_udf</activedir>
+      <activedir>iCalendar/udf</activedir>
     </general>
     <run>
       <directoryradio>custom</directoryradio>
       <customdirectory>/</customdirectory>
-      <mainprogram>/home/gianni/Projetos/rs/iCalendar/test_udf/test_udf</mainprogram>
+      <mainprogram>/home/gianni/Projetos/rs/bin/rs</mainprogram>
       <programargs/>
       <terminal>false</terminal>
       <autocompile>true</autocompile>
@@ -117,7 +117,7 @@
       <autokdesu>false</autokdesu>
       <runarguments>
         <rs/>
-        <test_udf></test_udf>
+        <test_udf/>
       </runarguments>
       <cwd>
         <rs>/home/gianni/Projetos/rs/..</rs>
@@ -125,7 +125,7 @@
       </cwd>
       <debugarguments>
         <rs/>
-        <test_udf></test_udf>
+        <test_udf/>
       </debugarguments>
     </run>
     <make>
@@ -207,7 +207,8 @@
   </cppsupportpart>
   <ctagspart>
     <customArguments/>
-    <customTagfilePath/>
+    <customTagfilePath>/home/gianni/Projetos/rs/tags</customTagfilePath>
+    <activeTagsFiles/>
   </ctagspart>
   <kdevdocumentation>
     <projectdoc>

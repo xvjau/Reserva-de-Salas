@@ -40,7 +40,8 @@ mailqueue.h \
  smtpconfig.h \
  smtpsend.h
 
-DEFINES += DEBUG
+DEFINES += DEBUG \
+ MT
 
 INCLUDEPATH += /opt/firebird/include \
 ../include/

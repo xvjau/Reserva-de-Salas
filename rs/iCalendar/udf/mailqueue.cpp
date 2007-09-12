@@ -21,133 +21,56 @@
 #ifdef MT
  
 #include "mailqueue.h"
-#include "smtp.h"
+#include "smtpsend.h"
+#include <boost/thread/thread.hpp>
+#include <boost/thread/mutex.hpp>
+#include <list>
 
-#define MAX_THREAD 3
+static boost::thread			*mailQueue = 0;
+static boost::mutex				mailMutex;
+static boost::condition			waitCond;
 
-typedef enum { msgQuit, msgMail } msgType;
+typedef std::list<ICalMessage*>	ICalMessageList;
+static ICalMessageList			mailList;
 
-struct mailMessage: public message
+static bool						terminateQueue = false;
+
+#define SCOPE_LOCK boost::mutex::scoped_lock __MUTEX_LOCKER(mailMutex)
+
+void mailQueueLoop()
 {
-	public:
-		mailMessage( msgType id ):
-			message( id ) {};
-		
-		string to;
-		string subject;
-		string body;
-		string eventType;
-		string eventText;
-};
-
-class mailThread;
-
-static jobqueue 	mailQueue;
-static mutex 		lockThreadList;
-static tpodlist<mailThread*> threadList;
-
-class mailThread: public thread
-{
-	private:
-		mailThread():
-				thread( true ) // autofree
+	waitCond.notify_one();
+	
+	while (!terminateQueue)
+	{
 		{
-		};
-		
-		~mailThread()
-		{
-			scopelock lock( lockThreadList );
+			SCOPE_LOCK;
 			
-			for( int i = 0; i < threadList.get_count(); ++i )
-			{
-				if ( threadList[ i ] == this )
-				{
-					threadList.del( i );
-					break;
-				}
-			}
-		}
-
-	public:		
-		/*
-		 Check if the MAX_THREADs limit is reached.  If so, let a thread handle the request, if not
-		 create a new thread.
-		*/	
-		static void checkThreads()
-		{
-			scopelock lock( lockThreadList );
-		
-			if ( threadList.get_count() < MAX_THREAD )
-			{
-				mailThread * th = new mailThread;
-				threadList.add( th );
-				
-				th->start();
-			}
-		}
-		
-	protected:		
-		virtual void execute()
-		{
-			mailMessage * message;
-			bool quit = false;
+			waitCond.wait(__MUTEX_LOCKER);
 			
-			while ( ! quit )
+			ICalMessageList::const_iterator it;
+			for(it = mailList.begin(); it != mailList.end(); ++it)
 			{
-				message = static_cast<mailMessage*>( mailQueue.getmessage( 200 ) );
-				
-				if ( message )
-				{
-					switch( message->id )
-					{
-						case msgQuit: 
-						{
-							//m_quit = true;
-							break;
-						}
-							
-						case msgMail:
-						{
-							string result = sendMail ( message->to, message->subject, message->body, message->eventType, message->eventText );
-#ifdef SMTP_LOGFILE
-							logfile f("/tmp/rs.log");
-
-							f.set_bufsize(1024);             // the default value in this version is 8192
-
-							try 
-							{
-								f.open();
-								f.put( isoDate( now() ) + ": " + result + "\n");
-								f.close();
-							}
-							catch (estream* e) 
-							{
-								perr.putf("File error: %s\n", e->get_message());
-								delete e;
-							}
-#endif
-							break;
-						}
-					}
-				}
-				else
-					quit = true;
-			};
+				SMTPSend sender(&g_config);
+				sender.send( *it );
+				delete *it;
+			}
+			mailList.clear();
 		}
-};
+	}
+}
 
-int enqueueMail( string to, string subject, string messageBody, string eventType, string eventText )
+void enqueueMail( ICalMessage *message )
 {
-	mailMessage * message = new mailMessage( msgMail );
+	SCOPE_LOCK;
 	
-	message->to				= to;
-	message->subject		= subject;
-	message->body			= messageBody;
-	message->eventType 		= eventType;
-	message->eventText 		= eventText;
+	if ( !mailQueue )
+	{
+		mailQueue = new boost::thread(mailQueueLoop);
+		waitCond.wait(__MUTEX_LOCKER);  // Wait for the thread to initialize
+	}
 	
-	mailQueue.post( message );
-	
-	mailThread::checkThreads();
+	mailList.push_back( message );
+	waitCond.notify_one();
 }
 #endif // MT

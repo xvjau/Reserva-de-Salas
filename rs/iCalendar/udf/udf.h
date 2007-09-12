@@ -39,5 +39,8 @@
 #endif
 
 #include "utils.h"
+#include "smtpconfig.h"
+
+extern SMTPConfig	g_config;
 
 #endif // __INCLUDE_UDF_H

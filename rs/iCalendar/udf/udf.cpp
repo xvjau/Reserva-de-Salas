@@ -50,7 +50,6 @@
 */
 
 #include "udf.h"
-#include "smtpconfig.h"
 #include "smtpsend.h"
 #include "icalmessage.h"
 #include "globals.h"
@@ -133,11 +132,12 @@ extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK descri
 	logFile << "\nLocation: " << location;
 	logFile << "\nuid: " << uid << "\n" << std::endl;
 	#endif
+
+	std::string messageBody = BlobToString(description);
 	
+#ifdef MT
 	SMTPSend	sender(&g_config);
 	ICalMessage	message;
-	
-	std::string messageBody = BlobToString(description);
 	
 	message.setRecipient( to );
 	message.setSubject( subject );
@@ -148,8 +148,23 @@ extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK descri
 	message.setOperation( static_cast<ICalMessage::Operations>(*opr) );
 	message.setMessageBody(	messageBody );
 	message.setSender( g_from );
+
+	sender.send( &message );
+#else
+	ICalMessage	*message = new ICalMessage();
 	
-	sender.send( message );
+	message->setRecipient( to );
+	message->setSubject( subject );
+	message->setUid( uid );
+	message->setStartTime( IsctstoDateTime(tsStart) );
+	message->setEndTime( IsctstoDateTime(tsEnd) );
+	message->setLocation( location );
+	message->setOperation( static_cast<ICalMessage::Operations>(*opr) );
+	message->setMessageBody( messageBody );
+	message->setSender( g_from );
+	
+	enqueueMail( message );
+#endif
 	return 0;
 }
 
