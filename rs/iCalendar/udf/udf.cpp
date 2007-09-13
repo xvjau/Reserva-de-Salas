@@ -135,7 +135,7 @@ extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK descri
 
 	std::string messageBody = BlobToString(description);
 	
-#ifdef MT
+#ifndef MT
 	SMTPSend	sender(&g_config);
 	ICalMessage	message;
 	

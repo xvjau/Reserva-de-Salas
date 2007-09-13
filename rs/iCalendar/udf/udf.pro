@@ -2,8 +2,7 @@ TEMPLATE = lib
 
 CONFIG += warn_on \
 dll \
- build_all \
- debug
+ build_all
 SOURCES += udf.cpp \
 utils.cpp \
 mailqueue.cpp \
@@ -29,8 +28,7 @@ target.path = /opt/firebird/UDF
 
 CONFIG -= qt \
  stl \
- thread \
- release
+ thread
 
 HEADERS += utils.h \
 udf.h \
@@ -46,6 +44,7 @@ DEFINES += DEBUG \
 INCLUDEPATH += /opt/firebird/include \
 ../include/
 LIBS += -L../lib/ \
+-lboost_thread \
 -lgsasl \
 -lgnutls \
 -lvmime \
