@@ -20,6 +20,32 @@
 #include "icalmessage.h"
 #include <boost/algorithm/string/replace.hpp>
 
+/*
+	BEGIN:VCALENDAR
+	PRODID:-//Google Inc//Google Calendar 70.9054//EN
+	VERSION:2.0
+	CALSCALE:GREGORIAN
+	METHOD:CANCEL
+	BEGIN:VEVENT
+	DTSTART:20070917T153000Z
+	DTEND:20070917T170000Z
+	DTSTAMP:20070917T135424Z
+	ORGANIZER;CN=Juliana Nakagawa:MAILTO:julianan@google.com
+	UID:6t133or0lptta4411ocjps9b80@google.com
+	ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=DECLINED;CN=Alan G
+	range;X-NUM-GUESTS=0:MAILTO:grange@mindsearch.com.br
+	CLASS:PRIVATE
+	CREATED:20070913T192351Z
+	LAST-MODIFIED:20070917T135424Z
+	LOCATION:(Misc)-SAO-BRI-5-Cafe Table Arroz (4)
+	SEQUENCE:2
+	STATUS:CANCELLED
+	SUMMARY:lunch - Alan
+	TRANSP:OPAQUE
+	END:VEVENT
+	END:VCALENDAR
+*/
+
 ICalMessage::ICalMessage()
 {}
 
@@ -114,10 +140,12 @@ vmime::ref <vmime::message> ICalMessage::getMessageBody() const
 	std::string strEvent, strBody;
 
 	strEvent = std::string ( "BEGIN:VCALENDAR\n" ) +
-				"METHOD:"  + method + '\n' +
+				"PRODID:-//RolTramInfo//Reservasr de Salas 0.0.1//BR\n"  +
 				"VERSION:2.0\n"  +
+				"CALSCALE:GREGORIAN\n"  +
+				"METHOD:"  + method + '\n' +
 				"BEGIN:VEVENT\n"  +
-				"ORGANIZER:mailto:" + m_recipient + '\n' +
+				"ORGANIZER:MAILTO:" + m_recipient + '\n' +
 				"ATTENDEE;RSVP=FALSE\n"  +
 				"DTSTAMP:"  + isoDate ( time(0) )  + '\n' +
 				"DTSTART:"  + isoDate ( m_startTime ) + '\n' +
@@ -126,10 +154,12 @@ vmime::ref <vmime::message> ICalMessage::getMessageBody() const
 				"DESCRIPTION:"  + message + '\n' +
 				"LOCATION:" + m_location + '\n' +
 				"UID: <"  + m_uid + "> \n" +
+				"SEQUENCE:1\n"  +
 				"STATUS:"  + status + '\n' +
+				"TRANSP:OPAQUE\n"  +
 				"END:VEVENT\n"  +
 				"END:VCALENDAR\n";
-
+	
 	strBody = std::string ( "You have been invited to a meeting:\n" ) +
 					"Location: " + m_location + '\n' +
 					"Date/Time: " + isoDate ( m_startTime ) + '\n' +
