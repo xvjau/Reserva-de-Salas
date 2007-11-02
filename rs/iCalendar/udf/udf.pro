@@ -42,7 +42,8 @@ DEFINES += DEBUG \
  MT
 
 INCLUDEPATH += /opt/firebird/include \
-../include/
+../include/ \
+/usr/local/include
 LIBS += -L../lib/ \
 -lboost_thread \
 -lgsasl \
