@@ -73,6 +73,9 @@ SMTPSend::~SMTPSend()
 
 void SMTPSend::send(const ICalMessage *message)
 {
+	#ifdef DEBUG
+	std::cout << "Start" << std::endl;
+	#endif
 	try
 	{
 		vmime::ref <vmime::message> msg = message->getMessageBody();
@@ -107,13 +110,26 @@ void SMTPSend::send(const ICalMessage *message)
 		
 		transport->setCertificateVerifier(vmime::create <certificateVerifier>());
 		
+		#ifdef DEBUG
+		std::cout << "Connect" << std::endl;	
+		#endif 
 		transport->connect();
+		#ifdef DEBUG
+		std::cout << "Send" << std::endl;
+		#endif
 		transport->send(msg);
+		#ifdef DEBUG
+		std::cout << "Disconnect" << std::endl;
+		#endif
 		transport->disconnect();
+		#ifdef DEBUG
+		std::cout << "Done" << std::endl;
+		#endif
 	}
 	catch (vmime::exception& e)
 	{
 #ifdef DEBUG
+		std::cout << "vmime::exception" << std::endl;
 		std::ofstream logFile;
 		logFile.open("/var/log/firebird/firebird_icalendar.log", std::ios_base::app);
 		
@@ -123,6 +139,9 @@ void SMTPSend::send(const ICalMessage *message)
 	}
 	catch (std::exception& e)
 	{
+	#ifdef DEBUG
+		std::cout << "std::exception" << std::endl;
+		#endif
 /*		std::cerr << std::endl;
 		std::cerr << "std::exception: " << e.what() << std::endl;*/
 		throw;

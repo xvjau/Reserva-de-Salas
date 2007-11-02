@@ -62,7 +62,7 @@ SMTPConfig	g_config;
 std::string	g_from;
 
 #ifdef DEBUG
-std::ofstream logFile("/tmp/firebird_icalendar.log", std::ios_base::app);
+std::ofstream logFile("/var/log/firebird/firebird_icalendar.log", std::ios_base::app);
 #endif
 
 extern "C" 
@@ -134,7 +134,9 @@ extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK descri
 	#endif
 
 	std::string messageBody = BlobToString(description);
-	
+	#ifdef DEBUG
+	logFile << "\nBody: " << messageBody << std::endl;
+	#endif
 #ifndef MT
 	SMTPSend	sender(&g_config);
 	ICalMessage	message;
