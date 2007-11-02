@@ -96,7 +96,7 @@ std::string isoDate( const tm dt )
 			+ 'T' + 
 			intToString( dt.tm_hour, 2 ) + 
 			intToString( dt.tm_min, 2 ) + 
-			intToString( dt.tm_sec, 2 );
+			intToString( dt.tm_sec, 2 ) + 'Z';
 	
 	return result;
 }
