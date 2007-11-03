@@ -2,19 +2,19 @@
 	Reserva de Salas
 	Copyright 2007 Gianfranco Rossi.
 
-	Este programa é software livre; você pode redistribuí-lo e/ou
-	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-	publicada pela Free Software Foundation; tanto a versão 2 da
-	Licença.
+	Este programa ï¿½ software livre; vocï¿½ pode redistribuï¿½-lo e/ou
+	modificï¿½-lo sob os termos da Licenï¿½a Pï¿½blica Geral GNU, conforme
+	publicada pela Free Software Foundation; tanto a versï¿½o 2 da
+	Licenï¿½a.
 
-	Este programa é distribuído na expectativa de ser útil, mas SEM
-	QUALQUER GARANTIA; sem mesmo a garantia implícita de
-	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+	Este programa ï¿½ distribuï¿½do na expectativa de ser ï¿½til, mas SEM
+	QUALQUER GARANTIA; sem mesmo a garantia implï¿½cita de
+	COMERCIALIZAï¿½ï¿½O ou de ADEQUAï¿½ï¿½O A QUALQUER PROPï¿½SITO EM
+	PARTICULAR. Consulte a Licenï¿½a Pï¿½blica Geral GNU para obter mais
 	detalhes.
 
-	Você deve ter recebido uma cópia da Licença Pública Geral GNU
-	junto com este programa; se não, escreva para a Free Software
+	Vocï¿½ deve ter recebido uma cï¿½pia da Licenï¿½a Pï¿½blica Geral GNU
+	junto com este programa; se nï¿½o, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 	02111-1307, USA.
  */
@@ -136,6 +136,7 @@ extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK descri
 	std::string messageBody = BlobToString(description);
 	#ifdef DEBUG
 	logFile << "\nBody: " << messageBody << std::endl;
+	logFile << "\n ************* End Invite ************* ";
 	#endif
 #ifndef MT
 	SMTPSend	sender(&g_config);
