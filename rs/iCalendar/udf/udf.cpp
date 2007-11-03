@@ -136,7 +136,7 @@ extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK descri
 	std::string messageBody = BlobToString(description);
 	#ifdef DEBUG
 	logFile << "\nBody: " << messageBody << std::endl;
-	logFile << "\n ************* End Invite ************* ";
+	logFile << "\n ************* End Invite ************* " << std::endl;
 	#endif
 #ifndef MT
 	SMTPSend	sender(&g_config);
