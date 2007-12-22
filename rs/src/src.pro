@@ -108,6 +108,9 @@ xwin32-g++ {
     DEFINES += IBPP_WINDOWS
     RC_FILE = ./res/rs.rc
 }
+macx {
+	DEFINES += IBPP_DARWIN
+}
 QT += core \
 gui
 INCLUDEPATH += ../ibpp \

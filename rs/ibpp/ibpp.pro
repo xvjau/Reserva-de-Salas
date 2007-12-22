@@ -10,7 +10,8 @@ DESTDIR = ../obj
 OBJECTS_DIR = ../obj
 
 linux-g++ : DEFINES += IBPP_LINUX
-win32 : DEFINES = IBPP_WINDOWS
+win32 : DEFINES += IBPP_WINDOWS
+macx: DEFINES += IBPP_DARWIN
 
 # Input
 HEADERS += _ibpp.h \
