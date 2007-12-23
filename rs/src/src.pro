@@ -110,6 +110,8 @@ xwin32-g++ {
 }
 macx {
 	DEFINES += IBPP_DARWIN
+	LIBS += /Library/Frameworks/Firebird.framework/Libraries/libfbclient.dylib
+	
 }
 QT += core \
 gui
