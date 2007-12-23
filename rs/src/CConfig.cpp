@@ -28,6 +28,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
+#elif __APPLE__
+#include <unistd.h>
 #else
 #undef UNICODE
 #include <windows.h>
@@ -127,9 +129,17 @@ void CConfig::loadConfig()
 			passwd *_upswd = getpwnam ( buff );
 
 			if ( strlen ( _upswd->pw_gecos ) )
-				sfestrcpy ( buffFullName, _upswd->pw_gecos, L_cuserid );
+				sfestrcpy ( buffFullName, _upswd->pw_gecos, BUFF_SIZE );
 			else
-				sfestrcpy ( buffFullName, buff, L_cuserid );
+				sfestrcpy ( buffFullName, buff, BUFF_SIZE );
+#elif __APPLE__
+			const int	BUFF_SIZE = 1024;
+			char		buff[BUFF_SIZE + 1];
+			char		buffFullName[BUFF_SIZE + 1];
+			
+			sfestrcpy ( buff, getlogin(), BUFF_SIZE );
+			sfestrcpy ( buffFullName, buff, BUFF_SIZE );
+			
 #else
 			const int	BUFF_SIZE = 1024;
 			char		buff[BUFF_SIZE + 1];
