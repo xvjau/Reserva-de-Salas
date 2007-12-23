@@ -20,6 +20,10 @@ linux-g++ {
 
     LIBS += -L/opt/firebird/lib/
 }
+macx {
+	INCLUDEPATH += /Library/Frameworks/Firebird.framework/Headers
+	LIBS += /Library/Frameworks/Firebird.framework/Libraries/libfbclient.dylib
+}
 TARGET = icalendar
 
 INSTALLS += target

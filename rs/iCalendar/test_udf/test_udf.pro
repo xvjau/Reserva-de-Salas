@@ -8,7 +8,14 @@ CONFIG -= release
 
 DESTDIR = .
 
-INCLUDEPATH += ../udf \
-/opt/firebird/include
+linux-g++ {
+	INCLUDEPATH += /opt/firebird/include
+}
+macx {
+	INCLUDEPATH += /Library/Frameworks/Firebird.framework/Headers
+}
+	
+INCLUDEPATH += ../udf
+
 LIBS += -L../lib \
 -licalendar
