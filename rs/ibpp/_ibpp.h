@@ -78,6 +78,8 @@
 #define for if(true)for
 #endif
 
+#include <string.h>
+
 namespace ibpp_internals
 {
 
@@ -1065,11 +1067,11 @@ private:
 	DatabaseImpl* mDatabase;		// Attached database
 	TransactionImpl* mTransaction;	// Attached transaction
 	RowImpl* mInRow;
-	//bool* mInMissing;			// Quels paramètres n'ont pas été spécifiés
+	//bool* mInMissing;
 	RowImpl* mOutRow;
 	bool mResultSetAvailable;	// Executed and result set is available
 	bool mCursorOpened;			// dsql_set_cursor_name was called
-	IBPP::STT mType;			// Type de requète
+	IBPP::STT mType;
 	std::string mSql;			// Last SQL statement prepared or executed
 
 	// Internal Methods
@@ -1254,8 +1256,8 @@ private:
 	ISC_QUAD			mId;
 	bool				mDescribed;
 	ISC_ARRAY_DESC		mDesc;
-	DatabaseImpl*  		mDatabase;		// Database attachée
-	TransactionImpl*	mTransaction;	// Transaction attachée
+	DatabaseImpl*  		mDatabase;		// Database attache
+	TransactionImpl*	mTransaction;	// Transaction attache
 	void*				mBuffer;		// Buffer for native data
 	int					mBufferSize;	// Size of this buffer in bytes
 	int					mElemCount;		// Count of elements in this array
@@ -1367,10 +1369,10 @@ class EventsImpl : public IBPP::IEvents
 public:
 	void AttachDatabaseImpl(DatabaseImpl*);
 	void DetachDatabaseImpl();
-	
+
 	EventsImpl(DatabaseImpl* dbi);
 	~EventsImpl();
-		
+
 	//	(((((((( OBJECT INTERFACE ))))))))
 
 public:
