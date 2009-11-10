@@ -4,12 +4,12 @@
     <name>CAreas</name>
     <message>
         <location filename="CAreas.cpp" line="64"/>
-        <source>Excluir &#xc1;rea?</source>
+        <source>Excluir Área?</source>
         <translation>Delete Area?</translation>
     </message>
     <message>
         <location filename="CAreas.cpp" line="66"/>
-        <source>Tem certeza que deseja excluir a &#xe1;rea %1?</source>
+        <source>Tem certeza que deseja excluir a área %1?</source>
         <translation>Are you sure that you want to delete %1?</translation>
     </message>
     <message>
@@ -19,7 +19,7 @@
     </message>
     <message>
         <location filename="CAreas.cpp" line="67"/>
-        <source>&amp;N&#xe3;o</source>
+        <source>&amp;Não</source>
         <translation>&amp;No</translation>
     </message>
 </context>
@@ -27,7 +27,7 @@
     <name>CAreasModel</name>
     <message>
         <location filename="CAreasModel.cpp" line="104"/>
-        <source>&#xc1;rea</source>
+        <source>Área</source>
         <translation>Area</translation>
     </message>
     <message>
@@ -37,12 +37,12 @@
     </message>
     <message>
         <location filename="CAreasModel.cpp" line="145"/>
-        <source>J&#xe1; existe uma &#xe1;rea com esse nome.</source>
+        <source>Já existe uma área com esse nome.</source>
         <translation>There is already an area with that name.</translation>
     </message>
     <message>
         <location filename="CAreasModel.cpp" line="183"/>
-        <source>Nova &#xe1;rea </source>
+        <source>Nova área </source>
         <translation>New area </translation>
     </message>
 </context>
@@ -101,7 +101,7 @@
     </message>
     <message>
         <location filename="CMainWindow.cpp" line="517"/>
-        <source>&amp;N&#xe3;o</source>
+        <source>&amp;Não</source>
         <translation>&amp;No</translation>
     </message>
     <message>
@@ -139,7 +139,7 @@
     </message>
     <message>
         <location filename="CModelos.cpp" line="251"/>
-        <source>&amp;N&#xe3;o</source>
+        <source>&amp;Não</source>
         <translation>&amp;No</translation>
     </message>
     <message>
@@ -162,7 +162,7 @@
     </message>
     <message>
         <location filename="CModelosItem.cpp" line="110"/>
-        <source>J&#xe1; existe um modelo&lt;br&gt;com esse nome.</source>
+        <source>Já existe um modelo&lt;br&gt;com esse nome.</source>
         <translation>There is already a model&lt;br&gt; with that name.</translation>
     </message>
 </context>
@@ -211,7 +211,7 @@
     </message>
     <message>
         <location filename="CSalas.cpp" line="176"/>
-        <source>&amp;N&#xe3;o</source>
+        <source>&amp;Não</source>
         <translation>&amp;No</translation>
     </message>
 </context>
@@ -224,7 +224,7 @@
     </message>
     <message>
         <location filename="CSalasItem.cpp" line="78"/>
-        <source>Esse n&#xfa;mero de sala j&#xe1; existe!</source>
+        <source>Esse número de sala já existe!</source>
         <translation>There is already a room with this number!</translation>
     </message>
 </context>
@@ -247,7 +247,7 @@
     </message>
     <message>
         <location filename="CSchemas.cpp" line="109"/>
-        <source>&amp;N&#xe3;o</source>
+        <source>&amp;Não</source>
         <translation>&amp;No</translation>
     </message>
 </context>
@@ -306,7 +306,7 @@
     </message>
     <message>
         <location filename="CUsuarioDelegate.cpp" line="52"/>
-        <source>2 - Criar, Alterar reservas de qualquer usu&#xe1;rio</source>
+        <source>2 - Criar, Alterar reservas de qualquer usuário</source>
         <translation>2 - Create, Edit any user&apos;s reservations</translation>
     </message>
     <message>
@@ -319,12 +319,12 @@
     <name>CUsuarios</name>
     <message>
         <location filename="CUsuarios.cpp" line="122"/>
-        <source>Excluir Usu&#xe1;rio?</source>
+        <source>Excluir Usuário?</source>
         <translation>Delete User?</translation>
     </message>
     <message>
         <location filename="CUsuarios.cpp" line="116"/>
-        <source>Tem certeza que deseja excluir o usu&#xe1;rio(a) %1?</source>
+        <source>Tem certeza que deseja excluir o usuário(a) %1?</source>
         <translation>Are you sure that you want to delete %1?</translation>
     </message>
     <message>
@@ -334,12 +334,12 @@
     </message>
     <message>
         <location filename="CUsuarios.cpp" line="125"/>
-        <source>&amp;N&#xe3;o</source>
+        <source>&amp;Não</source>
         <translation>&amp;No</translation>
     </message>
     <message>
         <location filename="CUsuarios.cpp" line="124"/>
-        <source>Isso ir&#xe1; remover tamb&#xe9;m todas as reservas feitas por %1, tem certeza &lt;i&gt;mesmo&lt;/i&gt; que voc&#xea; quer fazer isso?</source>
+        <source>Isso irá remover também todas as reservas feitas por %1, tem certeza &lt;i&gt;mesmo&lt;/i&gt; que você quer fazer isso?</source>
         <translation>This will also delete all reservations made by %1, are you &lt;i&gt;really&lt;/i&gt; sure that you want to do this?</translation>
     </message>
     <message>
@@ -349,17 +349,17 @@
     </message>
     <message>
         <location filename="CUsuarios.cpp" line="73"/>
-        <source>Usu&#xe1;rios</source>
+        <source>Usuários</source>
         <translation>Users</translation>
     </message>
     <message>
         <location filename="CUsuarios.cpp" line="75"/>
-        <source>Alguns usu&#xe1;rios que possuem diretos de reservas&lt;br&gt;n&#xe3;o possuem areas.&lt;br&gt;&lt;br&gt;Deseja adciona-los &#xe0; &lt;b&gt;todas&lt;/b&gt; &#xe1;reas?</source>
+        <source>Alguns usuários que possuem diretos de reservas&lt;br&gt;não possuem areas.&lt;br&gt;&lt;br&gt;Deseja adciona-los à &lt;b&gt;todas&lt;/b&gt; áreas?</source>
         <translation>There are users with reservation rights&lt;br&gt;that are not associated to an area.&lt;br&gt;&lt;br&gt;Do you wish to add them to &lt;b&gt;all&lt;/b&gt; areas?</translation>
     </message>
     <message>
         <location filename="CUsuarios.cpp" line="75"/>
-        <source>&lt;br&gt;&lt;br&gt;&lt;small&gt;Um usu&#xe1;rio que n&#xe3;o est&#xe1; alocado &#xe0; nenhuma &#xe1;rea n&#xe3;o poder&#xe1; fazer reservas.</source>
+        <source>&lt;br&gt;&lt;br&gt;&lt;small&gt;Um usuário que não está alocado à nenhuma área não poderá fazer reservas.</source>
         <translation>&lt;br&gt;&lt;br&gt;&lt;small&gt;A user that is not associated to any areas won&apos;t be able to make reservations.</translation>
     </message>
 </context>
@@ -387,12 +387,12 @@
     </message>
     <message>
         <location filename="CUsuariosModel.cpp" line="284"/>
-        <source>N&#xed;vel</source>
+        <source>Nível</source>
         <translation>Level</translation>
     </message>
     <message>
         <location filename="CUsuariosModel.cpp" line="285"/>
-        <source>&#xc1;rea</source>
+        <source>Área</source>
         <translation>Area</translation>
     </message>
     <message>
@@ -402,12 +402,12 @@
     </message>
     <message>
         <location filename="CUsuariosModel.cpp" line="402"/>
-        <source>Esse esquema de cores n&#xe3;o existe!</source>
+        <source>Esse esquema de cores não existe!</source>
         <translation>This colour scheme does not exsist!</translation>
     </message>
     <message>
         <location filename="CUsuariosModel.cpp" line="258"/>
-        <source>N&#xe3;o h&#xe1; &#xe1;reas associadas &#xe0; este usu&#xe1;rio.</source>
+        <source>Não há áreas associadas à este usuário.</source>
         <translation>This user is not associated to any area.</translation>
     </message>
 </context>
