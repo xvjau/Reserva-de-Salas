@@ -20,8 +20,8 @@
  */
 
 #include "CDBSettings.h"
-#include <QDesktopServices>
-#include <QUrl>
+#include <QtGui/QDesktopServices>
+#include <QtCore/QUrl>
 
 CDBSettings::CDBSettings ( CMainWindow *_mainWindow ) :
 		QDialog ( 0 ),

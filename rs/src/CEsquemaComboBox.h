@@ -23,7 +23,7 @@
 #define CESQUEMACOMBOBOX_H_
 
 #include "CData.h"
-#include <QComboBox>
+#include <QtGui/QComboBox>
 
 class CEsquemaComboBox: public QComboBox
 {

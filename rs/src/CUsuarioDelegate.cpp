@@ -23,7 +23,7 @@
 #include "CUsuariosModel.h"
 #include "CUsuariosAreas.h"
 #include "CEsquemaComboBox.h"
-#include <QComboBox>
+#include <QtGui/QComboBox>
 
 CUsuarioDelegate::CUsuarioDelegate ( CData * _data, QObject *_parent ) :
 		QItemDelegate ( _parent ),

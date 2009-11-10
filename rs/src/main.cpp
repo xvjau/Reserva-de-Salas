@@ -21,11 +21,11 @@
 
 #include "main.h"
 #include "CMainWindow.h"
-#include <QSettings>
-#include <QLocale>
-#include <QTranslator>
-#include <QDir>
-#include <QFileInfo>
+#include <QtCore/QSettings>
+#include <QtCore/QLocale>
+#include <QtCore/QTranslator>
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
 
 static QSettings* globalSettings = 0;
 

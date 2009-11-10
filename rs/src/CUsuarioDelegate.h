@@ -22,8 +22,8 @@
 #ifndef CCOMBOBOXDELEGATE_H
 #define CCOMBOBOXDELEGATE_H
 
-#include <QItemDelegate>
-#include <QAbstractItemView>
+#include <QtGui/QItemDelegate>
+#include <QtGui/QAbstractItemView>
 
 #include "main.h"
 #include "CData.h"

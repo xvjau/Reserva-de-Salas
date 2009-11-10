@@ -32,18 +32,18 @@
 #include "CSala.h"
 #include "CReserva.h"
 
-#include <QStyleFactory>
-#include <QPrintDialog>
-#include <QHeaderView>
-#include <QScrollBar>
-#include <QClipboard>
-#include <QDesktopServices>
-#include <QUrl>
-#include <QSettings>
-#include <QTranslator>
-#include <QProcess>
-#include <QDir>
-#include <QInputDialog>
+#include <QtGui/QStyleFactory>
+#include <QtGui/QPrintDialog>
+#include <QtGui/QHeaderView>
+#include <QtGui/QScrollBar>
+#include <QtGui/QClipboard>
+#include <QtGui/QDesktopServices>
+#include <QtCore/QUrl>
+#include <QtCore/QSettings>
+#include <QtCore/QTranslator>
+#include <QtCore/QProcess>
+#include <QtCore/QDir>
+#include <QtGui/QInputDialog>
 
 static const int PSALA_COL_ROLE = 1025;
 static const int TABLE_ROW_HEIGHT = 30;

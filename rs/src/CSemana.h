@@ -27,7 +27,7 @@
 #include "CReserva.h"
 #include "rowRESERVA.h"
 
-#include <QDate>
+#include <QtCore/QDate>
 
 class CReservaList;
 

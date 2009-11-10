@@ -21,8 +21,8 @@
 
 #include "CUsuarios.h"
 
-#include <QFontMetrics>
-#include <QHeaderView>
+#include <QtGui/QFontMetrics>
+#include <QtGui/QHeaderView>
 
 CUsuarios::CUsuarios ( CData* _data, QWidget *_parent ) :
 		QDialog ( _parent ),

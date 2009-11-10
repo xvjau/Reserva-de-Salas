@@ -21,9 +21,9 @@
 #ifndef CUSUARIOSAREAS_H_
 #define CUSUARIOSAREAS_H_
 
-#include <QWidget>
-#include <QDialog>
-#include <QStringList>
+#include <QtGui/QWidget>
+#include <QtGui/QDialog>
+#include <QtCore/QStringList>
 #include "../obj/ui_frusersareas.h"
 #include "CData.h"
 

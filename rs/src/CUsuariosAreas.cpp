@@ -19,7 +19,7 @@
 	02111-1307, USA.
  */
 #include "CUsuariosAreas.h"
-#include <QListWidgetItem>
+#include <QtGui/QListWidgetItem>
 
 CUsuariosAreas::CUsuariosAreas ( CData * _data, QWidget * _parent ) :
 		QDialog ( _parent )

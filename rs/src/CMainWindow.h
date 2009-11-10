@@ -29,8 +29,8 @@
 #include "CSemana.h"
 #include "CReservaList.h"
 
-#include <QPrinter>
-#include <QResizeEvent>
+#include <QtGui/QPrinter>
+#include <QtGui/QResizeEvent>
 
 class CMainWindow: public QMainWindow, public Ui::MainWindow
 {

@@ -28,8 +28,8 @@
 
 #include "../obj/ui_frmodelos.h"
 
-#include <QTextDocument>
-#include <QPrinter>
+#include <QtGui/QTextDocument>
+#include <QtGui/QPrinter>
 
 class CModelos: public QDialog, public Ui::Modelos
 {

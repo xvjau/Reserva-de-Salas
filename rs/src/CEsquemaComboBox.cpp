@@ -22,8 +22,8 @@
 #include "CEsquemaComboBox.h"
 #include "CSchemasModel.h"
 
-#include <QPainter>
-#include <QPalette>
+#include <QtGui/QPainter>
+#include <QtGui/QPalette>
 
 #include <math.h>
 
