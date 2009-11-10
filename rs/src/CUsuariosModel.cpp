@@ -2,19 +2,19 @@
 	Reserva de Salas
 	Copyright 2006 Gianfranco Rossi.
 
-	Este programa È software livre; vocÍ pode redistribuÌ-lo e/ou
-	modific·-lo sob os termos da LicenÁa P˙blica Geral GNU, conforme
-	publicada pela Free Software Foundation; tanto a vers„o 2 da
-	LicenÁa.
+	Este programa √© software livre; voc√™ pode redistribu√≠-lo e/ou
+	modific√°-lo sob os termos da Licen√ßa P√∫blica Geral GNU, conforme
+	publicada pela Free Software Foundation; tanto a vers√£o 2 da
+	Licen√ßa.
 
-	Este programa È distribuÌdo na expectativa de ser ˙til, mas SEM
-	QUALQUER GARANTIA; sem mesmo a garantia implÌcita de
-	COMERCIALIZA«√O ou de ADEQUA«√O A QUALQUER PROP”SITO EM
-	PARTICULAR. Consulte a LicenÁa P˙blica Geral GNU para obter mais
+	Este programa √© distribu√≠do na expectativa de ser √∫til, mas SEM
+	QUALQUER GARANTIA; sem mesmo a garantia impl√≠cita de
+	COMERCIALIZA√á√ÉO ou de ADEQUA√á√ÉO A QUALQUER PROP√ìSITO EM
+	PARTICULAR. Consulte a Licen√ßa P√∫blica Geral GNU para obter mais
 	detalhes.
 
-	VocÍ deve ter recebido uma cÛpia da LicenÁa P˙blica Geral GNU
-	junto com este programa; se n„o, escreva para a Free Software
+	Voc√™ deve ter recebido uma c√≥pia da Licen√ßa P√∫blica Geral GNU
+	junto com este programa; se n√£o, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 	02111-1307, USA.
  */
@@ -257,7 +257,7 @@ QVariant CUsuariosModel::data ( const QModelIndex &index, int role ) const
 					if ( ( index.column() != 3 ) &&
 					        ( row->NIVEL > 0 ) && row->AREA.isEmpty() )
 					{
-						return tr ( "N„o h· ·reas associadas ‡ este usu·rio." );
+						return tr ( "N√£o h√° √°reas associadas √† este usu√°rio." );
 					}
 				}
 			}
@@ -283,8 +283,8 @@ QVariant CUsuariosModel::headerData ( int section, Qt::Orientation orientation, 
 				case 1: return tr ( "Nome" );
 				case 2: return tr ( "Estilo" );
 				case 3: return tr ( "Esquema" );
-				case 4: return tr ( "NÌvel" );
-				case 5: return tr ( "¡rea" );
+				case 4: return tr ( "N√≠vel" );
+				case 5: return tr ( "√Årea" );
 			}
 			return QVariant();
 		}
@@ -401,7 +401,7 @@ bool CUsuariosModel::setData ( const QModelIndex &index, const QVariant &value, 
 		{
 			std::cerr << e.ErrorMessage() << std::endl;
 			if ( index.column() == 3 ) // Scheme ID
-				QMessageBox ( tr ( "Erro" ), tr ( "Esse esquema de cores n„o existe!" ), QMessageBox::Warning, QMessageBox::Cancel, 0, 0 ).exec();
+				QMessageBox ( tr ( "Erro" ), tr ( "Esse esquema de cores n√£o existe!" ), QMessageBox::Warning, QMessageBox::Cancel, 0, 0 ).exec();
 			else
 				QMessageBox ( tr ( "Erro" ), e.ErrorMessage(), QMessageBox::Warning, QMessageBox::Cancel, 0, 0 ).exec();
 			return false;

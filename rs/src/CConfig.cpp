@@ -2,22 +2,23 @@
 	Reserva de Salas
 	Copyright 2006 Gianfranco Rossi.
 
-	Este programa é software livre; você pode redistribuí-lo e/ou
-	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-	publicada pela Free Software Foundation; tanto a versão 2 da
-	Licença.
+	Este programa Ã© software livre; vocÃª pode redistribuÃ­-lo e/ou
+	modificÃ¡-lo sob os termos da LicenÃ§a PÃºblica Geral GNU, conforme
+	publicada pela Free Software Foundation; tanto a versÃ£o 2 da
+	LicenÃ§a.
 
-	Este programa é distribuído na expectativa de ser útil, mas SEM
-	QUALQUER GARANTIA; sem mesmo a garantia implícita de
-	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+	Este programa Ã© distribuÃ­do na expectativa de ser Ãºtil, mas SEM
+	QUALQUER GARANTIA; sem mesmo a garantia implÃ­cita de
+	COMERCIALIZAÃ‡ÃƒO ou de ADEQUAÃ‡ÃƒO A QUALQUER PROPÃ“SITO EM
+	PARTICULAR. Consulte a LicenÃ§a PÃºblica Geral GNU para obter mais
 	detalhes.
 
-	Você deve ter recebido uma cópia da Licença Pública Geral GNU
-	junto com este programa; se não, escreva para a Free Software
+	VocÃª deve ter recebido uma cÃ³pia da LicenÃ§a PÃºblica Geral GNU
+	junto com este programa; se nÃ£o, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 	02111-1307, USA.
  */
+
 
 #include "CConfig.h"
 #include <string>
@@ -136,10 +137,10 @@ void CConfig::loadConfig()
 			const int	BUFF_SIZE = 1024;
 			char		buff[BUFF_SIZE + 1];
 			char		buffFullName[BUFF_SIZE + 1];
-			
+
 			sfestrcpy ( buff, getlogin(), BUFF_SIZE );
 			sfestrcpy ( buffFullName, buff, BUFF_SIZE );
-			
+
 #else
 			const int	BUFF_SIZE = 1024;
 			char		buff[BUFF_SIZE + 1];
@@ -170,7 +171,8 @@ void CConfig::loadConfig()
 #endif
 						}
 						catch ( ... )
-						{}}
+						{}
+					}
 				}
 			}
 #endif

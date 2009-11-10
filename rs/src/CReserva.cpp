@@ -2,19 +2,19 @@
 	Reserva de Salas
 	Copyright 2006 Gianfranco Rossi.
 
-	Este programa é software livre; você pode redistribuí-lo e/ou
-	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-	publicada pela Free Software Foundation; tanto a versão 2 da
-	Licença.
+	Este programa Ã© software livre; vocÃª pode redistribuÃ­-lo e/ou
+	modificÃ¡-lo sob os termos da LicenÃ§a PÃºblica Geral GNU, conforme
+	publicada pela Free Software Foundation; tanto a versÃ£o 2 da
+	LicenÃ§a.
 
-	Este programa é distribuído na expectativa de ser útil, mas SEM
-	QUALQUER GARANTIA; sem mesmo a garantia implícita de
-	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+	Este programa Ã© distribuÃ­do na expectativa de ser Ãºtil, mas SEM
+	QUALQUER GARANTIA; sem mesmo a garantia implÃ­cita de
+	COMERCIALIZAÃ‡ÃƒO ou de ADEQUAÃ‡ÃƒO A QUALQUER PROPÃ“SITO EM
+	PARTICULAR. Consulte a LicenÃ§a PÃºblica Geral GNU para obter mais
 	detalhes.
 
-	Você deve ter recebido uma cópia da Licença Pública Geral GNU
-	junto com este programa; se não, escreva para a Free Software
+	VocÃª deve ter recebido uma cÃ³pia da LicenÃ§a PÃºblica Geral GNU
+	junto com este programa; se nÃ£o, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 	02111-1307, USA.
  */
@@ -71,17 +71,17 @@ CReserva::CReserva ( CReservaList *_owner ) :
 		DATA ( QDate ( 0,0,0 ) ),
 		USUARIOID ( 0 ),
 		TIPO ( 'S' ),
-		m_relocate ( false ),
-		m_height ( 0 ),
-		m_deleting ( false ),
+		m_selected( false ),
 		m_readSemanal ( false ),
 		m_readMensal ( false ),
-		m_parent ( 0 ),
-		m_selected( false )
+		m_height ( 0 ),
+		m_relocate ( false ),
+		m_deleting ( false ),
+		m_parent ( 0 )
 {
 	if ( ! connect( this, SIGNAL( needRefresh() ), m_owner->m_owner->m_parent, SLOT( needRefresh() )))
 		throw -1;
-	
+
 	if ( ! g_disabledPalette )
 	{
 		g_disabledPalette = new QPalette();
@@ -178,7 +178,7 @@ CReserva::~CReserva()
 {
 	m_deleting = true;
 	m_owner->m_owner->m_parent->checkActiveReservaDeleted( this );
-	
+
 	if ( m_parent )
 	{
 		m_parent->m_children.removeAll ( this );
@@ -622,7 +622,7 @@ void CReserva::refreshData()
 void CReserva::mouseDoubleClickEvent ( QMouseEvent * event )
 {
 	Q_UNUSED( event );
-	
+
 	switch ( CConfig::getConfig()->getNivel() )
 	{
 		case 0: return;
@@ -681,14 +681,14 @@ void CReserva::paintEvent ( QPaintEvent * event )
 void CReserva::setSelected( bool _value )
 {
 	m_selected = _value;
-	
+
 	// This doesn't look good when its activated... maybe something simmilar later?
 	/*
 	QFont font = lblTitulo->font();
 	font.setBold( m_selected );
 	lblTitulo->setFont( font );
 	*/
-	
+
 	if ( m_selected )
 	{
 		setFrameStyle ( QFrame::Box | QFrame::Sunken );

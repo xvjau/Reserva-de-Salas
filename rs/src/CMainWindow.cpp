@@ -2,19 +2,19 @@
 	Reserva de Salas
 	Copyright 2006 Gianfranco Rossi.
 
-	Este programa é software livre; você pode redistribuí-lo e/ou
-	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-	publicada pela Free Software Foundation; tanto a versão 2 da
-	Licença.
+	Este programa Ã© software livre; vocÃª pode redistribuÃ­-lo e/ou
+	modificÃ¡-lo sob os termos da LicenÃ§a PÃºblica Geral GNU, conforme
+	publicada pela Free Software Foundation; tanto a versÃ£o 2 da
+	LicenÃ§a.
 
-	Este programa é distribuído na expectativa de ser útil, mas SEM
-	QUALQUER GARANTIA; sem mesmo a garantia implícita de
-	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+	Este programa Ã© distribuÃ­do na expectativa de ser Ãºtil, mas SEM
+	QUALQUER GARANTIA; sem mesmo a garantia implÃ­cita de
+	COMERCIALIZAÃ‡ÃƒO ou de ADEQUAÃ‡ÃƒO A QUALQUER PROPÃ“SITO EM
+	PARTICULAR. Consulte a LicenÃ§a PÃºblica Geral GNU para obter mais
 	detalhes.
 
-	Você deve ter recebido uma cópia da Licença Pública Geral GNU
-	junto com este programa; se não, escreva para a Free Software
+	VocÃª deve ter recebido uma cÃ³pia da LicenÃ§a PÃºblica Geral GNU
+	junto com este programa; se nÃ£o, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 	02111-1307, USA.
  */
@@ -50,17 +50,17 @@ static const int TABLE_ROW_HEIGHT = 30;
 
 CMainWindow::CMainWindow ( QWidget * _parent ) :
 		QMainWindow ( _parent ),
-		m_salaList ( 0 ),
-		m_config ( 0 ),
 		m_stylesGroup ( this ),
 		m_intervalGroup ( this ),
-		m_canRefresh ( true ),
-		m_initialized ( false ),
 		m_semana ( 0 ),
+		m_salaList ( 0 ),
+		m_activeReserva ( 0 ),
+		m_config ( 0 ),
 		m_intervalKind ( ikWeekly ),
 		m_dayInterval ( 7 ),
 		m_needRefresh ( true ),
-		m_activeReserva ( 0 )
+		m_canRefresh ( true ),
+		m_initialized ( false )
 {
 	setupUi ( this );
 
@@ -245,7 +245,7 @@ void CMainWindow::checkRowHeight ( int _row, int _salaID )
 void CMainWindow::resizeEvent ( QResizeEvent * event )
 {
 	Q_UNUSED( event );
-	
+
 	int iWidth = tbReservas->verticalHeader()->width();
 
 	if ( tbReservas->verticalScrollBar() )
@@ -453,7 +453,7 @@ void CMainWindow::refreshData ( const QDate &_date )
 		int scrollBy = 0;
 		for ( int iday = 0; iday <= idaysTo ; ++iday )
 			scrollBy += tbReservas->rowHeight( iday );
-		
+
 		tbReservas->scroll( scrollBy, 0 );
 	}
 	*/
@@ -525,7 +525,7 @@ void CMainWindow::on_actionRemover_triggered()
 					tr ( "Excluir Reserva" ),
 					tr ( "Tem certeza que deseja excluir a reserva " ) +
 					m_activeReserva->getASSUNTO(),
-					tr ( "&Sim" ), tr ( "&Não" ),
+					tr ( "&Sim" ), tr ( "&NÃ£o" ),
 					QString(), 1, 0 ) )
 		{
 			m_activeReserva->del();
@@ -750,7 +750,7 @@ void CMainWindow::on_actionAreas_triggered()
 void CMainWindow::cbAreaChanged ( int index )
 {
 	Q_UNUSED( index );
-	
+
 	refreshSalas();
 	refreshData ( m_activeDate );
 	resizeEvent ( 0 );

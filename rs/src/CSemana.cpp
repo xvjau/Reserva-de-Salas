@@ -2,19 +2,19 @@
 	Reserva de Salas
 	Copyright 2006 Gianfranco Rossi.
 
-	Este programa é software livre; você pode redistribuí-lo e/ou
-	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
-	publicada pela Free Software Foundation; tanto a versão 2 da
-	Licença.
+	Este programa Ã© software livre; vocÃª pode redistribuÃ­-lo e/ou
+	modificÃ¡-lo sob os termos da LicenÃ§a PÃºblica Geral GNU, conforme
+	publicada pela Free Software Foundation; tanto a versÃ£o 2 da
+	LicenÃ§a.
 
-	Este programa é distribuído na expectativa de ser útil, mas SEM
-	QUALQUER GARANTIA; sem mesmo a garantia implícita de
-	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
-	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
+	Este programa Ã© distribuÃ­do na expectativa de ser Ãºtil, mas SEM
+	QUALQUER GARANTIA; sem mesmo a garantia implÃ­cita de
+	COMERCIALIZAÃ‡ÃƒO ou de ADEQUAÃ‡ÃƒO A QUALQUER PROPÃ“SITO EM
+	PARTICULAR. Consulte a LicenÃ§a PÃºblica Geral GNU para obter mais
 	detalhes.
 
-	Você deve ter recebido uma cópia da Licença Pública Geral GNU
-	junto com este programa; se não, escreva para a Free Software
+	VocÃª deve ter recebido uma cÃ³pia da LicenÃ§a PÃºblica Geral GNU
+	junto com este programa; se nÃ£o, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 	02111-1307, USA.
  */
@@ -24,13 +24,13 @@
 
 CSemana::CSemana ( CMainWindow *_parent, QDate &_segunda, CData *_owner,
                    CSalaList *_salas, const int _areaId ) :
-		m_date ( _segunda ),
 		m_owner ( _owner ),
 		m_salas ( _salas ),
+		m_date ( _segunda ),
 		m_parent ( _parent ),
-		m_firstReservaList ( 0 ),
+		m_areaId ( _areaId ),
 		m_row ( 0 ),
-		m_areaId ( _areaId )
+		m_firstReservaList ( 0 )
 {
 	connect ( m_owner->m_notify, SIGNAL ( FBEvent ( int ) ), this, SLOT ( onFBEvent ( int ) ), Qt::QueuedConnection );
 }
