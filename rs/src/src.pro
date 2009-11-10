@@ -75,16 +75,20 @@ RCC_DIR = $$OBJECTS_DIR
 MOC_DIR = ../obj
 UI_DIR = ../obj
 OBJECTS_DIR = ../obj
-TARGET = rs
 DESTDIR = ../bin
 CONFIG += qt \
 exceptions \
 warn_on \
-debug
+debug_and_release
 TEMPLATE = app
 
+ CONFIG(debug, debug|release) {
+     TARGET = rs.debug
+ } else {
+     TARGET = rs
+ }
+
 linux-g++ {
-    LIBS += /opt/firebird/lib/libfbclient.so
     DEFINES += IBPP_LINUX
 
     languages.path = /usr/local/share/rs
@@ -99,6 +103,17 @@ linux-g++ {
     binary.path = /usr/local/bin
     binary.files += ../bin/rs
     INSTALLS += binary languages
+    CONFIG -= release
+
+    LIBS += -L/usr/lib \
+  -lfbclient
+
+    OBJECTS_DIR = ../obj
+
+    UI_DIR = ../obj
+
+    MOC_DIR = ../obj
+
 }
 win32 {
     DEFINES += IBPP_WINDOWS
