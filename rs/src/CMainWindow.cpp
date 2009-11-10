@@ -158,22 +158,26 @@ bool CMainWindow::initialize()
 	refreshData ( m_date );
 
 	updateButtons();
-	if ( m_config->getNivel() > 1 )
+
+	if ( !m_salaList->m_salas.empty() )
 	{
-		m_mnPopupReserva.addAction ( actionAdicionar );
-		m_mnPopupReserva.addAction ( actionRemover );
-		m_mnPopupReserva.addAction ( actionAlterar );
-		m_mnPopupReserva.addSeparator();
+		if ( m_config->getNivel() > 1 )
+		{
+			m_mnPopupReserva.addAction ( actionAdicionar );
+			m_mnPopupReserva.addAction ( actionRemover );
+			m_mnPopupReserva.addAction ( actionAlterar );
+			m_mnPopupReserva.addSeparator();
+		}
+
+		bool userHasArea = ( m_config->getNivel() == 3 ) || ( m_data.getAreaId ( cbArea->currentIndex() ) == CConfig::getConfig()->getUserAreaID() );
+
+		actionAdicionar->setEnabled ( userHasArea );
+
+		if ( pbAdicionar )
+			pbAdicionar->setEnabled ( userHasArea );
+
+		connect ( cbArea, SIGNAL ( currentIndexChanged ( int ) ), this, SLOT ( cbAreaChanged ( int ) ) );
 	}
-
-	bool userHasArea = ( m_config->getNivel() == 3 ) || ( m_data.getAreaId ( cbArea->currentIndex() ) == CConfig::getConfig()->getUserAreaID() );
-
-	actionAdicionar->setEnabled ( userHasArea );
-
-	if ( pbAdicionar )
-		pbAdicionar->setEnabled ( userHasArea );
-
-	connect ( cbArea, SIGNAL ( currentIndexChanged ( int ) ), this, SLOT ( cbAreaChanged ( int ) ) );
 
 	m_initialized = true;
 	resizeEvent ( 0 );
@@ -574,6 +578,7 @@ void CMainWindow::refreshAreas()
 	lbAreas->setVisible ( visible );
 
 	cbArea->addItems ( *areas );
+	actionSalas->setEnabled( areas->count() > 0 );
 }
 
 void CMainWindow::on_btAnte_clicked()

@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,57 +10,63 @@
     <height>554</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>RS</string>
   </property>
-  <property name="windowIcon" >
-   <iconset resource="../res/rs.qrc" >:/png/buttons/16/dissociatecell.png</iconset>
+  <property name="windowIcon">
+   <iconset resource="../res/rs.qrc">
+    <normaloff>:/png/buttons/16/dissociatecell.png</normaloff>:/png/buttons/16/dissociatecell.png</iconset>
   </property>
-  <widget class="QWidget" name="centralwidget" >
-   <layout class="QGridLayout" >
-    <property name="margin" >
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout">
+    <property name="margin">
      <number>9</number>
     </property>
-    <property name="spacing" >
+    <property name="spacing">
      <number>6</number>
     </property>
-    <item row="0" column="0" >
-     <layout class="QHBoxLayout" >
-      <property name="margin" >
-       <number>0</number>
-      </property>
-      <property name="spacing" >
+    <item row="0" column="0">
+     <layout class="QHBoxLayout">
+      <property name="spacing">
        <number>6</number>
       </property>
+      <property name="margin">
+       <number>0</number>
+      </property>
       <item>
-       <widget class="QPushButton" name="pbAdicionar" >
-        <property name="text" >
+       <widget class="QPushButton" name="pbAdicionar">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
          <string>Adicionar</string>
         </property>
-        <property name="icon" >
-         <iconset resource="../res/rs.qrc" >:/png/buttons/16/edit_add.png</iconset>
+        <property name="icon">
+         <iconset resource="../res/rs.qrc">
+          <normaloff>:/png/buttons/16/edit_add.png</normaloff>:/png/buttons/16/edit_add.png</iconset>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pbRemover" >
-        <property name="enabled" >
+       <widget class="QPushButton" name="pbRemover">
+        <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Remover</string>
         </property>
-        <property name="icon" >
-         <iconset resource="../res/rs.qrc" >:/png/buttons/16/button_cancel.png</iconset>
+        <property name="icon">
+         <iconset resource="../res/rs.qrc">
+          <normaloff>:/png/buttons/16/button_cancel.png</normaloff>:/png/buttons/16/button_cancel.png</iconset>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -68,18 +75,16 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="lbAreas" >
-        <property name="text" >
+       <widget class="QLabel" name="lbAreas">
+        <property name="text">
          <string>Área</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="cbArea" >
-        <property name="sizePolicy" >
-         <sizepolicy>
-          <hsizetype>3</hsizetype>
-          <vsizetype>0</vsizetype>
+       <widget class="QComboBox" name="cbArea">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -88,13 +93,13 @@
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeType" >
+        <property name="sizeType">
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -103,29 +108,28 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="btAnte" >
-        <property name="text" >
+       <widget class="QToolButton" name="btAnte">
+        <property name="text">
          <string/>
         </property>
-        <property name="icon" >
-         <iconset resource="../res/rs.qrc" >:/png/buttons/16/2leftarrow.png</iconset>
+        <property name="icon">
+         <iconset resource="../res/rs.qrc">
+          <normaloff>:/png/buttons/16/2leftarrow.png</normaloff>:/png/buttons/16/2leftarrow.png</iconset>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="lbData" >
-        <property name="sizePolicy" >
-         <sizepolicy>
-          <hsizetype>5</hsizetype>
-          <vsizetype>0</vsizetype>
+       <widget class="QLabel" name="lbData">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="font" >
+        <property name="font">
          <font>
           <family>Sans Serif</family>
           <pointsize>18</pointsize>
@@ -136,274 +140,293 @@
           <strikeout>false</strikeout>
          </font>
         </property>
-        <property name="frameShadow" >
+        <property name="frameShadow">
          <enum>QFrame::Plain</enum>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Data</string>
         </property>
-        <property name="alignment" >
+        <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="btProx" >
-        <property name="text" >
+       <widget class="QToolButton" name="btProx">
+        <property name="text">
          <string/>
         </property>
-        <property name="icon" >
-         <iconset resource="../res/rs.qrc" >:/png/buttons/16/2rightarrow.png</iconset>
+        <property name="icon">
+         <iconset resource="../res/rs.qrc">
+          <normaloff>:/png/buttons/16/2rightarrow.png</normaloff>:/png/buttons/16/2rightarrow.png</iconset>
         </property>
-        <property name="autoRaise" >
+        <property name="autoRaise">
          <bool>true</bool>
         </property>
        </widget>
       </item>
      </layout>
     </item>
-    <item row="1" column="0" >
-     <widget class="QTableWidget" name="tbReservas" />
+    <item row="1" column="0">
+     <widget class="QTableWidget" name="tbReservas"/>
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar" >
-   <property name="geometry" >
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>722</width>
-     <height>29</height>
+     <height>24</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuMenu" >
-    <property name="title" >
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
      <string>Menu</string>
     </property>
-    <addaction name="actionAreas" />
-    <addaction name="actionSalas" />
-    <addaction name="actionUsuarios" />
-    <addaction name="actionCores" />
+    <addaction name="actionAreas"/>
+    <addaction name="actionSalas"/>
+    <addaction name="actionUsuarios"/>
+    <addaction name="actionCores"/>
    </widget>
-   <widget class="QMenu" name="menuAjuda" >
-    <property name="title" >
+   <widget class="QMenu" name="menuAjuda">
+    <property name="title">
      <string>Ajuda</string>
     </property>
-    <addaction name="actionSobreRS" />
-    <addaction name="actionSobreQt" />
+    <addaction name="actionSobreRS"/>
+    <addaction name="actionSobreQt"/>
    </widget>
-   <widget class="QMenu" name="menuConfigura_es" >
-    <property name="title" >
+   <widget class="QMenu" name="menuConfigura_es">
+    <property name="title">
      <string>Configurações</string>
     </property>
-    <widget class="QMenu" name="menuLingua" >
-     <property name="title" >
+    <widget class="QMenu" name="menuLingua">
+     <property name="title">
       <string>Lingua</string>
      </property>
-     <addaction name="actionEnglish" />
-     <addaction name="actionPortugu_s" />
+     <addaction name="actionEnglish"/>
+     <addaction name="actionPortugu_s"/>
     </widget>
-    <widget class="QMenu" name="menuEstilo" >
-     <property name="title" >
+    <widget class="QMenu" name="menuEstilo">
+     <property name="title">
       <string>Estilo</string>
      </property>
-     <addaction name="separator" />
+     <addaction name="separator"/>
     </widget>
-    <widget class="QMenu" name="menuIntervalo" >
-     <property name="title" >
+    <widget class="QMenu" name="menuIntervalo">
+     <property name="title">
       <string>Intervalo</string>
      </property>
-     <addaction name="actionSemanal" />
-     <addaction name="actionMensal" />
-     <addaction name="actionOutro" />
+     <addaction name="actionSemanal"/>
+     <addaction name="actionMensal"/>
+     <addaction name="actionOutro"/>
     </widget>
-    <addaction name="menuLingua" />
-    <addaction name="menuEstilo" />
-    <addaction name="menuIntervalo" />
+    <addaction name="menuLingua"/>
+    <addaction name="menuEstilo"/>
+    <addaction name="menuIntervalo"/>
    </widget>
-   <addaction name="menuMenu" />
-   <addaction name="menuConfigura_es" />
-   <addaction name="menuAjuda" />
+   <addaction name="menuMenu"/>
+   <addaction name="menuConfigura_es"/>
+   <addaction name="menuAjuda"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar" />
-  <action name="actionSalas" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/irkick.png</iconset>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionSalas">
+   <property name="enabled">
+    <bool>false</bool>
    </property>
-   <property name="text" >
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/irkick.png</normaloff>:/png/buttons/16/irkick.png</iconset>
+   </property>
+   <property name="text">
     <string>Salas</string>
    </property>
   </action>
-  <action name="actionAdicionar" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/edit_add.png</iconset>
+  <action name="actionAdicionar">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/edit_add.png</normaloff>:/png/buttons/16/edit_add.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Adicionar</string>
    </property>
-   <property name="iconText" >
+   <property name="iconText">
     <string>Adicionar</string>
    </property>
-   <property name="toolTip" >
+   <property name="toolTip">
     <string>Adicionar</string>
    </property>
   </action>
-  <action name="actionRemover" >
-   <property name="enabled" >
+  <action name="actionRemover">
+   <property name="enabled">
     <bool>false</bool>
    </property>
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/button_cancel.png</iconset>
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/button_cancel.png</normaloff>:/png/buttons/16/button_cancel.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Remover</string>
    </property>
   </action>
-  <action name="actionAlterar" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/cell_layout.png</iconset>
+  <action name="actionAlterar">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/cell_layout.png</normaloff>:/png/buttons/16/cell_layout.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Alterar</string>
    </property>
   </action>
-  <action name="actionUsuarios" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/agt_family.png</iconset>
+  <action name="actionUsuarios">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/agt_family.png</normaloff>:/png/buttons/16/agt_family.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Usuários</string>
    </property>
-   <property name="iconText" >
+   <property name="iconText">
     <string>Usuários</string>
    </property>
-   <property name="toolTip" >
+   <property name="toolTip">
     <string>Usuários</string>
    </property>
   </action>
-  <action name="actionCores" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/appearance.png</iconset>
+  <action name="actionCores">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/appearance.png</normaloff>:/png/buttons/16/appearance.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Cores</string>
    </property>
   </action>
-  <action name="actionImprimirLista" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/print_printer.png</iconset>
+  <action name="actionImprimirLista">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/print_printer.png</normaloff>:/png/buttons/16/print_printer.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Imprimir Lista</string>
    </property>
   </action>
-  <action name="actionImprimirReserva" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/agt_print.png</iconset>
+  <action name="actionImprimirReserva">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/agt_print.png</normaloff>:/png/buttons/16/agt_print.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Imprimir Reserva</string>
    </property>
   </action>
-  <action name="actionHoje" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/today.png</iconset>
+  <action name="actionHoje">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/today.png</normaloff>:/png/buttons/16/today.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Hoje</string>
    </property>
   </action>
-  <action name="actionCopiar" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/editcopy.png</iconset>
+  <action name="actionCopiar">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/editcopy.png</normaloff>:/png/buttons/16/editcopy.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Copiar Lista</string>
    </property>
   </action>
-  <action name="actionAreas" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/edit_group.png</iconset>
+  <action name="actionAreas">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/edit_group.png</normaloff>:/png/buttons/16/edit_group.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Áreas</string>
    </property>
   </action>
-  <action name="actionSobreRS" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/rs.png</iconset>
+  <action name="actionSobreRS">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/rs.png</normaloff>:/png/buttons/16/rs.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Sobre o Reserva de Salas</string>
    </property>
   </action>
-  <action name="actionSobreQt" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/help.png</iconset>
+  <action name="actionSobreQt">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/help.png</normaloff>:/png/buttons/16/help.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Sobre o Qt</string>
    </property>
-   <property name="menuRole" >
+   <property name="menuRole">
     <enum>QAction::AboutQtRole</enum>
    </property>
   </action>
-  <action name="actionEnglish" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/uk.png</iconset>
+  <action name="actionEnglish">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/uk.png</normaloff>:/png/buttons/16/uk.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>English</string>
    </property>
   </action>
-  <action name="actionPortugu_s" >
-   <property name="icon" >
-    <iconset resource="../res/rs.qrc" >:/png/buttons/16/brasil.png</iconset>
+  <action name="actionPortugu_s">
+   <property name="icon">
+    <iconset resource="../res/rs.qrc">
+     <normaloff>:/png/buttons/16/brasil.png</normaloff>:/png/buttons/16/brasil.png</iconset>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Português</string>
    </property>
   </action>
-  <action name="actionTESTE" >
-   <property name="text" >
+  <action name="actionTESTE">
+   <property name="text">
     <string>TESTE</string>
    </property>
   </action>
-  <action name="actionDs" >
-   <property name="text" >
+  <action name="actionDs">
+   <property name="text">
     <string>ds</string>
    </property>
   </action>
-  <action name="actionSemanal" >
-   <property name="checkable" >
+  <action name="actionSemanal">
+   <property name="checkable">
     <bool>true</bool>
    </property>
-   <property name="checked" >
+   <property name="checked">
     <bool>true</bool>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Semanal</string>
    </property>
   </action>
-  <action name="actionMensal" >
-   <property name="checkable" >
+  <action name="actionMensal">
+   <property name="checkable">
     <bool>true</bool>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Mensal</string>
    </property>
   </action>
-  <action name="actionOutro" >
-   <property name="checkable" >
+  <action name="actionOutro">
+   <property name="checkable">
     <bool>true</bool>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Outro...</string>
    </property>
   </action>
  </widget>
  <resources>
-  <include location="../res/rs.qrc" />
+  <include location="../res/rs.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -29,6 +29,8 @@
 
 #include <QtCore/QDate>
 
+#include <assert.h>
+
 class CReservaList;
 
 class CSemana: public QObject
@@ -70,7 +72,7 @@ class CSemana: public QObject
 		bool			loadData();
 		void			clear();
 		CReservaList*	getReservaList ( int _dow, int _salaID );
-		CReservaList*	getFirstReservaList() {return m_firstReservaList;};
+		CReservaList*	getFirstReservaList() { assert(m_firstReservaList); return m_firstReservaList; };
 
 		int				getAreaId() {return m_areaId;};
 		CData*			getOwner() { return m_owner; };
