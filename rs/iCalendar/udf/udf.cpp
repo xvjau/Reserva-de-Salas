@@ -2,24 +2,24 @@
 	Reserva de Salas
 	Copyright 2007 Gianfranco Rossi.
 
-	Este programa � software livre; voc� pode redistribu�-lo e/ou
-	modific�-lo sob os termos da Licen�a P�blica Geral GNU, conforme
-	publicada pela Free Software Foundation; tanto a vers�o 2 da
-	Licen�a.
+	Este programa é software livre; você pode redistribuí-lo e/ou
+	modificá-lo sob os termos da Licença Pública Geral GNU, conforme
+	publicada pela Free Software Foundation; tanto a versão 2 da
+	Licença.
 
-	Este programa � distribu�do na expectativa de ser �til, mas SEM
-	QUALQUER GARANTIA; sem mesmo a garantia impl�cita de
-	COMERCIALIZA��O ou de ADEQUA��O A QUALQUER PROP�SITO EM
-	PARTICULAR. Consulte a Licen�a P�blica Geral GNU para obter mais
+	Este programa é distribuído na expectativa de ser útil, mas SEM
+	QUALQUER GARANTIA; sem mesmo a garantia implícita de
+	COMERCIALIZAÇÃO ou de ADEQUAÇÃO A QUALQUER PROPÓSITO EM
+	PARTICULAR. Consulte a Licença Pública Geral GNU para obter mais
 	detalhes.
 
-	Voc� deve ter recebido uma c�pia da Licen�a P�blica Geral GNU
-	junto com este programa; se n�o, escreva para a Free Software
+	Você deve ter recebido uma cópia da Licença Pública Geral GNU
+	junto com este programa; se não, escreva para a Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 	02111-1307, USA.
  */
 
-/* 
+/*
    Example from http://tools.ietf.org/html/rfc2447
 
    From: sman@netscape.com
@@ -65,7 +65,7 @@ std::string	g_from;
 std::ofstream logFile("/var/log/firebird/firebird_icalendar.log", std::ios_base::app);
 #endif
 
-extern "C" 
+extern "C"
 {
 
 extern int set_smtp_host( char * value )
@@ -121,7 +121,7 @@ extern int set_smtp_password( char * value )
 	g_config.setPassword( value );
 	return 1;
 }
-	
+
 extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK description, char * location, ISC_TIMESTAMP * tsStart, ISC_TIMESTAMP * tsEnd, int * opr )
 {
 	#ifdef DEBUG
@@ -141,7 +141,7 @@ extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK descri
 #ifndef MT
 	SMTPSend	sender(&g_config);
 	ICalMessage	message;
-	
+
 	message.setRecipient( to );
 	message.setSubject( subject );
 	message.setUid( uid );
@@ -155,7 +155,7 @@ extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK descri
 	sender.send( &message );
 #else
 	ICalMessage	*message = new ICalMessage();
-	
+
 	message->setRecipient( to );
 	message->setSubject( subject );
 	message->setUid( uid );
@@ -165,7 +165,7 @@ extern int icalendar( char * uid, char * to, char * subject, BLOBCALLBACK descri
 	message->setOperation( static_cast<ICalMessage::Operations>(*opr) );
 	message->setMessageBody( messageBody );
 	message->setSender( g_from );
-	
+
 	enqueueMail( message );
 #endif
 	return 0;
