@@ -80,7 +80,7 @@ void raiseLastOSError()
 
 inline void sfestrcpy ( char *_dest, char *_src, uint _maxLen )
 {
-	uint len = strlen ( _src );
+        uint len = strlen ( _src ) + 1;
 	if ( len > _maxLen )
 		len = _maxLen;
 
@@ -121,18 +121,17 @@ void CConfig::loadConfig()
 		try
 		{
 #ifdef __unix__
-			const int	BUFF_SIZE = L_cuserid;
+                        const int	BUFF_SIZE = 1024;
 			char 		buff[BUFF_SIZE + 1];
 			char		buffFullName[BUFF_SIZE + 1];
 
-			cuserid ( buff );
+                        passwd *_upswd = getpwuid(geteuid()) ;
 
-			passwd *_upswd = getpwnam ( buff );
-
+                        sfestrcpy ( buff, _upswd->pw_name, BUFF_SIZE );
 			if ( strlen ( _upswd->pw_gecos ) )
-				sfestrcpy ( buffFullName, _upswd->pw_gecos, BUFF_SIZE );
+                                sfestrcpy ( buffFullName, _upswd->pw_gecos, BUFF_SIZE );
 			else
-				sfestrcpy ( buffFullName, buff, BUFF_SIZE );
+                                sfestrcpy ( buffFullName, _upswd->pw_name, BUFF_SIZE );
 #elif __APPLE__
 			const int	BUFF_SIZE = 1024;
 			char		buff[BUFF_SIZE + 1];
